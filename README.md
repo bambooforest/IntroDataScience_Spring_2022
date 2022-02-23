@@ -1,1 +1,2 @@
-# IntroDataScience
+# Introductory to data science
+
