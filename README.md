@@ -16,7 +16,7 @@ Create a [GitHub](https://en.wikipedia.org/wiki/GitHub) account:
 
 Add your university email and your GitHub path / username to the [repositories tab](https://docs.google.com/spreadsheets/d/1di-H7lsmdkT1RJlsXERkIcBSE4Y6XKIwPdulyaZ13DM/edit?usp=sharing). For example, see how I added mine.
 
-Start to understand what [version control](https://en.wikipedia.org/wiki/Distributed_version_control) is and how GitHub in particular works:
+Start to understand what [version control](https://en.wikipedia.org/wiki/Distributed_version_control) is and how to use GitHub. Here are some tutorials (but there are many more on the web):
 
 * https://docs.github.com/en/get-started/quickstart/hello-world
 * https://www.youtube.com/watch?v=fQLK8Ib_SKk
