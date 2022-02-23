@@ -5,6 +5,7 @@ Syllabus and schedule -- both subject to change but these online versions are al
 * [Syllabus](Syllabus.pdf)
 * [Schedule](https://docs.google.com/spreadsheets/d/1di-H7lsmdkT1RJlsXERkIcBSE4Y6XKIwPdulyaZ13DM/edit?usp=sharing)
 
+
 ## Getting started
 
 ### GitHub
@@ -32,8 +33,15 @@ Why is a "README" file important? [LMGTFY](https://www.dictionary.com/e/slang/lm
 
 Pro-tip: when you initially create a [GitHub repository](https://docs.github.com/en/get-started/quickstart/create-a-repo), if you check the appropriate settings, an empty `README.md` file is created for you. Go ahead and [edit](https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files) it.
 
+
 ### RStudio
 
 Install [RStudio](https://www.rstudio.com), unless you are already an R Pro and prefer some other [GUI](https://en.wikipedia.org/wiki/Graphical_user_interface), [CLI](https://en.wikipedia.org/wiki/Command-line_interface), or [computer program](https://en.wikipedia.org/wiki/Computer_program) that allows you to [create R markdown](https://rmarkdown.rstudio.com/authoring_quick_tour.html) reports that will be stored in your GitHub repository.
 
+
+### R
+
+This course assumes you are familiar with the basics of the [R programming language](https://en.wikipedia.org/wiki/R_(programming_language). If you are not, please familiarize yourself with the basics. There are many out there!
+
+* https://app.datacamp.com/learn/courses/free-introduction-to-r
 
