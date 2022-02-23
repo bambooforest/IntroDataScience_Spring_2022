@@ -1,6 +1,6 @@
 # Introductory to data science
 
-Syllabus and schedule -- both subject to change but these online versions are up-to-date:
+Syllabus and schedule -- both subject to change but these online versions are always up-to-date:
 
 * [Syllabus](Syllabus.pdf)
 * [Schedule](https://docs.google.com/spreadsheets/d/1di-H7lsmdkT1RJlsXERkIcBSE4Y6XKIwPdulyaZ13DM/edit?usp=sharing)
