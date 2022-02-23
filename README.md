@@ -1,4 +1,4 @@
-# Introductory to data science
+# Intro to data science
 
 Syllabus and schedule -- both subject to change but these online versions are always up-to-date:
 
