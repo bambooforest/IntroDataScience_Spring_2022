@@ -2,7 +2,7 @@
 
 Syllabus and schedule -- both subject to change but online versions are up-to-date:
 
-* Syllabus [Syllabus.pdf]
+* [Syllabus](Syllabus.pdf)
 * [Schedule](https://docs.google.com/spreadsheets/d/1di-H7lsmdkT1RJlsXERkIcBSE4Y6XKIwPdulyaZ13DM/edit?usp=sharing)
 
 ## Set up GitHub
