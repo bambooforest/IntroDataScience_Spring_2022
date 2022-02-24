@@ -1,6 +1,6 @@
 # Getting started
 
-To get started with this course, you will need to [install](https://en.wikipedia.org/wiki/Installation_(computer_programs)) several software packages and get to know how to use them.
+To get started with this course, you will need to [install](https://en.wikipedia.org/wiki/Installation_(computer_programs)) several software packages and get to know how to use them. Follow all the steps below.
 
 
 ## GitHub
@@ -9,7 +9,11 @@ Create a [GitHub](https://en.wikipedia.org/wiki/GitHub) account:
 
 * https://github.com
 
-Add your university email and your GitHub path / username to the [repositories tab](https://docs.google.com/spreadsheets/d/1di-H7lsmdkT1RJlsXERkIcBSE4Y6XKIwPdulyaZ13DM/edit?usp=sharing). For example, see how I added mine.
+Add your university email and your GitHub path / username to the [repositories tab](https://docs.google.com/spreadsheets/d/1di-H7lsmdkT1RJlsXERkIcBSE4Y6XKIwPdulyaZ13DM/edit?usp=sharing). For example, see how I added mine in the spreadsheet, which can be rendered like this in [Rmarkdown tables](https://dereksonderegger.github.io/570L/15-rmarkdown-tricks.html):
+
+| Unine email address | GitHub username | Your data science class repository URL |
+|:------|:-----|:---------|
+| steven.moran@unine.ch | bambooforest | https://github.com/bambooforest/IntroDataScience/ |
 
 Start to understand what [version control](https://en.wikipedia.org/wiki/Distributed_version_control) is and how to use GitHub. Here are some tutorials (but there are many more on the web):
 
