@@ -40,4 +40,4 @@ Homework in DataCamp is pass / fail. That is, you must complete all homework to 
 
 **Note**: This syllabus is subject to change but the most up-to-date version is always available online:
 
-https://github.com/bambooforest/IntroDataScience
+* https://github.com/bambooforest/IntroDataScience
