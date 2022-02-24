@@ -1,47 +1,43 @@
 # Intro to data science
 
-Syllabus and schedule -- both subject to change but these online versions are always up-to-date:
+* **Lectures**: Wednesdays 10:15-13:00 (23.02.2022-01.06.2022)
+* **Location**: R.103 - Abram-Louis-Breguet 2
+* **ECTS credits**: 3
+* **Instructor**: Dr. Steven Moran \<steven.moran@unine.ch\>
+* **Office**: Rue Emile-Argand 11, G B35
+* **Office hours**: by appointment via email
+* **Teaching assistants**: Tiena Danner \<tiena.danner@unine.ch\> & Marco Maiolini \<marco.maiolini@unine.ch\>
 
-* [Syllabus](Syllabus.pdf)
-* [Schedule](https://docs.google.com/spreadsheets/d/1di-H7lsmdkT1RJlsXERkIcBSE4Y6XKIwPdulyaZ13DM/edit?usp=sharing)
+**Course summary**: The basic principles and methods of data science will be presented. A central theme is the assessment of scientific claims, and subsequent data collection, transformation, quantitative analysis, and reporting of scientific results. Official course description:
 
+* http://www10.unine.ch/desc_data/plans2021-2022/plan_2021-2022_2LN2319.pdf
 
-## Getting started
+**Form of assessment**: Continuous assessment with data science exercises (graded). Work not submitted by the required deadline will result in a fail for that given assessment.
 
-### GitHub
+**Form of education**: Readings, lectures, methods and data practicals.
 
-Create a [GitHub](https://en.wikipedia.org/wiki/GitHub) account:
+The course schedule is available here:
 
-* https://github.com
+* https://docs.google.com/spreadsheets/d/1di-H7lsmdkT1RJlsXERkIcBSE4Y6XKIwPdulyaZ13DM/edit?usp=sharing
 
-Add your university email and your GitHub path / username to the [repositories tab](https://docs.google.com/spreadsheets/d/1di-H7lsmdkT1RJlsXERkIcBSE4Y6XKIwPdulyaZ13DM/edit?usp=sharing). For example, see how I added mine.
+**Course structure**: The readings will include chapters from: Calling Bullshit: The Art of Skepticism in a Data-Driven World, by Carl Bergstrom and Jevin West: 
 
-Start to understand what [version control](https://en.wikipedia.org/wiki/Distributed_version_control) is and how to use GitHub. Here are some tutorials (but there are many more on the web):
+* https://www.callingbullshit.org
 
-* https://docs.github.com/en/get-started/quickstart/hello-world
-* https://www.youtube.com/watch?v=fQLK8Ib_SKk
-* https://resources.github.com/whitepapers/github-and-rstudio/
-* https://happygitwithr.com/index.html
+The book, or audio book if you prefer, are in Moodle.
 
-In your GitHub account, e.g. mine is [https://github.com/bambooforest](https://github.com/bambooforest), create a repository for your data practicals. Since one of the [two hardest things in Computer Science (and Data Science)](https://martinfowler.com/bliki/TwoHardThings.html) is "naming things", you may either spend some time coming up with a repository name that you like (and ideally that makes sense) or you can simply call it IntroDataScience. You can always change it later! (Caveat: but then you must update the URL in the [repositories tab](https://docs.google.com/spreadsheets/d/1di-H7lsmdkT1RJlsXERkIcBSE4Y6XKIwPdulyaZ13DM/edit?usp=sharing) and to tell anyone else you may have shared the URL with -- another reason why naming things is hard: changing names, whether variables in code, URLs, physical addresses, etc., **causes more work**!).
+Lectures and practicals will be given and done in class. 
 
-In your data practicals repository for this course, start by creating a [README markdown file](README.md) file -- like the one that you're currently reading -- but instead add some text about what your repository is for.
+Homework will include courses from [DataCamp](https://www.datacamp.com). They are due before the next lecture. For example, Lecture 2 (March 2) “Writing scientific reports”, homework is the interactive course “Reporting with R Markdown”. It is due before Lecture 3 on March 9.
 
-Why is a "README" file important? [LMGTFY](https://www.dictionary.com/e/slang/lmgtfy/):
+Data practicals will include the creation of R markdown reports for each lecture. You will implement the methods learned in R code and R markdown on dataset(s) of your own interest. The reports will then be “committed” and “pushed” to your GitHub repository. We will discuss this procedure in class.
 
-* [https://www.google.com/search?&q=what+is+a+read+me+file](https://www.google.com/search?&q=what+is+a+read+me+file)
+**Grading**: 70% data reports in your GitHub repository. There are 12 pertinent lectures and practicals. You must submit 10 data practicals. 70% of your course grade will come from the average of these 10 practicals — or from the 10 best scoring practicals 
 
-Pro-tip: when you initially create a [GitHub repository](https://docs.github.com/en/get-started/quickstart/create-a-repo), if you check the appropriate settings, an empty `README.md` file is created for you. Go ahead and [edit](https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files) it.
+30% of your grade will come from (a) presentation(s) of the reading chapters (to be divided amongst the students). 
 
+Homework in DataCamp is pass / fail. That is, you must complete all homework to pass. (You can skip the Introduction to R — DataCamp requires a 
 
-### RStudio
+**Note**: This syllabus is subject to change but the most up-to-date version is always available online:
 
-Install [RStudio](https://www.rstudio.com), unless you are already an R Pro and prefer some other [GUI](https://en.wikipedia.org/wiki/Graphical_user_interface), [CLI](https://en.wikipedia.org/wiki/Command-line_interface), or [computer program](https://en.wikipedia.org/wiki/Computer_program) that allows you to [create R markdown](https://rmarkdown.rstudio.com/authoring_quick_tour.html) reports that will be stored in your GitHub repository.
-
-
-### R
-
-This course assumes you are familiar with the basics of the [R programming language](https://en.wikipedia.org/wiki/R_(programming_language). If you are not, please familiarize yourself with the basics. There are many out there!
-
-* https://app.datacamp.com/learn/courses/free-introduction-to-r
-
+https://github.com/bambooforest/IntroDataScience
