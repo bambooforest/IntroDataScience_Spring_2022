@@ -8,7 +8,7 @@
 * **Office hours**: by appointment via email
 * **Teaching assistants**: Tiena Danner \<tiena.danner@unine.ch\> & Marco Maiolini \<marco.maiolini@unine.ch\>
 
-**Course summary**: The basic principles and methods of data science will be presented. A central theme is the assessment of scientific claims, and subsequent data collection, transformation, quantitative analysis, and reporting of scientific results. Official course description:
+**Course summary**: The basic principles and methods of [data science](https://en.wikipedia.org/wiki/Data_science) will be presented. A central theme is the assessment of scientific claims, and subsequent data collection, transformation, quantitative analysis, and reporting of scientific results. Official course description:
 
 * http://www10.unine.ch/desc_data/plans2021-2022/plan_2021-2022_2LN2319.pdf
 
