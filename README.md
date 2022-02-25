@@ -50,5 +50,12 @@ To get started with this course, follow the instructions in:
 
 Then follow the chapters as per the class as per the [class schedule](https://docs.google.com/spreadsheets/d/1di-H7lsmdkT1RJlsXERkIcBSE4Y6XKIwPdulyaZ13DM/edit?usp=sharing).
 
-Good luck!!
+An important note about the chapters in this class. We aim to provide a lot of information on each topic -- sometimes much more than you will have time to read or go through, for example, multiple different readings and tutorials on the same topic. This often appear in bullet points where we give multiple resources on the same topic.
 
+This higlights an important learning point of this course:
+
+**Read what you need**.
+
+Every classroom has students with different levels of experience. The goal is that you understand and can implement the learning objectives in this course. It contrast, is not the goal that you go through every single link provided in each chapter in detail. But of course read what interests you.
+
+Good luck and have fun!!
