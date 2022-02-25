@@ -24,9 +24,9 @@ The course schedule is available here:
 
 * https://www.callingbullshit.org
 
-The book is in Moodle. Please practice [critical reading](https://faculty.washington.edu/ebender/critical_reading.pdf). We will begin each class with a presentation and disucssion of the reading. Bring your opinion, criticism, and questions about the readings.
+The book is in Moodle. Please practice [critical reading](https://faculty.washington.edu/ebender/critical_reading.pdf). We will begin each class with a presentation by student(s) and then a disucssion of the reading. The presentation should be a short summary of the chapter (~10-15 minutes), in your own thoughts, in powerpoint or similar program. Everyone else should brng their opinions, criticisms, and questions about the reading.
 
-Lectures will be followed by practicals and will be given and done in class. 
+Lectures will be given in class and they will be followed by practical in class work.
 
 Homework will include courses from [DataCamp](https://www.datacamp.com). They are due before the next lecture. For example, Lecture 2 (March 2) “Writing scientific reports”; homework is the interactive course “Reporting with R Markdown”. It is due before Lecture 3 on March 9.
 
