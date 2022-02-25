@@ -24,7 +24,7 @@ The course schedule is available here:
 
 * https://www.callingbullshit.org
 
-The book, or audio book if you prefer, are in Moodle.
+The book is in Moodle.
 
 Lectures and practicals will be given and done in class. 
 
