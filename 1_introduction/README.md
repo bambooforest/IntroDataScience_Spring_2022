@@ -15,6 +15,8 @@ Add your university email and your GitHub path / username to the [repositories t
 |:------|:-----|:---------|
 | steven.moran@unine.ch | bambooforest | https://github.com/bambooforest/IntroDataScience/ |
 
+If you cannot access the schedule in google docs, send me an email. I have made it by invitation only so that only course participants have access to it.
+
 Start to understand what [version control](https://en.wikipedia.org/wiki/Distributed_version_control) is and how to use GitHub. Here are some tutorials (but there are many more on the web):
 
 * https://docs.github.com/en/get-started/quickstart/hello-world
