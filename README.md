@@ -28,15 +28,17 @@ The book is in Moodle.
 
 Lectures and practicals will be given and done in class. 
 
-Homework will include courses from [DataCamp](https://www.datacamp.com). They are due before the next lecture. For example, Lecture 2 (March 2) “Writing scientific reports”, homework is the interactive course “Reporting with R Markdown”. It is due before Lecture 3 on March 9.
+Homework will include courses from [DataCamp](https://www.datacamp.com). They are due before the next lecture. For example, Lecture 2 (March 2) “Writing scientific reports”; homework is the interactive course “Reporting with R Markdown”. It is due before Lecture 3 on March 9.
 
-Data practicals will include the creation of R markdown reports for each lecture. You will implement the methods learned in R code and R markdown on dataset(s) of your own interest. The reports will then be “committed” and “pushed” to your GitHub repository. We will discuss this procedure in class.
+Data practicals will include the creation of R markdown reports for each lecture. You will implement the methods learned in R code and R markdown on dataset(s) of your own interest to produce scientific reports. The reports will then be “committed” and “pushed” to your GitHub repository. We will discuss this procedure in class. The course is heavily weighted on these reports. The idea is that you not only learn how to implement the materials taught in this course, but that after the course is over, you will have a type of portfolio showcasing your data science skills (e.g., something that you can share on a resume or CV or on job or school applications). This approach will be discussed more in class.
 
-**Grading**: 70% data reports in your GitHub repository. There are 12 pertinent lectures and practicals. You must submit 10 data practicals. 70% of your course grade will come from the average of these 10 practicals — or from the 10 best scoring practicals 
+**Grading**: 
 
-30% of your grade will come from (a) presentation(s) of the reading chapters (to be divided amongst the students). 
+* 70% data reports in your GitHub repository. There are 12 pertinent lectures and practicals. You must submit 10 data practicals. 70% of your course grade will come from the average of these 10 practicals — or from the 10 best scoring practicals 
 
-Homework in DataCamp is pass / fail. That is, you must complete all homework to pass. (You can skip the Introduction to R — DataCamp requires a 
+* 30% of your grade will come from (a) presentation(s) of the reading chapters (to be divided amongst the students). 
+
+* Homework in DataCamp is pass / fail. That is, you must complete all homework to pass the class. You will be added to our DataCamp and you should receive an invite. DataCamp requires a login.
 
 **Note**: This syllabus is subject to change but the most up-to-date version is always available online:
 
