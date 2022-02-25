@@ -46,7 +46,7 @@ To get started with this course, follow the instructions in:
 
 * [1_introduction](https://github.com/bambooforest/IntroDataScience/tree/main/1_introduction)
 
-Then follow the chapters as per the class.
+Then follow the chapters as per the class as per the [class schedule](https://docs.google.com/spreadsheets/d/1di-H7lsmdkT1RJlsXERkIcBSE4Y6XKIwPdulyaZ13DM/edit?usp=sharing).
 
 Good luck!!
 
