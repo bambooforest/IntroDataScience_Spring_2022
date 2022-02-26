@@ -1,6 +1,6 @@
 # Getting started
 
-To get started with this course, you will need to [install](https://en.wikipedia.org/wiki/Installation_(computer_programs)) several software packages and get to know how to use them. Follow all the steps below.
+To get started with this course, you will need to [install](https://en.wikipedia.org/wiki/Installation_(computer_programs)) several software packages and get to know how to use them. Follow all the steps that you need below, before moving on to [chapter 2](https://github.com/bambooforest/IntroDataScience/2_writing_scientific_reports).
 
 
 ## GitHub
@@ -15,14 +15,34 @@ Add your university email and your GitHub path / username to the [repositories t
 |:------|:-----|:---------|
 | steven.moran@unine.ch | bambooforest | https://github.com/bambooforest/IntroDataScience/ |
 
+If you cannot access the schedule in google docs, send me an email. I have made it by invitation only so that only course participants have access to it.
+
 Start to understand what [version control](https://en.wikipedia.org/wiki/Distributed_version_control) is and how to use GitHub. Here are some tutorials (but there are many more on the web):
 
 * https://docs.github.com/en/get-started/quickstart/hello-world
 * https://www.youtube.com/watch?v=fQLK8Ib_SKk
 * https://resources.github.com/whitepapers/github-and-rstudio/
 * https://happygitwithr.com/index.html
+* https://kbroman.org/github_tutorial/
+* https://lab.github.com
 
-In your GitHub account, e.g. mine is [https://github.com/bambooforest](https://github.com/bambooforest), create a repository for your data practicals. Since one of the [two hardest things in Computer Science (and Data Science)](https://martinfowler.com/bliki/TwoHardThings.html) is "naming things", you may either spend some time coming up with a repository name that you like (and ideally that makes sense) or you can simply call it IntroDataScience. You can always change it later! (Caveat: but then you must update the URL in the [repositories tab](https://docs.google.com/spreadsheets/d/1di-H7lsmdkT1RJlsXERkIcBSE4Y6XKIwPdulyaZ13DM/edit?usp=sharing) and to tell anyone else you may have shared the URL with -- another reason why naming things is hard: changing names, whether variables in code, URLs, physical addresses, etc., **causes more work**!).
+You do not need to go through all of them! You need a basic understanding of how to use your GitHub, i.e., how to access it, how to add, edit, and remove files from it (as discussed below). There are advanced methods that we can discuss in class, but that are not required to do the work in this class, e.g.,
+
+https://guides.github.com/activities/forking/
+
+That being said, putting a bit of extra effort into understand methods like [forking](https://en.wikipedia.org/wiki/Fork_(software_development)) will not only help you better understand common practices in data science and software engineering, but also allow you to access and collaborate with [over 200 million repositories](https://en.wikipedia.org/wiki/GitHub):
+
+https://docs.github.com/en/get-started/quickstart/github-flow
+
+There are a number of good GUIs for working with GitHub. For example:
+
+* https://gitup.co
+* https://desktop.github.com/
+* https://acodez.in/git-gui-clients/
+
+In your GitHub account, e.g. mine is [https://github.com/bambooforest](https://github.com/bambooforest), create a repository for your data practicals. It is up to you if you choose to have the repository public or private. If it is private, you will have to add in the settings the GitHub username of anyone and everyone that you want to give access to it. If you go private, you will have to give me access so that I can grade the data practicals. If you go public, think about which [software license](https://en.wikipedia.org/wiki/Software_license] to be associated with your repository. GitHub gives you a list to choose from, including [creative commons licenses](https://creativecommons.org/licenses/). Choose wisely!
+
+Since one of the [two hardest things in Computer Science (and Data Science)](https://martinfowler.com/bliki/TwoHardThings.html) is "naming things", you may either spend some time coming up with a repository name that you like (and ideally that makes sense) or you can simply call it IntroDataScience. You can always change it later! (Caveat: but then you must update the URL in the [repositories tab](https://docs.google.com/spreadsheets/d/1di-H7lsmdkT1RJlsXERkIcBSE4Y6XKIwPdulyaZ13DM/edit?usp=sharing) and to tell anyone else you may have shared the URL with -- another reason why naming things is hard: changing names, whether variables in code, URLs, physical addresses, etc., **causes more work**!).
 
 In your data practicals repository for this course, start by creating a [README markdown file](README.md) file -- like the one that you're currently reading -- but instead add some text about what your repository is for.
 
