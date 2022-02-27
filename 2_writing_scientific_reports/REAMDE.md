@@ -1,7 +1,7 @@
 Writing scientific reports
 ================
 Steven Moran
-(26 February, 2022)
+(27 February, 2022)
 
 -   [R Markdown overview](#r-markdown-overview)
 -   [Title](#title)
@@ -10,6 +10,7 @@ Steven Moran
     -   [Why?](#why)
     -   [Automatic referencing](#automatic-referencing)
     -   [Back to automatic referencing](#back-to-automatic-referencing)
+    -   [Reference management software](#reference-management-software)
 -   [References](#references)
 
 # R Markdown overview
@@ -52,7 +53,7 @@ file should be generated, e.g., I am telling it to produce a
 
     title: "Writing scientific reports"
     author: "Steven Moran"
-    date: "(26 February, 2022)"
+    date: "(27 February, 2022)"
     output:
       github_document
 
@@ -67,7 +68,7 @@ document](https://bookdown.org/yihui/rmarkdown/html-document.html):
 
     title: "Writing scientific reports"
     author: "Steven Moran"
-    date: "(26 February, 2022)"
+    date: "(27 February, 2022)"
     output:
       html_document 
 
@@ -77,7 +78,7 @@ this report, e.g., so that you can submit it for publication?
 
     title: "Writing scientific reports"
     author: "Steven Moran"
-    date: "(26 February, 2022)"
+    date: "(27 February, 2022)"
     output:
       pdf_document
 
@@ -88,7 +89,7 @@ an old professor):
 
     title: "Writing scientific reports"
     author: "Steven Moran"
-    date: "(26 February, 2022)"
+    date: "(27 February, 2022)"
     output:
       word_document
 
@@ -97,7 +98,7 @@ You can even create for example slides, such as in
 
     title: "Writing scientific reports"
     author: "Steven Moran"
-    date: "(26 February, 2022)"
+    date: "(27 February, 2022)"
     output:
       powerpoint_presentation
 
@@ -164,7 +165,7 @@ below). So, for example, this file specifies the header as:
     ---
     title: "Writing scientific reports"
     author: "Steven Moran"
-    date: "(26 February, 2022)"
+    date: "(27 February, 2022)"
     output:
       github_document:
           toc: true
@@ -222,21 +223,47 @@ test.
 
 Let’s face it, most scientists are not properly trained computer
 programming and many in statistical analysis. In regard to studies on
-linguistic diversity, I wrote this (Moran 2016):
+linguistic diversity, I wrote this in a commentary about [this
+paper](https://doi.org/10.1093/jole/lzv004) because the authors made
+some interesting claims, but did not publish the data and code for
+analysis, so it couldn’t be fact checked or reproduced (Moran 2016):
 
     In linguistic diversity studies, the norm is (big) data and (complex) statistical models that are brought together and analyzed with code. Most software has bugs, even when written by professionals (Hatton 1997). And most linguists are not trained in proper software engineering. Not publishing code ignores these issues. There is clearly a need for greater transparency for replicating results—not only in access to the data used in the analysis—but also access to the code that produced the analysis.
 
-Note in particular the reference to Hatton (1997). That is, **most
-software has [bugs](https://en.wikipedia.org/wiki/Software_bug)**. Bugs
-may result in incorrect analyses, i.e., in correct results. This can be
-for example unknown to the analyst because there are software bugs that
-break code at compile time (e.g., errors in your syntax that does not
-allow the program or statistical analysis to compile of complete) or
-bugs in which everything runs fine, but the answer is simply wrong
-(e.g., you used the same variable name and its value gets reassigned
-incorrectly).
+    Arguments against publishing code include: it takes extra time and effort to clean it up and document it; my code is my intellectual property. Regarding the first point, why not simply adopt an attitude that if the code is good enough to do the job, then it is good enough to release (cf. Barnes 2010). If it runs, ship it. As long as the code runs on some configuration of software and hardware, put the onus on the user to decipher any illformatted, poorly documented code even with its opaque one-letter variable names.
 
-To combate the replication crisis, scientific workflows and ways of
+Note in particular the references to Hatton (1997) and Barnes (2010).
+First, as Hatton (1997) points out, **most software has
+[bugs](https://en.wikipedia.org/wiki/Software_bug)**. Bugs may result in
+incorrect analyses, i.e., in correct results. This can be for example
+unknown to the analyst/coder because there are software bugs that break
+code at compile time (e.g., errors in your syntax that does not allow
+the program or statistical analysis to compile of complete) or bugs in
+which everything runs fine, but the answer is simply wrong (e.g., you
+used the same variable name and its value gets reassigned incorrectly).
+
+Therefore, Barnes (2010) puts it directly in his title in his paper in
+*[Nature](https://www.nature.com)*: “[Publish your computer code: it is
+good enough](https://www.nature.com/articles/467753a).” This is a great
+and short read that starts out:
+
+    I am a professional software engineer and I want to share a trade secret with scientists: most professional computer software isn't very good. The code inside your laptop, television, phone or car is often badly documented, inconsistent and poorly tested.
+
+And he is right. As a professional academic, I get asked to review for
+journals a lot. I refuse to review any paper that does not make its data
+and code available for review. Here is for example [an open
+review](https://github.com/bambooforest/reviews/blob/master/Macklin-CordesRound2020/review.md)
+that I did for [a
+paper](https://www.frontiersin.org/articles/10.3389/fpsyg.2020.570895/full)
+using their data and analysis, which I put into an R Markdown report,
+which itself is reproducible:
+
+-   <https://github.com/bambooforest/reviews/tree/master/Macklin-CordesRound2020>
+
+Needless to say, I found a lot of errors in their data, which they then
+went on to fix for the published version.
+
+Thus, to combat the replication crisis, scientific workflows and ways of
 organization are helpful tools for creating reproducible science, e.g.:
 
 -   <https://www.nature.com/articles/s41559-017-0160>
@@ -455,7 +482,7 @@ header in the .Rmd file:
     ---
     title: "Writing scientific reports"
     author: "Steven Moran"
-    date: "(26 February, 2022)"
+    date: "(27 February, 2022)"
     output:
       github_document
     bibliography: 'references.bib'
@@ -497,9 +524,44 @@ edits).
 ![Getting the citation.](citation_example.png) I can give a demo in the
 class.
 
+## Reference management software
+
+Although [BibTeX](https://en.wikipedia.org/wiki/BibTeX) is stored in
+plain text, as mentioned above, one can interact with it through a
+[graphical user interface
+(GUI)](https://en.wikipedia.org/wiki/Graphical_user_interface). There
+are lots of programs out there. Recall again the comparison of software
+for reference management software programs:
+
+-   <https://en.wikipedia.org/wiki/Comparison_of_reference_management_software>
+
+But obviously you can also search the web for the newest, or easiest to
+use, or most popular programs – if you are not already using one
+yourself or are interested in switching. As mentioned above
+[Mendeley](https://en.wikipedia.org/wiki/Mendeley) is popular and can be
+accessed through the web. [Zotero](https://en.wikipedia.org/wiki/Zotero)
+is also popular and reportedly easy to use. Check with your university’s
+IT and perhaps they provide free access to versions that you would
+normally pay for.
+
+For BibTeX I use, which is only for Mac:
+
+-   <https://bibdesk.sourceforge.io>
+
+But a nice Windows version for BibTeX is:
+
+-   <https://www.jabref.org>
+
 # References
 
 <div id="refs" class="references csl-bib-body hanging-indent">
+
+<div id="ref-Barnes2010" class="csl-entry">
+
+Barnes, Nick. 2010. “Publish Your Computer Code: It Is Good Enough.”
+*Nature* 467 (7317): 753–53.
+
+</div>
 
 <div id="ref-Hatton1997" class="csl-entry">
 
