@@ -38,15 +38,16 @@ The file extension is [.Rmd](https://fileinfo.com/extension/rmd).
 Together with the `knitr` package and RStudio, this report
 [compiles](https://en.wikipedia.org/wiki/Compilation) this R Markdown
 file (.Rmd) file into a [Markdown
-file](https://fileinfo.com/extension/md) (.md) file that displays nicely
-in GitHub.
+file](https://fileinfo.com/extension/md) (.md) file that [displays
+nicely in GitHub](README.md).
 
-In the setup chunk above (not shown in the .md file; only in the .Rmd
-file that you will work with and edit directly), I have defined in the
-[file header](https://en.wikipedia.org/wiki/File_format#File_header) of
-this file [metadata](https://en.wikipedia.org/wiki/Metadata) that
-specifies for example the `title`, `author`, `date`, and `output` format
-for generating this report. R Markdown uses
+In the setup chunk above (not shown in this .md file; only in the [.Rmd
+file](https://github.com/bambooforest/IntroDataScience/blob/main/2_writing_scientific_reports/README.Rmd#L1-L9)
+that you will work with and edit directly), I have defined in the [file
+header](https://en.wikipedia.org/wiki/File_format#File_header) the
+[metadata](https://en.wikipedia.org/wiki/Metadata) that specifies for
+example the `title`, `author`, `date`, and `output` format for
+generating this report. R Markdown uses
 [YAML](https://en.wikipedia.org/wiki/YAML) to
 [configure](https://en.wikipedia.org/wiki/Configuration_file) how this
 file should be generated, e.g., I am telling it to produce a
@@ -86,7 +87,7 @@ this report, e.g., so that you can submit it for publication?
 Or maybe you want it to come out as a [Word
 document](https://bookdown.org/yihui/rmarkdown/word-document.html)
 because you want to share it with someone who only works in Word (e.g.,
-an old professor):
+one of my old professors):
 
     title: "Writing scientific reports"
     author: "Steven Moran"
@@ -103,13 +104,12 @@ You can even create for example slides, such as in
     output:
       powerpoint_presentation
 
-The header gives you a lot of flexibility, in particular, because by
+The header gives you a lot of flexibility, in particular because by
 changing the header you can quickly (and typically easily) change the
-output format \*\*without having to change everything in the R Markdown
-file\*)\*\*. This is because the formatting that you are doing, i.e.,
-you are using a [Markup
-language](https://en.wikipedia.org/wiki/Markup_language) that specifies
-how the display of the document should be handled.
+output format **without having to change everything in the R Markdown
+file**. This is because the formatting that you are doing, i.e., you are
+using a [Markup language](https://en.wikipedia.org/wiki/Markup_language)
+that specifies how document should be displayed.
 
 Here are some basics:
 
@@ -120,7 +120,7 @@ For example, if I use the `#` hash symbol like this:
     # Title
     ## Subtitle
 
-I will get this in my document:
+I will get this in my report:
 
 # Title
 
@@ -148,7 +148,7 @@ Which is formatted like this:
     * Item 2
 
 A good thing to keep near when you are learning R Markdown are [cheat
-sheets](https://en.wikipedia.org/wiki/Cheat_sheet). [Let me google those
+sheets](https://en.wikipedia.org/wiki/Cheat_sheet). [Let me google some
 for you](https://www.dictionary.com/e/slang/lmgtfy/):
 
 -   <https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf>
@@ -183,12 +183,13 @@ references bibliography file.
 
 How do you organize your research for scientific publications, or your
 masters thesis, or your term papers? Do you only write down your
-observations and findings (e.g., philiosphical meanderings, literature)?
-Or do you also do some type of scientific analysis? If so, does it
-involve [computer
+observations and findings (e.g., philosophical discussion, literary
+analysis)? Or do you also do some type of scientific analysis? If so,
+does it involve [computer
 code](https://en.wikipedia.org/wiki/Computer_programming) or
 [statistical analysis](https://en.wikipedia.org/wiki/Statistics)? Are
-you using the scientific method?
+you using the [scientific
+method](https://en.wikipedia.org/wiki/Scientific_method)?
 
 If so, let’s take a minute and discuss how we organize ourselves.
 
@@ -199,20 +200,20 @@ statistical packages, etc.
 
 Now, given all the different ways of doing things, lack of access to
 data, changing code, etc., we find ourselves in science in a replication
-crisis. Here are some resources that discuss the issue:
+crisis. Here are some resources that discuss this issue:
 
 -   <https://en.wikipedia.org/wiki/Replication_crisis>
 -   <https://www.nature.com/articles/533452a>
 -   <https://www.pnas.org/content/115/11/2628>
 -   <https://www.vox.com/future-perfect/21504366/science-replication-crisis-peer-review-statistics>
 
-Wikipedia puts it succintly:
+Wikipedia puts it succinctly:
 
     The replication crisis (also called the replicability crisis and the reproducibility crisis) is an ongoing methodological crisis in which it has been found that the results of many scientific studies are difficult or impossible to reproduce.
 
-Science should be reproducible! Otherwise, scientists cannot test (i.e.,
-reproduce or refute) each others results. Science at its core is meant
-to be reproducible! That’s why we have the scientific method:
+Science should be **reproducible**! Otherwise, scientists cannot test
+(i.e., reproduce or refute) each other’s results. Science at its core is
+meant to be reproducible! That’s why we have the scientific method:
 
 -   <https://en.wikipedia.org/wiki/Scientific_method>
 -   <https://www.sciencebuddies.org/science-fair-projects/science-fair/steps-of-the-scientific-method>
@@ -222,9 +223,11 @@ produce the data and/or analysis should be [openly
 available](https://en.wikipedia.org/wiki/Open_source) for researchers to
 test.
 
-Let’s face it, most scientists are not properly trained computer
-programming and many in statistical analysis. In regard to studies on
-linguistic diversity, I wrote this in a commentary about [this
+Let’s face it, most scientists are not properly trained in computer
+programming and many are also not trained in statistical analysis.
+
+For example, in regard to several studies on linguistic diversity, I
+wrote this in a commentary about [this
 paper](https://doi.org/10.1093/jole/lzv004) because the authors made
 some interesting claims, but did not publish the data and code for
 analysis, so it couldn’t be fact checked or reproduced (Moran 2016):
@@ -243,7 +246,7 @@ the program or statistical analysis to compile of complete) or bugs in
 which everything runs fine, but the answer is simply wrong (e.g., you
 used the same variable name and its value gets reassigned incorrectly).
 
-Therefore, Barnes (2010) puts it directly in his title in his paper in
+Therefore, Barnes (2010) puts it directly in the title of his paper in
 *[Nature](https://www.nature.com)*: “[Publish your computer code: it is
 good enough](https://www.nature.com/articles/467753a).” This is a great
 and short read that starts out:
@@ -572,13 +575,13 @@ directory](https://en.wikipedia.org/wiki/Root_directory). The example in
 this course’s repository is the syllabus file, which is named
 [README.md](../README.md).
 
-Now create a folder in your repository for your first “scientific”
-report. You should create the .Rmd file and edit it in RStudio and then
-knit the output file into an .md file. You can write a bit about some
-topic that you are interested in. And use the R Markdown syntax to do
-things like:
+Now create your first “scientific” report. You should create the .Rmd
+file and edit it in RStudio and then knit the output file into an .md
+file. You can write a bit about some topic that you are interested in.
+For example, working on a masters thesis topic? Tell me a bit about it.
+Use the R Markdown syntax to do the following:
 
--   add an appropriate header (e.g., title, date, output format)
+-   add an appropriate header (e.g., title, author, date, output format)
 -   add some headers and sub-headers
 -   create a bullet list (can you add one with numbers or letters?)
 -   [insert a
@@ -588,20 +591,137 @@ things like:
     to add a section at the end of the R Markdown file where the
     references should appear – see below)
 -   add some R code blocks
-    -   load a library to use
+    -   load an R library to use
     -   R has [built-in data
         sets](https://stackoverflow.com/questions/33797666/how-do-i-get-a-list-of-built-in-data-sets-in-r)
         – load some data and try displaying in within a code block
 
 Have fun and try to make the report interesting for the reader! It
 doesn’t need to be a “real” scientific report with analyses and results
-(doesn’t hurt if it though). The learning objective is that you get
+(doesn’t hurt though if it is!). The learning objective is that you get
 familiar and comfortable creating these short data practicals, so that
 in the follow lectures when we begin learning or reviewing various
 methods in data science, that you have the basis to implement those
 methods with real data of your choosing into R Markdown reports. That
-is, this lecture is about learning the basis on which you can start to
-do reproducible data science.
+is, this data practical is about learning the basics with which you can
+start to do reproducible data science.
+
+Now, given that these repositories are meant to be useful for you in the
+future, e.g., something you can share with prospective employers on your
+[resume](https://en.wikipedia.org/wiki/Résumé), or on your
+[CV](https://en.wikipedia.org/wiki/Curriculum_vitae) for applications to
+PhD programs, we’ve decided to give you quite a bit of freedom of how
+you structure your repository. We might regret this when having to grade
+your data practicals, so here are some points that are very important
+for the organization of your course repository so that we can grade
+them.
+
+Recall, as noted in the [syllabus](../README.md), the majority of your
+grade (70%) is based on your data practicals, i.e., the creation of R
+markdown reports for each lecture in which you implement the methods
+learned in R code and R markdown on dataset(s) of your own interest to
+produce scientific reports.
+
+There are 12 pertinent lectures (all weeks excluding the first) and as
+noted you will be graded on the average of 10 of those reports (this
+means you can skip two or we will take the average of the best of the
+12). This section describes how you should do you first data practical
+(what’s written above regarding getting to know how to use R Markdown to
+show you understand the basics).
+
+But given that we will need to be able to navigate where each report is,
+we need to be able to easily map which report belongs to which lecture
+so that we can grade it accordingly.
+
+For example, on week 7 there will be a lecture on the basics of [time
+series analysis](https://en.wikipedia.org/wiki/Time_series). Thus, your
+data practical will involve finding an interesting (to you at least)
+dataset (we will discuss how to find these in class) and to create your
+data practical in an R Markdown report using the time series analysis
+methods that we cover in course (or more advanced ones if you are so
+inclined to do so – for example, maybe you are using them in your own
+research and putting in a bit more effort is fruitful for your work in
+that regard).
+
+It is **imperative that we are able to map which lecture belongs to
+which data practical** in your repository. Again we might regret giving
+you this freedom, but on the other hand, it forces you to consider how
+to organize your repository, which as we discussed above is an important
+aspect of reproducible science.
+
+**I cannot stress this enough**: if we cannot easily figure out which
+data practical belongs to which lecture, we cannot grade your data
+practicals. Think of us as reviewers or potential employers or graduate
+school admission committees. You job is to make your repository and its
+contents easy to navigate and understand. This will give an impression
+of how well you organize your work.
+
+I will give you some examples of how you might choose to organize your
+repository.
+
+One way would be to simply mirror the course’s [GitHub
+repository](https://github.com/bambooforest/IntroDataScience):
+
+-   name your repository the same, i.e., “IntroDataScience”
+-   create a folder for each week with the same name, e.g.,
+    “1_introduction”
+-   in each folder create a README.Rmd file for your data practical and
+    compile the output as README.md
+
+This would look something like this:
+
+    |- 1_introduction
+    |  |- README.md
+    |- 2_writing_scientific_reports
+    |  |- README.Rmd
+    |  |- README.md
+    |- .gitignore
+    |- README.md
+
+In this way, we will know that if we go to your repository’s root
+folder, we see all the folders for which you have data practicals and
+when we click on a folder – because you have named the file README.md –
+it automatically displays in GitHub and we can easily go through it by
+clicking on each folder.
+
+For example, this trick to simply display the report while clicking on
+folder is something that I *didn’t* do here:
+
+-   <https://github.com/urban-m/elev/tree/master/phylogenetic_study>
+
+Instead, I created a README.md file that navigates the user to the
+various analyses because there were multiple reports.
+
+This of course hints at a second way that you might decide to organize
+your repository. That is, for each data practical, you could simply put
+it in the root folder (each with a different name, e.g.,
+time_series.Rmd, dimensionality_reduction.Rmd) and specify in your
+repository’s README.md how to navigate the reader to each study using
+[hyperlinks](https://en.wikipedia.org/wiki/Hyperlink).
+
+But let’s consider this approach for a second. In this directory of this
+course:
+
+-   <https://github.com/bambooforest/IntroDataScience/tree/main/2_writing_scientific_reports>
+
+when producing this lecture in R Markdown, a [folder for the
+images](https://github.com/bambooforest/IntroDataScience/tree/main/2_writing_scientific_reports/README_files/figure-gfm)
+created by the R code is created.
+
+So if you have multiple reports in the same directory, and they contain
+analyses that use visualizations (most will), then it may quickly become
+quite unruly. One way around this would be to create a table in your
+repository’s root directory, i.e., your
+[README.md](https://github.com/bambooforest/IntroDataScience/blob/main/README.md)
+with perhaps a table that looks something like this:
+
+| Lecture # | Data practical                                                                                                                  |
+|:----------|:--------------------------------------------------------------------------------------------------------------------------------|
+| 2         | [writing scientific reports](https://github.com/bambooforest/IntroDataScience/blob/main/2_writing_scientific_reports/README.md) |
+| …         | …                                                                                                                               |
+
+We leave it up to you how your name and organize you repository – but if
+we can’t (easily) navigate it, we can’t grade it.
 
 # References
 
