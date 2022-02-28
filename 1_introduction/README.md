@@ -9,7 +9,7 @@ Create a [GitHub](https://en.wikipedia.org/wiki/GitHub) account:
 
 * https://github.com
 
-Add your university email and your GitHub path / username to the [repositories tab](https://docs.google.com/spreadsheets/d/1di-H7lsmdkT1RJlsXERkIcBSE4Y6XKIwPdulyaZ13DM/edit?usp=sharing). For example, see how I added mine in the spreadsheet, which can be rendered like this in [Rmarkdown tables](https://dereksonderegger.github.io/570L/15-rmarkdown-tricks.html):
+Add your university email and your GitHub path / username to the [repositories tab](https://docs.google.com/spreadsheets/d/1di-H7lsmdkT1RJlsXERkIcBSE4Y6XKIwPdulyaZ13DM/edit#gid=788106030&range=A1). For example, see how I added mine in the spreadsheet, which can be rendered like this in [Rmarkdown tables](https://dereksonderegger.github.io/570L/15-rmarkdown-tricks.html):
 
 | Unine email address | GitHub username | Your data science class repository URL |
 |:------|:-----|:---------|
@@ -34,15 +34,15 @@ That being said, putting a bit of extra effort into understand methods like [for
 
 https://docs.github.com/en/get-started/quickstart/github-flow
 
-There are a number of good GUIs for working with GitHub. For example:
+There are a number of good [GUIs](https://en.wikipedia.org/wiki/Graphical_user_interface) for working with GitHub. For example:
 
 * https://gitup.co
 * https://desktop.github.com/
 * https://acodez.in/git-gui-clients/
 
-In your GitHub account, e.g. mine is [https://github.com/bambooforest](https://github.com/bambooforest), create a repository for your data practicals. It is up to you if you choose to have the repository public or private. If it is private, you will have to add in the settings the GitHub username of anyone and everyone that you want to give access to it. If you go private, you will have to give me access so that I can grade the data practicals. If you go public, think about which [software license](https://en.wikipedia.org/wiki/Software_license] to be associated with your repository. GitHub gives you a list to choose from, including [creative commons licenses](https://creativecommons.org/licenses/). Choose wisely!
+In your GitHub account, e.g. mine is [https://github.com/bambooforest](https://github.com/bambooforest), create a repository for your data practicals. It is up to you if you choose to have the repository public or private. If it is private, you will have to add in the settings the GitHub username of anyone and everyone that you want to give access to it. If you go private, you will have to give me access so that I can grade the data practicals. If you go public, think about which [software license](https://en.wikipedia.org/wiki/Software_license) is to be associated with your repository. GitHub gives you a list to choose from, including [creative commons licenses](https://creativecommons.org/licenses/). Choose wisely!
 
-Since one of the [two hardest things in Computer Science (and Data Science)](https://martinfowler.com/bliki/TwoHardThings.html) is "naming things", you may either spend some time coming up with a repository name that you like (and ideally that makes sense) or you can simply call it IntroDataScience. You can always change it later! (Caveat: but then you must update the URL in the [repositories tab](https://docs.google.com/spreadsheets/d/1di-H7lsmdkT1RJlsXERkIcBSE4Y6XKIwPdulyaZ13DM/edit?usp=sharing) and to tell anyone else you may have shared the URL with -- another reason why naming things is hard: changing names, whether variables in code, URLs, physical addresses, etc., **causes more work**!).
+Since one of the [two hardest things in Computer Science (and Data Science)](https://martinfowler.com/bliki/TwoHardThings.html) is "naming things", you may either spend some time coming up with a repository name that you like (and ideally that makes sense) or you can simply call it IntroDataScience. You can always change it later! (Caveat: but then you must update the URL in the [repositories tab](https://docs.google.com/spreadsheets/d/1di-H7lsmdkT1RJlsXERkIcBSE4Y6XKIwPdulyaZ13DM/edit#gid=788106030&range=A1) and to tell anyone else you may have shared the URL with -- another reason why naming things is hard: changing names, whether variables in code, URLs, physical addresses, etc., **causes more work**!).
 
 In your data practicals repository for this course, start by creating a [README markdown file](README.md) file -- like the one that you're currently reading -- but instead add some text about what your repository is for.
 
@@ -60,7 +60,7 @@ Install [RStudio](https://www.rstudio.com), unless you are already an R Pro and 
 
 ## R
 
-This course assumes you are familiar with the basics of the [R programming language](https://en.wikipedia.org/wiki/R_(programming_language). If you are not, please familiarize yourself with the basics. There are many out there!
+This course assumes you are familiar with the basics of the [R programming language](https://en.wikipedia.org/wiki/R_(programming_language). If you are not, please familiarize yourself with the basics. There are many tutorials out there! Here is a free one from [DataCamp](https://www.datacamp.com):
 
 * https://app.datacamp.com/learn/courses/free-introduction-to-r
 
@@ -76,7 +76,7 @@ If you are using some form of [Linux](https://en.wikipedia.org/wiki/Linux) you p
 
 Note: there are many other plain text editor software programs ou there. [LMGTFY](https://www.dictionary.com/e/slang/lmgtfy/):
 
-* [https://www.google.com/search?&q=best+plain+text+editors](https://www.google.com/search?&q=what+is+a+read+me+file)
+* [https://www.google.com/search?&q=best+plain+text+editors](https://www.google.com/search?&q=best+plain+text+editors)
 
 
 
