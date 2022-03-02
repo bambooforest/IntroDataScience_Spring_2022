@@ -58,4 +58,4 @@ This highlights an important learning point of this course:
 
 Every classroom has students with different levels of experience. The goal is that you understand and can implement the learning objectives in this course. It contrast, is not the goal that you go through every single link provided in each chapter in detail. But of course read what interests you.
 
-Good luck and have fun!!
+Good luck and have fun!!!
