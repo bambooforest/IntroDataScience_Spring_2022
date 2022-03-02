@@ -52,7 +52,7 @@ Then follow the chapters as per the class as per the [class schedule](https://do
 
 An important note about the chapters in this class. We aim to provide a lot of information on each topic -- sometimes much more than you will have time to read or go through, for example, multiple different readings and tutorials on the same topic. This often appear in bullet points where we give multiple resources on the same topic.
 
-This higlights an important learning point of this course:
+This highlights an important learning point of this course:
 
 **Read what you need**.
 
