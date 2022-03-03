@@ -38,7 +38,7 @@ Data practicals will include the creation of R markdown reports for each lecture
 
 * 30% of your grade will come from (a) presentation(s) of the reading chapters (to be divided amongst the students). 
 
-* Homework in DataCamp is pass / fail. That is, you must complete all homework to pass the class. You will be added to our DataCamp and you should receive an invite. DataCamp requires a login.
+* Homework in DataCamp is pass / fail. That is, you must complete all homework to pass the class. You will be added to our DataCamp group and you should receive an invite. DataCamp requires a login. Shout out to DataCamp for giving us access to their great materials.
 
 **Note**: This syllabus is subject to change but the most up-to-date version is always available online:
 
@@ -56,6 +56,6 @@ This highlights an important learning point of this course:
 
 **Read what you need**.
 
-Every classroom has students with different levels of experience. The goal is that you understand and can implement the learning objectives in this course. It contrast, is not the goal that you go through every single link provided in each chapter in detail. But of course read what interests you.
+Every classroom has students with different levels of experience. The goal is that you understand and can implement the learning objectives in this course. It contrast, is not the goal that you go through every single link provided in each chapter in detail. But of course read what interests you!
 
-Good luck and have fun!!!
+**Good luck and have fun!!!**
