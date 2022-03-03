@@ -1,7 +1,7 @@
 Writing scientific reports
 ================
 Steven Moran
-(28 February, 2022)
+(03 March, 2022)
 
 -   [R Markdown overview](#r-markdown-overview)
 -   [Title](#title)
@@ -55,7 +55,7 @@ file should be generated, e.g., I am telling it to produce a
 
     title: "Writing scientific reports"
     author: "Steven Moran"
-    date: "(28 February, 2022)"
+    date: "(03 March, 2022)"
     output:
       github_document
 
@@ -70,7 +70,7 @@ document](https://bookdown.org/yihui/rmarkdown/html-document.html):
 
     title: "Writing scientific reports"
     author: "Steven Moran"
-    date: "(28 February, 2022)"
+    date: "(03 March, 2022)"
     output:
       html_document 
 
@@ -80,7 +80,7 @@ this report, e.g., so that you can submit it for publication?
 
     title: "Writing scientific reports"
     author: "Steven Moran"
-    date: "(28 February, 2022)"
+    date: "(03 March, 2022)"
     output:
       pdf_document
 
@@ -91,7 +91,7 @@ one of my old professors):
 
     title: "Writing scientific reports"
     author: "Steven Moran"
-    date: "(28 February, 2022)"
+    date: "(03 March, 2022)"
     output:
       word_document
 
@@ -100,7 +100,7 @@ You can even create for example slides, such as in
 
     title: "Writing scientific reports"
     author: "Steven Moran"
-    date: "(28 February, 2022)"
+    date: "(03 March, 2022)"
     output:
       powerpoint_presentation
 
@@ -166,7 +166,7 @@ below). So, for example, this file specifies the header as:
     ---
     title: "Writing scientific reports"
     author: "Steven Moran"
-    date: "(28 February, 2022)"
+    date: "(03 March, 2022)"
     output:
       github_document:
           toc: true
@@ -206,6 +206,7 @@ crisis. Here are some resources that discuss this issue:
 -   <https://www.nature.com/articles/533452a>
 -   <https://www.pnas.org/content/115/11/2628>
 -   <https://www.vox.com/future-perfect/21504366/science-replication-crisis-peer-review-statistics>
+-   <https://www.nature.com/articles/s41562-016-0021>
 
 Wikipedia puts it succinctly:
 
@@ -283,6 +284,12 @@ notebooks, e.g.:
 
 The tools you use may largely depend on the programming language(s) you
 are using.
+
+There are also so-called “open data handbooks.” Two that I know of are
+these (but there may be ones in your own field):
+
+-   <https://mitpress.mit.edu/books/open-handbook-linguistic-data-management>
+-   <https://opendatahandbook.org>
 
 In this course, we will be using R and R Markdown reports. This gives us
 flexibility to bring together code and text into a single document,
@@ -486,7 +493,7 @@ header in the .Rmd file:
     ---
     title: "Writing scientific reports"
     author: "Steven Moran"
-    date: "(28 February, 2022)"
+    date: "(03 March, 2022)"
     output:
       github_document
     bibliography: 'references.bib'

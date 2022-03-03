@@ -160,6 +160,7 @@ Now, given all the different ways of doing things, lack of access to data, chang
 * https://www.nature.com/articles/533452a
 * https://www.pnas.org/content/115/11/2628
 * https://www.vox.com/future-perfect/21504366/science-replication-crisis-peer-review-statistics
+* https://www.nature.com/articles/s41562-016-0021
 
 Wikipedia puts it succinctly:
 
@@ -211,6 +212,11 @@ A popular form of creating reproducible work is to use data science notebooks, e
 * https://magenta.tensorflow.org/demos/colab/
 
 The tools you use may largely depend on the programming language(s) you are using.
+
+There are also so-called "open data handbooks". Two that I know of are these (but there may be ones in your own field):
+
+* https://mitpress.mit.edu/books/open-handbook-linguistic-data-management
+* https://opendatahandbook.org
 
 In this course, we will be using R and R Markdown reports. This gives us flexibility to bring together code and text into a single document, which as discussed above, we can compile easily into different output formats. And we can also incorporate scientific writing, e.g., using automatic citation software (discussed below).
 
