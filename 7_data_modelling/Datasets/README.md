@@ -1,4 +1,5 @@
-In thid folder you can find two datasets that we are going to use in the time-series lecture. I will share also some link, where it is possible to download time-series spreadsheets.
+In this folder, you can find two datasets that we are going to use in the time-series lecture.
+Following, you can find some links where it is possible to download  time-series spreadsheets directly:
 
 - Epidemiology - https://www.ecdc.europa.eu/en/covid-19/data
 
