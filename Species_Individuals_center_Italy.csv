@@ -1,0 +1,73 @@
+Year,Month,Individuals,Species
+2020,10,1,Hystrix cristata
+2020,11,1,Hystrix cristata
+2020,12,1,Hystrix cristata
+2021,1,0,Hystrix cristata
+2021,2,0,Hystrix cristata
+2021,3,1,Hystrix cristata
+2021,4,0,Hystrix cristata
+2021,5,NA,Hystrix cristata
+2021,6,0,Hystrix cristata
+2021,7,0,Hystrix cristata
+2021,8,0,Hystrix cristata
+2021,9,0,Hystrix cristata
+2020,10,0,Capreolus capreolus
+2020,11,2,Capreolus capreolus
+2020,12,2,Capreolus capreolus
+2021,1,23,Capreolus capreolus
+2021,2,20,Capreolus capreolus
+2021,3,8,Capreolus capreolus
+2021,4,22,Capreolus capreolus
+2021,5,1,Capreolus capreolus
+2021,6,5,Capreolus capreolus
+2021,7,3,Capreolus capreolus
+2021,8,4,Capreolus capreolus
+2021,9,14,Capreolus capreolus
+2020,10,0,Sus scrofa
+2020,11,2,Sus scrofa
+2020,12,2,Sus scrofa
+2021,1,3,Sus scrofa
+2021,2,16,Sus scrofa
+2021,3,24,Sus scrofa
+2021,4,30,Sus scrofa
+2021,5,NA,Sus scrofa
+2021,6,49,Sus scrofa
+2021,7,46,Sus scrofa
+2021,8,72,Sus scrofa
+2021,9,96,Sus scrofa
+2020,10,0,Aves
+2020,11,0,Aves
+2020,12,1,Aves
+2021,1,1,Aves
+2021,2,0,Aves
+2021,3,1,Aves
+2021,4,1,Aves
+2021,5,1,Aves
+2021,6,0,Aves
+2021,7,1,Aves
+2021,8,0,Aves
+2021,9,1,Aves
+2020,10,0,Canis lupus
+2020,11,0,Canis lupus
+2020,12,0,Canis lupus
+2021,1,0,Canis lupus
+2021,2,1,Canis lupus
+2021,3,0,Canis lupus
+2021,4,0,Canis lupus
+2021,5,0,Canis lupus
+2021,6,0,Canis lupus
+2021,7,0,Canis lupus
+2021,8,0,Canis lupus
+2021,9,0,Canis lupus
+2020,10,0,Vulpes vulpes
+2020,11,0,Vulpes vulpes
+2020,12,0,Vulpes vulpes
+2021,1,0,Vulpes vulpes
+2021,2,0,Vulpes vulpes
+2021,3,0,Vulpes vulpes
+2021,4,0,Vulpes vulpes
+2021,5,0,Vulpes vulpes
+2021,6,0,Vulpes vulpes
+2021,7,0,Vulpes vulpes
+2021,8,1,Vulpes vulpes
+2021,9,0,Vulpes vulpes
