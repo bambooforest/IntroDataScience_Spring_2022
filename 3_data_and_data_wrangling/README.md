@@ -1,0 +1,317 @@
+Data and data wrangling 1
+================
+Steven Moran
+(04 March, 2022)
+
+-   [Data](#data)
+    -   [What is it?](#what-is-it)
+    -   [Structured vs unstructured
+        data](#structured-vs-unstructured-data)
+    -   [Data types and data
+        structures](#data-types-and-data-structures)
+    -   [Data formats](#data-formats)
+    -   [Metadata](#metadata)
+    -   [Data archiving](#data-archiving)
+    -   [Open data](#open-data)
+-   [Loading data](#loading-data)
+-   [Data wrangling](#data-wrangling)
+    -   [Overview](#overview)
+    -   [In R](#in-r)
+    -   [Testing](#testing)
+
+``` r
+library(knitr)
+# knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 60), tidy = TRUE)
+```
+
+# Data
+
+## What is it?
+
+<!-- If you are looking at the source code (good on you!), then here is how one does a comment in Rmd. It's the same format as an HTML comment, i.e., between ASCII looking arrows. -->
+
+[Data](https://en.wikipedia.org/wiki/Data) is everywhere. Data are
+“facts and statistics collected together for reference or analysis”.
+Data is singular and plural – as per the
+[Dictionary.app](https://en.wikipedia.org/wiki/Dictionary_(software)):
+
+> > > “In Latin, data is the plural of datum and, historically and in
+> > > specialized scientific fields, it is also treated as a plural in
+> > > English, taking a plural verb, as in the data were collected and
+> > > classified. In modern nonscientific use, however, it is generally
+> > > not treated as a plural. Instead, it is treated as a mass noun,
+> > > similar to a word like information, which takes a singular verb.
+> > > Sentences such as data was collected over a number of years are
+> > > now widely accepted in standard English.”
+
+Data versus information:
+
+-   <https://www.diffen.com/difference/Data_vs_Information>
+
+which notes:
+
+> > > “Data are simply facts or figures —- bits of information, but not
+> > > information itself. When data are processed, interpreted,
+> > > organized, structured or presented so as to make them meaningful
+> > > or useful, they are called information. Information provides
+> > > context for data.”
+
+Furthermore:
+
+> > > “Data is raw, unorganized facts that need to be processed. Data
+> > > can be something simple and seemingly random and useless until it
+> > > is organized.”
+
+And:
+
+> > > “When data is processed, organized, structured or presented in a
+> > > given context so as to make it useful, it is called information.”
+
+Let’s look at some examples. Is it *data* or *information*?
+
+1.  a student’s test score
+2.  average score of the class
+3.  2000
+4.  2000 Neuchatel
+5.  $2000 monthly income
+6.  Satellite image data
+7.  Meterological data
+8.  Weather forecasts
+9.  Average annual temperature in Neuchatel
+10. Daily temperature in Neuchatel
+
+Data is raw facts, typically without context, and includes numbers,
+images, words, text, etc. Information is data within a context,
+processed data, with value added to the data, e.g., it’s organized,
+summarized, or analyzed. Data is based on observations or records.
+Information is based on the organization, summarization, or analysis of
+the data and tells us something about the data.
+
+## Structured vs unstructured data
+
+[Raw data](https://en.wikipedia.org/wiki/Raw_data) (aka primary data)
+are data collected from some source. Raw data has not yet been processed
+for use. Human brains are very good at prcessing raw data and making
+decisions. Consider crossing a street – your brain processing the data
+around you, from your eyes and your ears, together with your working
+memory, to make an informed decision of whether crossing the street is
+safe or not.
+
+Information is the end product of [data
+processing](https://en.wikipedia.org/wiki/Data_processing). Data
+processing may include:
+
+-   [Validation](https://en.wikipedia.org/wiki/Data_validation) –
+    Ensuring that supplied data is correct and relevant.
+-   [Sorting](https://en.wikipedia.org/wiki/Sorting) – “arranging items
+    in some sequence and/or in different sets.”
+-   [Summarization](https://en.wikipedia.org/wiki/Summary_statistics)
+    (statistical) or (automatic) – reducing detailed data to its main
+    points.
+-   [Aggregation](https://en.wikipedia.org/wiki/Aggregate_data) –
+    combining multiple pieces of data.
+-   [Analysis](https://en.wikipedia.org/wiki/Statistical_inference) –
+    the “collection, organization, analysis, interpretation and
+    presentation of data.”
+-   [Reporting](https://en.wikipedia.org/wiki/Business_reporting) – list
+    detail or summary data or computed information.
+-   [Classification](https://en.wikipedia.org/wiki/Data_classification_(business_intelligence))
+    – separation of data into various categories.
+
+We process raw data to turn it into useful information.
+
+Raw data can come in structured or unstructured formats:
+
+-   <https://www.ibm.com/cloud/blog/structured-vs-unstructured-data>
+
+Unstructured data does not have a predefined format and may be (very)
+diverse. It is considered qualitative and may be difficult to search,
+sort, analyze.
+
+Structured data is data that are organized into a data format and are
+quantitative in nature, e.g., relational databases.
+
+Structured or unstructured?
+
+1.  text files
+2.  emails
+3.  audio files
+4.  videos
+5.  dates
+6.  numbers
+7.  credit card numbers
+8.  phone numbers
+
+Structured or unstructured?
+
+| Date        |
+|-------------|
+| Jan 1, 2021 |
+| 10/10/2010  |
+| 22/11/2011  |
+
+Structured or unstructured?
+
+| Date       |
+|------------|
+| 1/1/2021   |
+| 10/10/2010 |
+| 22/11/2011 |
+
+## Data types and data structures
+
+For the uninitiated, the terminology in data science (and about data in
+general) may seem all over the place. Let’s clarify a few standard terms
+that use the word data.
+
+[Data types](https://en.wikipedia.org/wiki/Data_type) tyically refer to
+various *types* of data that can be interpreted by the computer’s
+[compiler](https://en.wikipedia.org/wiki/Compiler). In programming
+languages, these include types such as:
+
+-   [Integers](https://en.wikipedia.org/wiki/Integer_(computer_science))
+-   [Floats (floating point
+    numbers)](https://en.wikipedia.org/wiki/Floating-point_arithmetic)
+-   [Characters](https://en.wikipedia.org/wiki/Character_(computing)) –
+    ask me about these
+-   [Strings](https://en.wikipedia.org/wiki/String_(computer_science)) –
+    sequence of characters
+-   [Boolean](https://en.wikipedia.org/wiki/Boolean_data_type)
+
+R has several data types, e.g.:
+
+-   <https://www.r-bloggers.com/2021/09/r-data-types/>
+-   <https://www.w3schools.com/r/r_data_types.asp>
+-   <https://statsandr.com/blog/data-types-in-r/>
+
+[Data structures](https://en.wikipedia.org/wiki/Data_structure) are
+collections of data values that are organized so that operations can be
+peformed on them. They include the primative data types (some mentioned
+above) but also abstract data types, linear data structures, trees,
+hashes, graphs, and so on.
+
+-   <https://en.wikipedia.org/wiki/List_of_data_structures>
+
+Data structures are also typically programming language dependent, i.e.,
+the developers of the language have made decisions which types of data
+structures to implement. R has several data structures:
+
+-   <http://adv-r.had.co.nz/Data-structures.html>
+
+[Data transmforation](https://en.wikipedia.org/wiki/Data_transformation)
+is the proces of converting one data format to another (whether
+unstructured or structured).
+
+## Data formats
+
+The data we work with is mainly [digital
+data](https://en.wikipedia.org/wiki/Digital_data). If for example, we
+record someone’s voice, i.e., a continuous signal, then it is converted
+from [analog to
+digital](https://en.wikipedia.org/wiki/Analog-to-digital_converter).
+That is, the disturbances of air waves created by a speaker is sampled
+and digitized and stored into an electronic (aka digital) format.
+
+At the “lowest” level, digital data is [binary
+data](https://en.wikipedia.org/wiki/Binary_data). What is binary?
+Consider the joke:
+
+[There are 10 types of people in this world, those who understand binary
+and those who
+don’t.](https://www.urbandictionary.com/define.php?term=there%20are%2010%20types%20of%20people%20in%20this%20world%2C%20those%20who%20understand%20binary%20and%20those%20who%20dont).
+
+Are these files binary or not?
+
+## Metadata
+
+[Metadata](https://en.wikipedia.org/wiki/Metadata) is data about data,
+i.e., it provides information about the data. There are different
+metadata types, but most pertinent to this course are:
+
+-   Descriptive metadata -— the descriptive information about a
+    resource. It is used for discovery and identification. It includes
+    elements such as title, abstract, author, and keywords.
+-   Structural metadata -— metadata about containers of data and
+    indicates how compound objects are put together, for example, how
+    pages are ordered to form chapters. It describes the types,
+    versions, relationships and other characteristics of digital
+    materials.
+
+## Data archiving
+
+We won’t talk much about data archiving, but it is important for
+research, e.g.:
+
+-   <https://en.wikipedia.org/wiki/Research_data_archiving>
+
+## Open data
+
+[Open data](https://en.wikipedia.org/wiki/Open_data) are data that are
+freely available and also the idea that data should be freely available.
+(Recall what we’ve discussed about data and software licenses.) The idea
+is similar to [open source
+code](https://en.wikipedia.org/wiki/Open_source), i.e., the idea that
+source code is made openly and freely aailable. Both open data and open
+source code are integral to [open data
+science](https://en.wikipedia.org/wiki/Open_science_data) and
+[reproducible science](https://en.wikipedia.org/wiki/Reproducibility).
+
+There is a lot of open data out there, e.g.:
+
+-   <https://opendata.swiss/en/>
+
+# Loading data
+
+When working with data you first have to have some data. What about this
+data for example?
+
+-   <https://digital.library.unt.edu/ark:/67531/metadc855661/>
+-   <https://digital.library.unt.edu/ark:/67531/metadc855661/m1/2/>
+
+How would you load it into R?
+
+What kind of data type is it?
+
+What kind of data structure?
+
+# Data wrangling
+
+## Overview
+
+[Data wrangling](https://en.wikipedia.org/wiki/Data_wrangling) is a
+recent coinage that means to coverting [raw
+data](https://en.wikipedia.org/wiki/Raw_data) (whether analog or
+digital) into (an)other format(s) usually with the goal to extract
+information through “downstream” analysis of the data.
+
+Here’s a visualization of the process:
+
+-   <https://en.wikipedia.org/wiki/Data_wrangling#/media/File:Data_Wrangling_From_Messy_To_Clean_Data_Management.jpg>
+
+Steps typically include:
+
+-   Data discovery – look at and think about your data and maybe come up
+    with some questions to ask
+-   Structe – organize the data (necessarily if its in a raw format) and
+    structure it for the functions or methods that will take it as input
+-   Clean – in the process of dealing with data (especially raw data),
+    you may need to clean it, e.g., get all the dates into the same
+    format (Feb 1 vs 2/1 vs 1/2 etc.)
+-   Enrich – do you need more data for your analysis? E.g., you have a
+    list of languages but you need to know where they are spoken to plot
+    them on a world map
+-   Validate – basically making sure that your structured and cleaned
+    data is actually structured and clean – also commonly refered to as
+    [software testing](https://en.wikipedia.org/wiki/Software_testing)
+-   Publish – publish your data (if you want to) and / or your analysis,
+    findings, etc., for consumption, reproducibility, etc.
+
+## In R
+
+-   <https://r4ds.had.co.nz/introduction.html>
+
+## Testing
+
+-   <https://r-pkgs.org/tests.html>
+-   <https://testthat.r-lib.org>
+-   <https://towardsdatascience.com/unit-testing-in-r-68ab9cc8d211>
