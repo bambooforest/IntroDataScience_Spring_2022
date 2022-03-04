@@ -55,7 +55,7 @@ Pro-tip: when you initially create a [GitHub repository](https://docs.github.com
 
 ## RStudio
 
-Install [RStudio](https://www.rstudio.com), unless you are already an R Pro and prefer some other [GUI](https://en.wikipedia.org/wiki/Graphical_user_interface), [CLI](https://en.wikipedia.org/wiki/Command-line_interface), or [computer program](https://en.wikipedia.org/wiki/Computer_program) that allows you to [create R markdown](https://rmarkdown.rstudio.com/authoring_quick_tour.html) reports that will be stored in your GitHub repository.
+Install [RStudio](https://www.rstudio.com), unless you are already an R Pro and prefer some other [GUI](https://en.wikipedia.org/wiki/Graphical_user_interface), [CLI](https://en.wikipedia.org/wiki/Command-line_interface), or [computer program](https://en.wikipedia.org/wiki/Computer_program) that allows you to [create R markdown](https://rmarkdown.rstudio.com/authoring_quick_tour.html) reports that will be stored in your GitHub repository. Note: be weary of automatic spell checking -- and presumably grammar checking -- in RStudio.
 
 
 ## R
