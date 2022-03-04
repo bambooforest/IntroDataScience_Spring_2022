@@ -1,7 +1,7 @@
 Writing scientific reports
 ================
 Steven Moran
-(03 March, 2022)
+(04 March, 2022)
 
 -   [R Markdown overview](#r-markdown-overview)
 -   [Title](#title)
@@ -55,7 +55,7 @@ file should be generated, e.g., I am telling it to produce a
 
     title: "Writing scientific reports"
     author: "Steven Moran"
-    date: "(03 March, 2022)"
+    date: "(04 March, 2022)"
     output:
       github_document
 
@@ -70,7 +70,7 @@ document](https://bookdown.org/yihui/rmarkdown/html-document.html):
 
     title: "Writing scientific reports"
     author: "Steven Moran"
-    date: "(03 March, 2022)"
+    date: "(04 March, 2022)"
     output:
       html_document 
 
@@ -80,7 +80,7 @@ this report, e.g., so that you can submit it for publication?
 
     title: "Writing scientific reports"
     author: "Steven Moran"
-    date: "(03 March, 2022)"
+    date: "(04 March, 2022)"
     output:
       pdf_document
 
@@ -91,7 +91,7 @@ one of my old professors):
 
     title: "Writing scientific reports"
     author: "Steven Moran"
-    date: "(03 March, 2022)"
+    date: "(04 March, 2022)"
     output:
       word_document
 
@@ -100,7 +100,7 @@ You can even create for example slides, such as in
 
     title: "Writing scientific reports"
     author: "Steven Moran"
-    date: "(03 March, 2022)"
+    date: "(04 March, 2022)"
     output:
       powerpoint_presentation
 
@@ -166,7 +166,7 @@ below). So, for example, this file specifies the header as:
     ---
     title: "Writing scientific reports"
     author: "Steven Moran"
-    date: "(03 March, 2022)"
+    date: "(04 March, 2022)"
     output:
       github_document:
           toc: true
@@ -493,7 +493,7 @@ header in the .Rmd file:
     ---
     title: "Writing scientific reports"
     author: "Steven Moran"
-    date: "(03 March, 2022)"
+    date: "(04 March, 2022)"
     output:
       github_document
     bibliography: 'references.bib'
@@ -729,6 +729,11 @@ with perhaps a table that looks something like this:
 
 We leave it up to you how your name and organize you repository – but if
 we can’t (easily) navigate it, we can’t grade it.
+
+And lastly, some programming humor (see also
+[branches](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell)):
+
+-   <https://i.redd.it/gwqntar4wtd11.png>
 
 # References
 

@@ -473,5 +473,9 @@ So if you have multiple reports in the same directory, and they contain analyses
 
 We leave it up to you how your name and organize you repository -- but if we can't (easily) navigate it, we can't grade it.
 
+And lastly, some programming humor (see also [branches](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell)):
+
+* https://i.redd.it/gwqntar4wtd11.png
+
 
 # References
