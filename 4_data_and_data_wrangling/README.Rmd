@@ -1,11 +1,91 @@
 ---
-title: "Data and data wrangling 2"
+title: "Data wrangling"
 author: "Steven Moran"
 date: "(`r format(Sys.time(), '%d %B, %Y')`)"
 output:
   github_document:
       toc: true
 ---
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+library(knitr)
+```
+
+# Overview
+
+[Data wrangling](https://en.wikipedia.org/wiki/Data_wrangling) is a recent coinage that means to converting [raw data](https://en.wikipedia.org/wiki/Raw_data) (whether analog or digital) into (an)other format(s) usually with the goal to extract information through "downstream" analysis of the data.
+
+Is this raw data?
+
+```{r}
+text <- "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vitae nisi nibh. In dolor neque, ultricies a tincidunt et, rutrum in erat. Morbi venenatis massa at neque imperdiet, eu faucibus augue varius. Ut molestie risus in dolor porttitor pretium sit amet vel enim. Pellentesque posuere blandit velit eget ultrices. Sed tristique dui ipsum, id sodales dui egestas id. Proin a dolor placerat, accumsan quam nec, ullamcorper enim. Nunc commodo a quam sit amet molestie. Quisque nec elit et diam consequat aliquet nec sed leo. Mauris scelerisque sed lorem eu bibendum. Morbi id ex commodo, elementum elit at, varius dui. Maecenas facilisis velit ut malesuada lobortis. Vestibulum dictum dapibus velit ut pellentesque."
+```
+
+Here's a [visualization of the process](https://en.wikipedia.org/wiki/Data_wrangling#/media/File:Data_Wrangling_From_Messy_To_Clean_Data_Management.jpg) of converting raw data to formatted (or structured) data:
+
+![](Data_Wrangling_From_Messy_To_Clean_Data_Management.jpg)
+
+The steps typically include:
+
+* **Discovery your data** -- look at and think about your data and maybe come up with some questions to ask
+* **Structure your data** -- organize the data (necessarily if its in a raw format) and structure it for the functions or methods that will take it as input
+* **Clean your data** -- in the process of dealing with data (especially raw data), you may need to clean it, e.g., get all the dates into the same format (Feb 1 vs 2/1 vs 1/2 etc.)
+* **Enrich your data** -- do you need more data for your analysis? E.g., you have a list of languages but you need to know where they are spoken to plot them on a world map
+* **Validate your data** -- basically making sure that your structured and cleaned data is actually structured and clean -- also commonly refered to as [software testing](https://en.wikipedia.org/wiki/Software_testing)
+* **Publish your data** -- and publish your analysis, findings, etc., for consumption, reproducibility, etc.
+
+
+## In R
+
+Here is a visualization of how the data science workflow works in [R for Data Science](https://r4ds.had.co.nz/index.html):
+
+* https://r4ds.had.co.nz/introduction.html
+
+That is you:
+
+* First **import** (load) the data into R -- this entails that the data is already in a loadable format (e.g., CSV file, Excel spreadsheet, relational database)
+* Second you "**tidy**" the data (in terms of the "[tidyverse](https://www.tidyverse.org)", i.e., a set of R packages for data science) -- more on this below
+* Next you may need to **transform** your data, e.g., select the data of interest, extend your data by adding other data source(s), summarize results
+* Then you may **visualize** your data, i.e., create plots to explore and interact with your data and to develop questions to answer
+* Next you may **model** your data to answer those questions
+* Lastly, you may want to **communicate** your results, e.g., through scientific reports like we are developing in class
+
+All of these step fall under the rubric of [computer programming](https://en.wikipedia.org/wiki/Computer_programming) and to some extent -- if we are trying to follow [coding best practices](https://en.wikipedia.org/wiki/Coding_best_practices); see also [here](https://www.cs.utexas.edu/~mitra/csSummer2014/cs312/lectures/bestPractices.html) -- [software engineering](https://en.wikipedia.org/wiki/Software_engineering). 
+
+You will not become software engineers in this class, but you will need to be able to do some coding. You do not need to be an expert coder, or programmer, to do data science!
+
+
+## Loading data
+
+When working with data you first have to have some data. What about this data for example?
+
+* https://digital.library.unt.edu/ark:/67531/metadc855661/
+* https://digital.library.unt.edu/ark:/67531/metadc855661/m1/2/
+
+How would you load it into R?
+
+What kind of data type is it?
+
+What kind of data structure?
+
+
+
+The "tidying" and "transforming" of your data is commonly referred to as "data wrangling".
+
+* https://r4ds.had.co.nz/introduction.html
+
+when your data is tidy, each column is a variable, and each row is an observation. Tidy data is important because the consistent structure lets you focus your struggle on questions about the data, not fighting to get the data into the right form for different functions.
+
+
+## Testing
+
+* https://r-pkgs.org/tests.html
+* https://testthat.r-lib.org
+* https://towardsdatascience.com/unit-testing-in-r-68ab9cc8d211
+
+
+
 
 # Databases
 
@@ -113,8 +193,6 @@ In short, make your coding life easier; use a linter! Here's one for R:
 
 * https://cran.r-project.org/web/packages/lintr/readme/README.html
 
-
-# Software tests
 
 
 
