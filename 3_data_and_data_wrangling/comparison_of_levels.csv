@@ -1,0 +1,5 @@
+Incrementalprogress,Measure property,Mathematicaloperators,Advancedoperations,Centraltendency,Variability
+Nominal,"Classification, membership","=, ≠",Grouping,Mode,Qualitative variation
+Ordinal,"Comparison, level",">, <",Sorting,Median,"Range, Interquartile range"
+Interval,"Difference, affinity","+, −",Comparison to a standard,Arithmetic mean,Deviation
+Ratio,"Magnitude, amount","×, /",Ratio,"Geometric mean, Harmonic mean","Coefficient of variation, Studentized range"

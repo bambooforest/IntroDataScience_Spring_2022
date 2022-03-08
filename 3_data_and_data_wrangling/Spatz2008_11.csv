@@ -1,0 +1,5 @@
+Scale of measurment,Different numbers for different things,Numbers convey greater than and less than,Equal differences mean equal amounts,Zero means none what was measured was detected
+Nominal,Yes,No,No,No
+Ordinal,Yes,Yes,No,No
+Interval,Yes,Yes,Yes,No
+Ratio,Yes,Yes,Yes,Yes

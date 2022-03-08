@@ -1,0 +1,15 @@
+Variable,qualitative,quantitative,quantitative
+,discrete,discrete,continuous
+a. shoe size (as bought in a store),,x,
+b. price of a salad in a salad bar,,,x
+c. vote for a political party,x,,
+d. travelling time to a holiday destination,,,x
+e. color of eyes,x,,
+f. gender,x,,
+g. reaction time in a lexical recognition task,,,x
+h. customers’ satisfaction on a scale from 1 to 10,,x,
+i. number of words in a written sentence,,x,
+j. spoken utterance length,,,x
+k. number of goals per player in a football event,,x,
+l. body height of a person,,,x
+m. number of vowels in a language,,x,

@@ -5,7 +5,10 @@ date: "(`r format(Sys.time(), '%d %B, %Y')`)"
 output:
   github_document:
       toc: true
+bibliography: '../2_writing_scientific_reports/references.bib'      
 ---
+
+This report uses the [R programming language](https://cran.r-project.org/doc/FAQ/R-FAQ.html) [@R] and the following [R libraries](https://r-pkgs.org/intro.html) [@tidyverse;@knitr].
 
 ```{r, message=FALSE, warning=FALSE}
 library(dplyr)
@@ -216,10 +219,7 @@ Why is important to keep this in mind? How you can programatically access, perfo
 * You cannot apply arithmetic to qualitative / categorical values
 * Ordinal scales are equidistant, so you can rank them, but how much x from y are is unknown
 
-
-# Data types in statistics
-
-A [variable in computer programming](https://en.wikipedia.org/wiki/Variable_(computer_science)) is used to store information that can be referenced and manipulated by a computer program. One assigns a value to a variable, e.g. in R:
+One last distinction to make clear is between the term "variable" in computer programming and in statistical analysis. A [variable in computer programming](https://en.wikipedia.org/wiki/Variable_(computer_science)) is used to store information that can be referenced and manipulated by a computer program. One assigns a value to a variable, e.g. in R:
 
 ```{r}
 my_name <- 'Steven'
@@ -242,12 +242,69 @@ x + y
 ```
 
 
-Variables in statistics include:
+# Data types in statistics
 
-* qualitative/categorical variables -- not subject to the laws of arithmetic
-* quantitative variables -- take numberic values on which arithmetic can be done
+In contrast to variables in computer programming, variables in statistics are *properties* or *characteristics* used to measure a population of individuals. A varaible is thus a quantity whose value can change across a population.
 
-Quantitative variables can be measured, so that their rank or score can tell you about the degree or amount of variable. Student A has a test score of 90 out of a total possible 100 points. Student B has 91. Which student did better on the test? Nothing about their names, i.e., qualitative / categorical values, tells you about their test scores because different values of a qualitative variable only tell you that the objects should be considered different entities.
+They include:
+
+* qualitative variables -- measure non-numeric qualities and are not subject to the laws of arithmetic
+* quantitative variables -- measure numeric quantities and arithmetic can be applied to them
+
+Qualitative variables are also call categorical or discrete variables. Quantitative variables can be measured, so that their rank or score can tell you about the degree or amount of variable.
+
+A hierarchy of variable types in statistics is given in the image below taken from this [Stats and R](https://statsandr.com/terms/) blog.
+
+![Variable types.](variable-types-and-examples.png)
+
+As you can see, statistics variables can be classified into four types under qualitative and quantitative variables:
+
+* **Nominal** -- a qualitative variable where no ordering is possible (e.g., eye color) as implied by by its levels -- levels can be for example binary (e.g., do you smoke?) or multilevel (e.g., what is your degree -- where each degree is a level)
+* **Ordinal** -- a qualitative variable in which an order is implied in the levels, e.g., if the side effects of a drug taken are measured as "light", "moderate", "severe", then this qualitative ordinal value has a clear order or ranking
+* **Discrete** -- variables that can only take specific values (e.g., whole numbers) -- no values can exist between these numbers
+* **Continuous** -- variables can take the full range of values (e.g., floating point number) -- there are an infinite number of potential values between values
+
+What kind of of variables are each of these? (Note we set the `na` parameter of readr::read_csv` to `na=character()` so that the blank cells in the CSV file are not interpreted as [NA](https://en.wikipedia.org/wiki/N/A), i.e., "not applicable").
+
+```{r, warning=FALSE, message=FALSE}
+df <- readr::read_csv('variables_quiz.csv', na=character())
+knitr::kable(df)
+```
+
+In statistics, we often talk about [scales of measurement or levels of measurement](https://en.wikipedia.org/wiki/Level_of_measurement). When using statistics, one must first understand what types of variables are in question and what scales should be measured using these variables. The level of measurement of a variable determines what statistical tests can be applied to it. How a variable is measured is its level of measurement.
+
+The best-known classification scheme has four levels [@Stevens1946]. It was developed by a psychologist [Stanley Smith Stevens](https://en.wikipedia.org/wiki/Stanley_Smith_Stevens) and is commonly used in survey questionnaires, such as the [Likert scale](https://en.wikipedia.org/wiki/Likert_scale). Each scale above is an incremental level of measurement, such that each scale incorporates the function of the previous scale.
+
+* **Nominal** -- the so-called naming scale, i.e., variables have categorical values with no specific order (thus it's not really a scale at all because it does not scale along any dimension!); instead the nominal scale is generally used for classification purposes, e.g., the numbers worn by athletes
+* **Ordinal** -- the simplest true scale in which variables are encoded in a specific order, but the individual positions are equidistant, e.g., the rank of winners in a marathon
+* **Interval** -- a scale of measurement in which the order of the variables and the distance between them is known, e.g., a scale for temperature (e.g., Celsius or Fahrenheit) in which a different of 10 degrees has the same meaning anywhere on the scale
+* **Ratio** -- a scale of measurement that includes rank (ordinal), distancce between points on the scale (interval) and additionally information about the value of true zero, where zero means the complete absence of the property under measurement, e.g., how many [cervelat](https://en.wikipedia.org/wiki/Cervelat) can you eat per day?
+
+Depending on what is being measured (i.e., what kind of variables) and how we measure it (i.e., with what methods and scales), the numbers or categories may have different properties. We will talk about this more in future lectures. But not that in general it is rare to find a true and unambiguous example of any particular kind of scale. Consider for example that Stevens' scale unifies qualtiative and quantitative beneath the "nominal" type. Stevens' typology has been widely criticized, e.g. @Michell1986.
+
+Here is a cheat sheet that summarizes the levels of measurement. (Note also how we load a CSV file in R Markdown and display it in a tabular format with `knitr`).
+
+```{r, warning=FALSE, message=FALSE}
+df <- readr::read_csv('levels_of_measurement.csv')
+knitr::kable(df)
+```
+
+And here is a table that compares the levels of measurment.
+
+```{r, warning=FALSE, message=FALSE}
+df <- readr::read_csv('comparison_of_levels.csv')
+knitr::kable(df)
+```
+
+And yet another way of looking at the differences between scales [@Spatz2008]. <!-- page 11 -->
+
+```{r, warning=FALSE, message=FALSE}
+df <- readr::read_csv('Spatz2008_11.csv')
+knitr::kable(df)
+```
+
+
+<!-- For example, student A has a test score of 90 out of a total possible 100 points. Student B has 91. Which student did better on the test? In contrast, nothing about their names ("A" and "B"), which are qualitative / categorical values, tells us about their test score ranking. Different values of a qualitative variable only tell you that the objects should be considered different entities (student A is different than student B). -->
 
 
 # Data structures
@@ -260,7 +317,7 @@ Data structures are also typically programming language dependent, i.e., the dev
 
 * http://adv-r.had.co.nz/Data-structures.html
 
-[Data transmforation](https://en.wikipedia.org/wiki/Data_transformation) is the proces of converting one data format to another (whether unstructured or structured). This is discussed under data wrangling.
+[Data transmforation](https://en.wikipedia.org/wiki/Data_transformation) is the process of converting one data format to another (whether unstructured or structured). This is discussed under data wrangling.
 
 
 # File formants
@@ -393,3 +450,16 @@ There is a lot of open data out there, e.g.:
 * https://opendata.swiss/en/
 * https://zenodo.org
 
+
+# Data practical
+
+For this week's data practical, load three datasets into an R Markdown notebook and describe some of their variables in terms of the data types used in R and data types in terms of statistical data types. 
+
+First, load one of [R's pre-loaded data](http://www.sthda.com/english/wiki/r-built-in-data-sets) (hint use the `data()` command in RStudio to have a look at what's available). There's a description of the data -- summarize it. What kind of R data types are there?
+
+Second, load a dataset of an external source, e.g., from a CSV file or a spreadsheet. Recall, there's lots of open data out there! ONe very interesting website that I recently came across from my colleague [Alena Witzlack](https://en.linguistics.huji.ac.il/people/alena-witzlack-makarevich) is [The Pudding](https://pudding.cool), which publishes stories on data journalism -- and makes the data for those stories freely available.
+
+Again, for the dataset (whether you download it and put it in your GitHub repository and read it there locally -- be sure to cite your source) even if you [read (load) it from your R Markdown data practical directly](https://stackoverflow.com/questions/6299220/access-a-url-and-read-data-with-r). Describe the data in terms of R data types (hint there's a fuction to do that) and also describe it in terms of statistical variables. What data type is each column? Is it qualitative or quantitative in nature? What type of variables are there? Categorical or numeric? Why kind of categorical or numeric variable?
+
+
+# References

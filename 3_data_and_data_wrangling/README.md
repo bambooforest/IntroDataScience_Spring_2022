@@ -1,7 +1,7 @@
 Data
 ================
 Steven Moran
-(06 March, 2022)
+(08 March, 2022)
 
 -   [What is data?](#what-is-data)
 -   [Structured vs unstructured data](#structured-vs-unstructured-data)
@@ -15,6 +15,13 @@ Steven Moran
 -   [Metadata](#metadata)
 -   [Data archiving](#data-archiving)
 -   [Open data](#open-data)
+-   [Data practical](#data-practical)
+-   [References](#references)
+
+This report uses the [R programming
+language](https://cran.r-project.org/doc/FAQ/R-FAQ.html) (R Core Team
+2021) and the following [R libraries](https://r-pkgs.org/intro.html)
+(Wickham et al. 2019; Xie 2021).
 
 ``` r
 library(dplyr)
@@ -26,7 +33,7 @@ library(knitr)
 <!-- If you are looking at the source code (good on you!), then here is how one does a comment in Rmd. It's the same format as an HTML comment, i.e., between ASCII looking arrows. -->
 
 [Data](https://en.wikipedia.org/wiki/Data) is everywhere. Data are
-“facts and statistics collected together for reference or analysis”.
+“facts and statistics collected together for reference or analysis.”
 Data is singular and plural – as per the
 [Dictionary.app](https://en.wikipedia.org/wiki/Dictionary_(software)):
 
@@ -284,9 +291,9 @@ from third parties, e.g., from someones GitHub repository. That’s line
 two below (also commented out because you only need to install it once).
 The third line uses the command `emo::ji` and the parameter (or
 argument) within ()’s and the value you’re passing as the parameter,
-i.e., “poop”. This function then renders the [pile of poo
-emoji](https://en.wikipedia.org/wiki/Pile_of_Poo_emoji), aka “poomoji”,
-“poop emoji”, which in binary is: 11110000 10011111 10010010 10101001.
+i.e., “poop.” This function then renders the [pile of poo
+emoji](https://en.wikipedia.org/wiki/Pile_of_Poo_emoji), aka “poomoji,”
+“poop emoji,” which in binary is: 11110000 10011111 10010010 10101001.
 
 ``` r
 # install.packages("devtools")  # line 1
@@ -358,9 +365,9 @@ data you are dealing with. For example:
 -   Ordinal scales are equidistant, so you can rank them, but how much x
     from y are is unknown
 
-# Data types in statistics
-
-A [variable in computer
+One last distinction to make clear is between the term “variable” in
+computer programming and in statistical analysis. A [variable in
+computer
 programming](https://en.wikipedia.org/wiki/Variable_(computer_science))
 is used to store information that can be referenced and manipulated by a
 computer program. One assigns a value to a variable, e.g. in R:
@@ -391,20 +398,167 @@ x + y
 
     ## [1] 2
 
-Variables in statistics include:
+# Data types in statistics
 
--   qualitative/categorical variables – not subject to the laws of
-    arithmetic
--   quantitative variables – take numberic values on which arithmetic
-    can be done
+In contrast to variables in computer programming, variables in
+statistics are *properties* or *characteristics* used to measure a
+population of individuals. A varaible is thus a quantity whose value can
+change across a population.
 
+They include:
+
+-   qualitative variables – measure non-numeric qualities and are not
+    subject to the laws of arithmetic
+-   quantitative variables – measure numeric quantities and arithmetic
+    can be applied to them
+
+Qualitative variables are also call categorical or discrete variables.
 Quantitative variables can be measured, so that their rank or score can
-tell you about the degree or amount of variable. Student A has a test
-score of 90 out of a total possible 100 points. Student B has 91. Which
-student did better on the test? Nothing about their names, i.e.,
-qualitative / categorical values, tells you about their test scores
-because different values of a qualitative variable only tell you that
-the objects should be considered different entities.
+tell you about the degree or amount of variable.
+
+A hierarchy of variable types in statistics is given in the image below
+taken from this [Stats and R](https://statsandr.com/terms/) blog.
+
+![Variable types.](variable-types-and-examples.png)
+
+As you can see, statistics variables can be classified into four types
+under qualitative and quantitative variables:
+
+-   **Nominal** – a qualitative variable where no ordering is possible
+    (e.g., eye color) as implied by by its levels – levels can be for
+    example binary (e.g., do you smoke?) or multilevel (e.g., what is
+    your degree – where each degree is a level)
+-   **Ordinal** – a qualitative variable in which an order is implied in
+    the levels, e.g., if the side effects of a drug taken are measured
+    as “light,” “moderate,” “severe,” then this qualitative ordinal
+    value has a clear order or ranking
+-   **Discrete** – variables that can only take specific values (e.g.,
+    whole numbers) – no values can exist between these numbers
+-   **Continuous** – variables can take the full range of values (e.g.,
+    floating point number) – there are an infinite number of potential
+    values between values
+
+What kind of of variables are each of these? (Note we set the `na`
+parameter of readr::read_csv`to`na=character()\` so that the blank cells
+in the CSV file are not interpreted as
+[NA](https://en.wikipedia.org/wiki/N/A), i.e., “not applicable”).
+
+``` r
+df <- readr::read_csv('variables_quiz.csv', na=character())
+knitr::kable(df)
+```
+
+| Variable                                            | qualitative | quantitative | quantitative_1 |
+|:----------------------------------------------------|:------------|:-------------|:---------------|
+|                                                     | discrete    | discrete     | continuous     |
+| a\. shoe size (as bought in a store)                |             |              |                |
+| b\. price of a salad in a salad bar                 |             |              |                |
+| c. vote for a political party                       |             |              |                |
+| d. travelling time to a holiday destination         |             |              |                |
+| e\. color of eyes                                   |             |              |                |
+| f. gender                                           |             |              |                |
+| g\. reaction time in a lexical recognition task     |             |              |                |
+| h\. customers’ satisfaction on a scale from 1 to 10 |             |              |                |
+| i\. number of words in a written sentence           |             |              |                |
+| j\. spoken utterance length                         |             |              |                |
+| k\. number of goals per player in a football event  |             |              |                |
+| l\. body height of a person                         |             |              |                |
+| m\. number of vowels in a language                  |             |              |                |
+
+In statistics, we often talk about [scales of measurement or levels of
+measurement](https://en.wikipedia.org/wiki/Level_of_measurement). When
+using statistics, one must first understand what types of variables are
+in question and what scales should be measured using these variables.
+The level of measurement of a variable determines what statistical tests
+can be applied to it. How a variable is measured is its level of
+measurement.
+
+The best-known classification scheme has four levels (Stevens 1946). It
+was developed by a psychologist [Stanley Smith
+Stevens](https://en.wikipedia.org/wiki/Stanley_Smith_Stevens) and is
+commonly used in survey questionnaires, such as the [Likert
+scale](https://en.wikipedia.org/wiki/Likert_scale). Each scale above is
+an incremental level of measurement, such that each scale incorporates
+the function of the previous scale.
+
+-   **Nominal** – the so-called naming scale, i.e., variables have
+    categorical values with no specific order (thus it’s not really a
+    scale at all because it does not scale along any dimension!);
+    instead the nominal scale is generally used for classification
+    purposes, e.g., the numbers worn by athletes
+-   **Ordinal** – the simplest true scale in which variables are encoded
+    in a specific order, but the individual positions are equidistant,
+    e.g., the rank of winners in a marathon
+-   **Interval** – a scale of measurement in which the order of the
+    variables and the distance between them is known, e.g., a scale for
+    temperature (e.g., Celsius or Fahrenheit) in which a different of 10
+    degrees has the same meaning anywhere on the scale
+-   **Ratio** – a scale of measurement that includes rank (ordinal),
+    distancce between points on the scale (interval) and additionally
+    information about the value of true zero, where zero means the
+    complete absence of the property under measurement, e.g., how many
+    [cervelat](https://en.wikipedia.org/wiki/Cervelat) can you eat per
+    day?
+
+Depending on what is being measured (i.e., what kind of variables) and
+how we measure it (i.e., with what methods and scales), the numbers or
+categories may have different properties. We will talk about this more
+in future lectures. But not that in general it is rare to find a true
+and unambiguous example of any particular kind of scale. Consider for
+example that Stevens’ scale unifies qualtiative and quantitative beneath
+the “nominal” type. Stevens’ typology has been widely criticized, e.g.
+Michell (1986).
+
+Here is a cheat sheet that summarizes the levels of measurement. (Note
+also how we load a CSV file in R Markdown and display it in a tabular
+format with `knitr`).
+
+``` r
+df <- readr::read_csv('levels_of_measurement.csv')
+knitr::kable(df)
+```
+
+| Property                                      | Nominal | Ordinal | Interval | Ratio |
+|:----------------------------------------------|:--------|:--------|:---------|:------|
+| The sequence of variables is established      | No      | Yes     | Yes      | Yes   |
+| Mode                                          | Yes     | Yes     | Yes      | Yes   |
+| Median                                        | No      | Yes     | Yes      | Yes   |
+| Mean                                          | No      | No      | Yes      | Yes   |
+| Difference between variables can be evaluated | No      | No      | Yes      | Yes   |
+| Addition and Subtraction of variables         | No      | No      | Yes      | Yes   |
+| Multiplication and Division of variables      | No      | No      | No       | Yes   |
+| Absolute zero                                 | No      | No      | No       | Yes   |
+
+And here is a table that compares the levels of measurment.
+
+``` r
+df <- readr::read_csv('comparison_of_levels.csv')
+knitr::kable(df)
+```
+
+| Incrementalprogress | Measure property           | Mathematicaloperators | Advancedoperations       | Centraltendency               | Variability                                 |
+|:--------------------|:---------------------------|:----------------------|:-------------------------|:------------------------------|:--------------------------------------------|
+| Nominal             | Classification, membership | =, ≠                  | Grouping                 | Mode                          | Qualitative variation                       |
+| Ordinal             | Comparison, level          | \>, \<                | Sorting                  | Median                        | Range, Interquartile range                  |
+| Interval            | Difference, affinity       | +, −                  | Comparison to a standard | Arithmetic mean               | Deviation                                   |
+| Ratio               | Magnitude, amount          | ×, /                  | Ratio                    | Geometric mean, Harmonic mean | Coefficient of variation, Studentized range |
+
+And yet another way of looking at the differences between scales (Spatz
+2008). <!-- page 11 -->
+
+``` r
+df <- readr::read_csv('Spatz2008_11.csv')
+knitr::kable(df)
+```
+
+| Scale of measurment | Different numbers for different things | Numbers convey greater than and less than | Equal differences mean equal amounts | Zero means none what was measured was detected |
+|:--------------------|:---------------------------------------|:------------------------------------------|:-------------------------------------|:-----------------------------------------------|
+| Nominal             | Yes                                    | No                                        | No                                   | No                                             |
+| Ordinal             | Yes                                    | Yes                                       | No                                   | No                                             |
+| Interval            | Yes                                    | Yes                                       | Yes                                  | No                                             |
+| Ratio               | Yes                                    | Yes                                       | Yes                                  | Yes                                            |
+
+<!-- For example, student A has a test score of 90 out of a total possible 100 points. Student B has 91. Which student did better on the test? In contrast, nothing about their names ("A" and "B"), which are qualitative / categorical values, tells us about their test score ranking. Different values of a qualitative variable only tell you that the objects should be considered different entities (student A is different than student B). -->
 
 # Data structures
 
@@ -423,7 +577,7 @@ structures to implement. R has several data structures:
 -   <http://adv-r.had.co.nz/Data-structures.html>
 
 [Data transmforation](https://en.wikipedia.org/wiki/Data_transformation)
-is the proces of converting one data format to another (whether
+is the process of converting one data format to another (whether
 unstructured or structured). This is discussed under data wrangling.
 
 # File formants
@@ -507,11 +661,11 @@ words
     ## [105] "lobortis."     "Vestibulum"    "dictum"        "dapibus"      
     ## [109] "velit"         "ut"            "pellentesque."
 
-We can then “[coerce](https://en.wikipedia.org/wiki/Data_conversion)”,
+We can then “[coerce](https://en.wikipedia.org/wiki/Data_conversion),”
 i.e., convert, the list of words into an [R data
 frame](https://stat.ethz.ch/R-manual/R-devel/library/base/html/data.frame.html)
 with the following function (`as.data.frame`), to which we pass it
-`words` and tell it to name the column (there’s only one) “words”. We
+`words` and tell it to name the column (there’s only one) “words.” We
 assign the results to a new data frame `words_df`. We can use the `head`
 function on `words_df` to display the first few rows.
 
@@ -711,3 +865,83 @@ There is a lot of open data out there, e.g.:
 
 -   <https://opendata.swiss/en/>
 -   <https://zenodo.org>
+
+# Data practical
+
+For this week’s data practical, load three datasets into an R Markdown
+notebook and describe some of their variables in terms of the data types
+used in R and data types in terms of statistical data types.
+
+First, load one of [R’s pre-loaded
+data](http://www.sthda.com/english/wiki/r-built-in-data-sets) (hint use
+the `data()` command in RStudio to have a look at what’s available).
+There’s a description of the data – summarize it. What kind of R data
+types are there?
+
+Second, load a dataset of an external source, e.g., from a CSV file or a
+spreadsheet. Recall, there’s lots of open data out there! ONe very
+interesting website that I recently came across from my colleague [Alena
+Witzlack](https://en.linguistics.huji.ac.il/people/alena-witzlack-makarevich)
+is [The Pudding](https://pudding.cool), which publishes stories on data
+journalism – and makes the data for those stories freely available.
+
+Again, for the dataset (whether you download it and put it in your
+GitHub repository and read it there locally – be sure to cite your
+source) even if you [read (load) it from your R Markdown data practical
+directly](https://stackoverflow.com/questions/6299220/access-a-url-and-read-data-with-r).
+Describe the data in terms of R data types (hint there’s a fuction to do
+that) and also describe it in terms of statistical variables. What data
+type is each column? Is it qualitative or quantitative in nature? What
+type of variables are there? Categorical or numeric? Why kind of
+categorical or numeric variable?
+
+# References
+
+<div id="refs" class="references csl-bib-body hanging-indent">
+
+<div id="ref-Michell1986" class="csl-entry">
+
+Michell, Joel. 1986. “Measurement Scales and Statistics: A Clash of
+Paradigms.” *Psychological Bulletin* 100 (3): 398.
+
+</div>
+
+<div id="ref-R" class="csl-entry">
+
+R Core Team. 2021. *R: A Language and Environment for Statistical
+Computing*. Vienna, Austria: R Foundation for Statistical Computing.
+<https://www.R-project.org/>.
+
+</div>
+
+<div id="ref-Spatz2008" class="csl-entry">
+
+Spatz, Chris. 2008. *Basic Statistics: Tales of Distributions*. Thomson
+Wadsworth.
+
+</div>
+
+<div id="ref-Stevens1946" class="csl-entry">
+
+Stevens, Stanley Smith. 1946. “On the Theory of Scales of Measurement.”
+*Science* 103 (2684): 677–80.
+
+</div>
+
+<div id="ref-tidyverse" class="csl-entry">
+
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy
+D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019.
+“Welcome to the <span class="nocase">tidyverse</span>.” *Journal of Open
+Source Software* 4 (43): 1686. <https://doi.org/10.21105/joss.01686>.
+
+</div>
+
+<div id="ref-knitr" class="csl-entry">
+
+Xie, Yihui. 2021. *Knitr: A General-Purpose Package for Dynamic Report
+Generation in r*. <https://yihui.org/knitr/>.
+
+</div>
+
+</div>
