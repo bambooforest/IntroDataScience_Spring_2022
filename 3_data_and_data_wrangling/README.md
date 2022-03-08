@@ -407,10 +407,10 @@ change across a population.
 
 They include:
 
--   qualitative variables – measure non-numeric qualities and are not
-    subject to the laws of arithmetic
--   quantitative variables – measure numeric quantities and arithmetic
-    can be applied to them
+-   **Qualitative variables** – measure non-numeric qualities and are
+    not subject to the laws of arithmetic
+-   **Quantitative variables** – measure numeric quantities and
+    arithmetic can be applied to them
 
 Qualitative variables are also call categorical or discrete variables.
 Quantitative variables can be measured, so that their rank or score can
@@ -438,10 +438,21 @@ under qualitative and quantitative variables:
     floating point number) – there are an infinite number of potential
     values between values
 
-What kind of of variables are each of these? (Note we set the `na`
-parameter of readr::read_csv`to`na=character()\` so that the blank cells
-in the CSV file are not interpreted as
-[NA](https://en.wikipedia.org/wiki/N/A), i.e., “not applicable”).
+Consider these examples:
+
+-   What number were you wearing in the race? – “5”
+-   What place did you finish in? – “5”
+-   How many minutes did it take you to finish? – “5”
+
+The three “5”s all look the same. However, the three variables
+(identification number, finish place, and time) are quite different.
+Because of the differences, each “5” has a different interpretation.
+
+What kind of of variables are each of these below? (Note we set the `na`
+parameter of `readr::read_csv` to `na=character()` so that the blank
+cells in the CSV file are not interpreted as
+[NA](https://en.wikipedia.org/wiki/N/A), i.e., “not applicable.” Note
+also the “\_1” in the output – ask me about it!)
 
 ``` r
 df <- readr::read_csv('variables_quiz.csv', na=character())
@@ -505,8 +516,8 @@ how we measure it (i.e., with what methods and scales), the numbers or
 categories may have different properties. We will talk about this more
 in future lectures. But not that in general it is rare to find a true
 and unambiguous example of any particular kind of scale. Consider for
-example that Stevens’ scale unifies qualtiative and quantitative beneath
-the “nominal” type. Stevens’ typology has been widely criticized, e.g.
+example that Stevens’ scale unifies qualitative and quantitative beneath
+the “nominal” type. Stevens’ typology has been widely criticized, e.g.,
 Michell (1986).
 
 Here is a cheat sheet that summarizes the levels of measurement. (Note
@@ -558,7 +569,18 @@ knitr::kable(df)
 | Interval            | Yes                                    | Yes                                       | Yes                                  | No                                             |
 | Ratio               | Yes                                    | Yes                                       | Yes                                  | Yes                                            |
 
-<!-- For example, student A has a test score of 90 out of a total possible 100 points. Student B has 91. Which student did better on the test? In contrast, nothing about their names ("A" and "B"), which are qualitative / categorical values, tells us about their test score ranking. Different values of a qualitative variable only tell you that the objects should be considered different entities (student A is different than student B). -->
+To summarize, knowing the distinctions among the four scales of
+measurement will help you in two tasks:
+
+-   The kind of descriptive statistics you can compute from numbers
+    depends, in part, on the scale of measurement the numbers represent.
+
+-   Understanding scales of measurement is sometimes important in
+    choosing the kind of inferential statistic that is appropriate for a
+    set of data. For example, if the dependent variable is a nominal
+    variable, then a chi-square analysis is appropriate. If the
+    dependent variable is a set of ranks (ordinal data), then a
+    nonparametric statistic is required. Etc.
 
 # Data structures
 
