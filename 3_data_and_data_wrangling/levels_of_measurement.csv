@@ -1,0 +1,9 @@
+Property,Nominal,Ordinal,Interval,Ratio
+The sequence of variables is established,No,Yes,Yes,Yes
+Mode,Yes,Yes,Yes,Yes
+Median,No,Yes,Yes,Yes
+Mean,No,No,Yes,Yes
+Difference between variables can be evaluated,No,No,Yes,Yes
+Addition and Subtraction of variables,No,No,Yes,Yes
+Multiplication and Division of variables,No,No,No,Yes
+Absolute zero,No,No,No,Yes
