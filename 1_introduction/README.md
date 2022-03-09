@@ -74,9 +74,18 @@ You will need a good [text editor](https://en.wikipedia.org/wiki/Text_editor) to
 
 If you are using some form of [Linux](https://en.wikipedia.org/wiki/Linux) you probably already know what you're doing.
 
-Note: there are many other plain text editor software programs ou there. [LMGTFY](https://www.dictionary.com/e/slang/lmgtfy/):
+Note: there are many other plain text editor software programs out there. [LMGTFY](https://www.dictionary.com/e/slang/lmgtfy/):
 
 * [https://www.google.com/search?&q=best+plain+text+editors](https://www.google.com/search?&q=best+plain+text+editors)
+
+
+## Spreadsheets
+
+You will also want a [spreadsheet program](https://en.wikipedia.org/wiki/Spreadsheet), so that you can look at and manipulate data in [tabular formats](https://en.wikipedia.org/wiki/Table_(information)). Here are some options:
+
+* [Microsoft Excel](https://en.wikipedia.org/wiki/Microsoft_Excel)
+* [OpenOffice](https://en.wikipedia.org/wiki/Apache_OpenOffice)
+* [Numbers](https://en.wikipedia.org/wiki/Numbers_(spreadsheet))
 
 
 
