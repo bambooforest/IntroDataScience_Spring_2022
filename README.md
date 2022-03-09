@@ -24,13 +24,14 @@ The course schedule is available here:
 
 * https://www.callingbullshit.org
 
-The book is in Moodle. Please practice [critical reading](https://faculty.washington.edu/ebender/critical_reading.pdf). We will begin each class with a presentation by student(s) and then a discussion of the reading. The presentation should be a short summary of the chapter (~10-15 minutes), in your own thoughts, in PowerPoint or similar program. Everyone else should bring their opinions, criticisms, and questions about the reading.
+Please practice [critical reading](https://faculty.washington.edu/ebender/critical_reading.pdf). We will begin each class with a presentation by student(s) and then a discussion of the reading. The presentation should be a short summary of the chapter (~10 minutes max), in your own thoughts, in PowerPoint or similar program. Everyone else should bring their opinions, criticisms, and questions about the reading.
 
-Lectures will be given in class and they will be followed by practical in class work.
+Lectures will be given in class and they will be followed by practical in class work. The contents of each lecture, and more, is available in each folder in this repository, e.g., to get started go to lecture materials in [week one](1_introduction).
 
 Homework will include courses from [DataCamp](https://www.datacamp.com). They are due before the next lecture. For example, Lecture 2 (March 2) "Writing scientific reports"; homework is the interactive course "Reporting with R Markdown". It is due before Lecture 3 on March 9.
 
-Data practicals will include the creation of R markdown reports for each lecture. You will implement the methods learned in R code and R markdown on dataset(s) of your own interest to produce scientific reports. The reports will then be "committed" and "pushed" to your GitHub repository. We will discuss this procedure in class. The course is heavily weighted on these reports. The idea is that you not only learn how to implement the materials taught in this course, but that after the course is over, you will have a type of portfolio showcasing your data science skills (e.g., something that you can share on a resume or CV or on job or school applications). This approach will be discussed more in class.
+Data practicals will include the creation of R markdown reports for each lecture and are discussed in the final section of each lecture. You will be asked to implement the methods learned in R code and R markdown on dataset(s) of your own interest to produce [scientific reports](2_scientific_reports). The reports will then be "committed" and "pushed" to your GitHub repository. We will discuss this procedure in class. The course is heavily weighted on these reports. The idea is that you not only learn how to implement the materials you learn from DataCamp and that are taught in this course, but that after the course is over, you will ideally have a portfolio that showcases your data science skills, e.g., something that you can share on a resume or CV or on job or school applications. This approach will be discussed more in class.
+
 
 **Grading**: 
 
