@@ -24,7 +24,7 @@ text <- "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vitae
 
 Here's a [visualization of the process](https://en.wikipedia.org/wiki/Data_wrangling#/media/File:Data_Wrangling_From_Messy_To_Clean_Data_Management.jpg) of converting raw data to formatted (or structured) data:
 
-![](Data_Wrangling_From_Messy_To_Clean_Data_Management.jpg)
+![Visualization of data wrangling](figures/Data_Wrangling_From_Messy_To_Clean_Data_Management.jpg)
 
 The steps typically include:
 
@@ -101,7 +101,7 @@ When writing, scientific papers or other things, a [style guide (or manual of st
 
 ***
 
-![Ugly tables.](ugly_tables_example.png)
+![Ugly tables.](figures/ugly_tables_example.png)
 
 ***
 

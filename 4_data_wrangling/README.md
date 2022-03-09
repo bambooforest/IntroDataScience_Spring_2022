@@ -4,14 +4,14 @@ Steven Moran
 (09 March, 2022)
 
 -   [Overview](#overview)
-    -   [In R](#in-r)
+-   [In R](#in-r)
     -   [Loading data](#loading-data)
-    -   [Testing](#testing)
 -   [Databases](#databases)
--   [Joining tables](#joining-tables)
--   [Style](#style)
-    -   [In general](#in-general)
-    -   [Style in (R) code](#style-in-r-code)
+    -   [Overview](#overview-1)
+    -   [Joining tables](#joining-tables)
+-   [Code style](#code-style)
+-   [Code style in R](#code-style-in-r)
+-   [Tests](#tests)
 
 ``` r
 library(dplyr)
@@ -36,7 +36,8 @@ Here’s a [visualization of the
 process](https://en.wikipedia.org/wiki/Data_wrangling#/media/File:Data_Wrangling_From_Messy_To_Clean_Data_Management.jpg)
 of converting raw data to formatted (or structured) data:
 
-![](Data_Wrangling_From_Messy_To_Clean_Data_Management.jpg)
+![Visualization of data
+wrangling](figures/Data_Wrangling_From_Messy_To_Clean_Data_Management.jpg)
 
 The steps typically include:
 
@@ -58,7 +59,7 @@ The steps typically include:
 -   **Publish your data** – and publish your analysis, findings, etc.,
     for consumption, reproducibility, etc.
 
-## In R
+# In R
 
 Here is a visualization of how the data science workflow works in [R for
 Data Science](https://r4ds.had.co.nz/index.html):
@@ -119,19 +120,13 @@ observation. Tidy data is important because the consistent structure
 lets you focus your struggle on questions about the data, not fighting
 to get the data into the right form for different functions.
 
-## Testing
-
--   <https://r-pkgs.org/tests.html>
--   <https://testthat.r-lib.org>
--   <https://towardsdatascience.com/unit-testing-in-r-68ab9cc8d211>
-
 # Databases
 
-# Joining tables
+## Overview
 
-# Style
+## Joining tables
 
-## In general
+# Code style
 
 According to the [dictionary
 app](https://en.wikipedia.org/wiki/Dictionary_(software)) on my
@@ -162,7 +157,7 @@ website](https://clauswilke.com/dataviz/figure-titles-captions.html):
 
 ------------------------------------------------------------------------
 
-![Ugly tables.](ugly_tables_example.png)
+![Ugly tables.](figures/ugly_tables_example.png)
 
 ------------------------------------------------------------------------
 
@@ -170,7 +165,7 @@ What do you like about it? What don’t you like about it?
 
 We will talk more about style in data visualizations in future lectures.
 
-## Style in (R) code
+# Code style in R
 
 Style is also an important factor when writing computer code. All major
 software companies have [programming style
@@ -279,3 +274,9 @@ in your code:
 In short, make your coding life easier; use a linter! Here’s one for R:
 
 -   <https://cran.r-project.org/web/packages/lintr/readme/README.html>
+
+# Tests
+
+-   <https://r-pkgs.org/tests.html>
+-   <https://testthat.r-lib.org>
+-   <https://towardsdatascience.com/unit-testing-in-r-68ab9cc8d211>
