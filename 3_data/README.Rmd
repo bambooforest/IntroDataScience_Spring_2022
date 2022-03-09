@@ -368,6 +368,7 @@ We can then "[coerce](https://en.wikipedia.org/wiki/Data_conversion)", i.e., con
 words_df <- as.data.frame(words, col.names = "words")
 head(words_df)
 ```
+
 Lastly, we want to summarize the number of times a word occurs.
 
 ```{r}
@@ -376,6 +377,7 @@ words_df %>%
   summarize(word_count = n()) %>%
   arrange(desc(word_count))
 ```
+
 We can save the results to another data frame or we can write them to disk as a table for later use, e.g., as a CSV file (more in next section). 
 
 Are the results data or information? Was the text string that we started with data or information?
@@ -468,7 +470,7 @@ For this week's data practical, load three datasets into an R Markdown notebook 
 
 First, load one of [R's pre-loaded data](http://www.sthda.com/english/wiki/r-built-in-data-sets) (hint use the `data()` command in RStudio to have a look at what's available). There's a description of the data -- summarize it. What kind of R data types are there?
 
-Second, load a dataset of an external source, e.g., from a CSV file or a spreadsheet. Recall, there's lots of open data out there! ONe very interesting website that I recently came across from my colleague [Alena Witzlack](https://en.linguistics.huji.ac.il/people/alena-witzlack-makarevich) is [The Pudding](https://pudding.cool), which publishes stories on data journalism -- and makes the data for those stories freely available.
+Second, load a dataset of an external source, e.g., from a CSV file or a spreadsheet. Recall, there's lots of open data out there! One very interesting website that I recently came across from my colleague [Alena Witzlack](https://en.linguistics.huji.ac.il/people/alena-witzlack-makarevich) is [The Pudding](https://pudding.cool), which publishes stories on data journalism -- and makes the data for those stories freely available.
 
 Again, for the dataset (whether you download it and put it in your GitHub repository and read it there locally -- be sure to cite your source) even if you [read (load) it from your R Markdown data practical directly](https://stackoverflow.com/questions/6299220/access-a-url-and-read-data-with-r). Describe the data in terms of R data types (hint there's a fuction to do that) and also describe it in terms of statistical variables. What data type is each column? Is it qualitative or quantitative in nature? What type of variables are there? Categorical or numeric? Why kind of categorical or numeric variable?
 

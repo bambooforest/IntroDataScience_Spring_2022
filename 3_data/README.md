@@ -1,7 +1,7 @@
 Data
 ================
 Steven Moran
-(08 March, 2022)
+(09 March, 2022)
 
 -   [What is data?](#what-is-data)
 -   [Structured vs unstructured data](#structured-vs-unstructured-data)
@@ -901,7 +901,7 @@ There’s a description of the data – summarize it. What kind of R data
 types are there?
 
 Second, load a dataset of an external source, e.g., from a CSV file or a
-spreadsheet. Recall, there’s lots of open data out there! ONe very
+spreadsheet. Recall, there’s lots of open data out there! One very
 interesting website that I recently came across from my colleague [Alena
 Witzlack](https://en.linguistics.huji.ac.il/people/alena-witzlack-makarevich)
 is [The Pudding](https://pudding.cool), which publishes stories on data
