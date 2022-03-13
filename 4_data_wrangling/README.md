@@ -1,17 +1,26 @@
 Data wrangling
 ================
 Steven Moran
-(09 March, 2022)
+(13 March, 2022)
 
 -   [Overview](#overview)
--   [In R](#in-r)
-    -   [Loading data](#loading-data)
+-   [Data wrangling in R](#data-wrangling-in-r)
+    -   [`select()`](#select)
+    -   [`arrange()`](#arrange)
+    -   [`mutate()`](#mutate)
+    -   [`filter()`](#filter)
 -   [Databases](#databases)
     -   [Overview](#overview-1)
     -   [Joining tables](#joining-tables)
 -   [Code style](#code-style)
 -   [Code style in R](#code-style-in-r)
 -   [Tests](#tests)
+-   [References](#references)
+
+This report uses the [R programming
+language](https://cran.r-project.org/doc/FAQ/R-FAQ.html) (R Core Team
+2021) and the following [R libraries](https://r-pkgs.org/intro.html)
+(Wickham et al. 2019; Xie 2021).
 
 ``` r
 library(dplyr)
@@ -20,17 +29,15 @@ library(knitr)
 
 # Overview
 
-[Data wrangling](https://en.wikipedia.org/wiki/Data_wrangling) is a
-recent coinage that means to converting [raw
-data](https://en.wikipedia.org/wiki/Raw_data) (whether analog or
-digital) into (an)other format(s) usually with the goal to extract
-information through “downstream” analysis of the data.
-
-Is this raw data?
-
-``` r
-text <- "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vitae nisi nibh. In dolor neque, ultricies a tincidunt et, rutrum in erat. Morbi venenatis massa at neque imperdiet, eu faucibus augue varius. Ut molestie risus in dolor porttitor pretium sit amet vel enim. Pellentesque posuere blandit velit eget ultrices. Sed tristique dui ipsum, id sodales dui egestas id. Proin a dolor placerat, accumsan quam nec, ullamcorper enim. Nunc commodo a quam sit amet molestie. Quisque nec elit et diam consequat aliquet nec sed leo. Mauris scelerisque sed lorem eu bibendum. Morbi id ex commodo, elementum elit at, varius dui. Maecenas facilisis velit ut malesuada lobortis. Vestibulum dictum dapibus velit ut pellentesque."
-```
+[Data wrangling](https://en.wikipedia.org/wiki/Data_wrangling) is the
+process (or processes) of cleaning, structuring (aka transforming), and
+enriching data into a format that allows one to do things like
+visualization and analysis. Typically, [raw
+data](https://en.wikipedia.org/wiki/Raw_data) is converted into
+structured data. During this process, raw data often need to be cleaned,
+organized, and transformed into formats that are allow for analysis,
+i.e., converted into data formats or data structures that can be fed
+directly into functions for coding or statistical analysis.
 
 Here’s a [visualization of the
 process](https://en.wikipedia.org/wiki/Data_wrangling#/media/File:Data_Wrangling_From_Messy_To_Clean_Data_Management.jpg)
@@ -39,7 +46,7 @@ of converting raw data to formatted (or structured) data:
 ![Visualization of data
 wrangling](figures/Data_Wrangling_From_Messy_To_Clean_Data_Management.jpg)
 
-The steps typically include:
+The steps in data wrangling, broadly, include:
 
 -   **Discovery your data** – look at and think about your data and
     maybe come up with some questions to ask
@@ -59,50 +66,44 @@ The steps typically include:
 -   **Publish your data** – and publish your analysis, findings, etc.,
     for consumption, reproducibility, etc.
 
-# In R
+# Data wrangling in R
 
-Here is a visualization of how the data science workflow works in [R for
-Data Science](https://r4ds.had.co.nz/index.html):
+Here is a visualization of how the data science workflow works in the
+book [R for Data Science](https://r4ds.had.co.nz/index.html):
 
 -   <https://r4ds.had.co.nz/introduction.html>
 
 That is you:
 
--   First **import** (load) the data into R – this entails that the data
-    is already in a loadable format (e.g., CSV file, Excel spreadsheet,
-    relational database)
--   Second you “**tidy**” the data (in terms of the
-    “[tidyverse](https://www.tidyverse.org)”, i.e., a set of R packages
-    for data science) – more on this below
--   Next you may need to **transform** your data, e.g., select the data
-    of interest, extend your data by adding other data source(s),
-    summarize results
--   Then you may **visualize** your data, i.e., create plots to explore
-    and interact with your data and to develop questions to answer
--   Next you may **model** your data to answer those questions
--   Lastly, you may want to **communicate** your results, e.g., through
-    scientific reports like we are developing in class
+1.  **Load**, aka “import,” your data into R – this entails that the
+    data is already in a loadable format (e.g., text, CSV file, Excel
+    spreadsheet, relational database)
+2.  **Tidy** the data – in terms of the R
+    [tidyverse](https://www.tidyverse.org), i.e., a set of R packages
+    aimed to make data science easy (more on this below)
+3.  **Transform** your data – select the data of interest, extend your
+    data by adding other data source(s), summarize results
+4.  **Visualize** your data – create plots to explore and interact with
+    your data and to develop questions to answer
+5.  **Model** your data – to answer questions and hypotheses
+6.  **Communicate** your results – through scientific reports like we
+    the ones we are developing in class
 
 All of these step fall under the rubric of [computer
-programming](https://en.wikipedia.org/wiki/Computer_programming) and to
-some extent – if we are trying to follow [coding best
-practices](https://en.wikipedia.org/wiki/Coding_best_practices); see
-also
-[here](https://www.cs.utexas.edu/~mitra/csSummer2014/cs312/lectures/bestPractices.html)
-– [software
-engineering](https://en.wikipedia.org/wiki/Software_engineering).
+programming](https://en.wikipedia.org/wiki/Computer_programming). You
+may not become expert computer progammers, or software engineers, but in
+this course will need to be able to do some basic coding in R. Keep in
+mind: tou do not need to be an expert coder, or programmer, to do data
+science!
 
-You will not become software engineers in this class, but you will need
-to be able to do some coding. You do not need to be an expert coder, or
-programmer, to do data science!
-
+<!-- and to some extent -- if we are trying to follow [coding best practices](https://en.wikipedia.org/wiki/Coding_best_practices); see also [here](https://www.cs.utexas.edu/~mitra/csSummer2014/cs312/lectures/bestPractices.html) -- [software engineering](https://en.wikipedia.org/wiki/Software_engineering). -->
+<!-- 
 ## Loading data
 
-When working with data you first have to have some data. What about this
-data for example?
+When working with data you first have to have some data. What about this data for example?
 
--   <https://digital.library.unt.edu/ark:/67531/metadc855661/>
--   <https://digital.library.unt.edu/ark:/67531/metadc855661/m1/2/>
+* https://digital.library.unt.edu/ark:/67531/metadc855661/
+* https://digital.library.unt.edu/ark:/67531/metadc855661/m1/2/
 
 How would you load it into R?
 
@@ -110,25 +111,1064 @@ What kind of data type is it?
 
 What kind of data structure?
 
-The “tidying” and “transforming” of your data is commonly referred to as
-“data wrangling”.
+The "tidying" and "transforming" of your data is commonly referred to as "data wrangling".
 
--   <https://r4ds.had.co.nz/introduction.html>
+* https://r4ds.had.co.nz/introduction.html
 
-when your data is tidy, each column is a variable, and each row is an
-observation. Tidy data is important because the consistent structure
-lets you focus your struggle on questions about the data, not fighting
-to get the data into the right form for different functions.
+when your data is tidy, each column is a variable, and each row is an observation. Tidy data is important because the consistent structure lets you focus your struggle on questions about the data, not fighting to get the data into the right form for different functions.
+-->
+
+`dplyr` was developed by [Hadley
+Wickham](https://en.wikipedia.org/wiki/Hadley_Wickham) (the author of
+`plyr`, `ggplot2`). He also co-wrote a great introduction on the topic,
+look at [R for Data Science](https://r4ds.had.co.nz/) (Wickham and
+Grolemund 2016), specifically the section [dplyr
+basics](https://r4ds.had.co.nz/transform.html?q=dplyr#dplyr-basics).
+
+`dplyr` is super-fast on data frames. Essentially, one works with five
+basic “verbs” or functions:
+
+-   `select()`: for subsetting variables/columns
+-   `arrange()`: for re-ordering rows
+-   `mutate()`: for adding new columns
+-   `filter()`: for subsetting rows
+-   `summarize()` (or `summarise()` if you prefer [British
+    spelling](https://en.wikipedia.org/wiki/American_and_British_English_spelling_differences)):
+    for reducing each group to a smaller number of summary statistics
+
+Let’s try them out!
+
+------------------------------------------------------------------------
+
+[Tidyverse](https://www.tidyverse.org) includes several R
+[packages](https://www.tidyverse.org/packages/) for data science. We may
+not use all of them in this class, but they currently include:
+
+-   [ggplot2](https://ggplot2.tidyverse.org): for creating graphics
+-   [dplyr](https://dplyr.tidyverse.org): for data manipulation
+-   [tidyr](https://tidyr.tidyverse.org): to make your data tidy
+-   [readr](https://readr.tidyverse.org): for reading / loading data
+-   [purr](https://purrr.tidyverse.org): enhancements for functional
+    programming
+-   [tibble](https://tibble.tidyverse.org): update of the R [data
+    frame](https://stat.ethz.ch/R-manual/R-devel/library/base/html/data.frame.html)
+-   [stringr](https://stringr.tidyverse.org): functions for working with
+    strings
+-   [forcats](https://forcats.tidyverse.org): functions for dealing with
+    [factors](https://stat.ethz.ch/R-manual/R-devel/library/base/html/factor.html)
+    in R
+
+First, load the `tidyverse` package:
+
+``` r
+# install.packages("tidyverse") # run this first if you need to install tidyverse
+library(tidyverse)
+```
+
+Let’s use the dataset `athletes.csv` for an example of working with some
+of `tidyverse` tools.
+
+The dataset `athletes.csv` contains various details about the athletes
+who participated in the [2014 Winter Olympics in
+Sochi](https://en.wikipedia.org/wiki/2014_Winter_Olympics). Here we use
+the version of this dataset converted by [Dana
+Silver](https://www.danasilver.org/sochi/). The data was originally
+retrieved in [JSON format](https://en.wikipedia.org/wiki/JSON) from
+Kimono Lab’s Sochi API on February 18, 2014.
+
+Weh we load tabular (or table) data, we will usually be using the R data
+frame. A data frame is a table in which columns contain values of one
+data type and each row contains a set of values of that data type. The
+data frame is the most common way of storing data in R. ([Under the
+hood](https://en.wiktionary.org/wiki/under_the_hood), data frames are a
+list of equal legnth vectors – each element of the list can be thought
+of as a column and the length of each element of the list is its number
+of rows.) Data frames have the following characteristics:
+
+-   Column names should not be empty
+-   Row names should be unique
+-   Data stored in the data frame can be of type numeric, factor, of
+    character
+-   Each column should contain the same number of items
+
+If you are working within this repository on your local computer, you
+can load the data in this directory with this command:
+
+``` r
+athletes <- read_csv("datasets/athletes.csv")
+```
+
+You can also give it the full path, depending on where the data is on
+your local computer.
+
+Perhaps easiest, however, is to load it from the repository on the web
+directly. The `readr` package makes this easy by allowing you to wrap
+the `url` fucntion into the `read_csv` function:
+
+``` r
+athletes <- read_csv(url("https://raw.githubusercontent.com/bambooforest/IntroDataScience/main/4_data_wrangling/datasets/athletes.csv"))
+```
+
+Note that GitHub displays well-formatted CSV files as tabular data:
+
+-   <https://github.com/bambooforest/IntroDataScience/blob/main/4_data_wrangling/datasets/athletes.csv>
+
+But if you want to load it from the web, you need to use the raw data
+(note the button on the GitHub page with the label “raw,” which results
+in this URL:
+
+-   <https://raw.githubusercontent.com/bambooforest/IntroDataScience/main/4_data_wrangling/datasets/athletes.csv>
+
+Now that you’ve loaded the `atheletes.csv` data, let’s have a look at
+its structure with the `str()` function:
+
+``` r
+str(athletes)
+```
+
+    ## spec_tbl_df [2,859 × 12] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+    ##  $ age          : num [1:2859] 17 27 21 21 21 21 18 23 17 21 ...
+    ##  $ birthdate    : Date[1:2859], format: "1996-04-12" "1986-05-14" ...
+    ##  $ gender       : chr [1:2859] "Male" "Male" "Male" "Male" ...
+    ##  $ height       : num [1:2859] 1.72 1.85 1.78 1.68 1.86 1.75 1.7 1.78 1.63 1.62 ...
+    ##  $ name         : chr [1:2859] "Aaron Blunck" "Aaron March" "Abzal Azhgaliyev" "Abzal Rakimgaliev" ...
+    ##  $ weight       : num [1:2859] 68 85 68 NA 82 57 76 80 NA 56 ...
+    ##  $ gold_medals  : num [1:2859] 0 0 0 0 0 0 0 0 0 0 ...
+    ##  $ silver_medals: num [1:2859] 0 0 0 0 0 0 0 0 0 0 ...
+    ##  $ bronze_medals: num [1:2859] 0 0 0 0 0 0 0 0 0 0 ...
+    ##  $ total_medals : num [1:2859] 0 0 0 0 0 0 0 0 0 0 ...
+    ##  $ sport        : chr [1:2859] "Freestyle Skiing" "Snowboard" "Short Track" "Figure Skating" ...
+    ##  $ country      : chr [1:2859] "United States" "Italy" "Kazakhstan" "Kazakhstan" ...
+    ##  - attr(*, "spec")=
+    ##   .. cols(
+    ##   ..   age = col_double(),
+    ##   ..   birthdate = col_date(format = ""),
+    ##   ..   gender = col_character(),
+    ##   ..   height = col_double(),
+    ##   ..   name = col_character(),
+    ##   ..   weight = col_double(),
+    ##   ..   gold_medals = col_double(),
+    ##   ..   silver_medals = col_double(),
+    ##   ..   bronze_medals = col_double(),
+    ##   ..   total_medals = col_double(),
+    ##   ..   sport = col_character(),
+    ##   ..   country = col_character()
+    ##   .. )
+
+Recall our discussion about [data types for computer
+programming](https://github.com/bambooforest/IntroDataScience/tree/main/3_data#data-types-for-computer-programming)
+and [data types for
+statistics](https://github.com/bambooforest/IntroDataScience/tree/main/3_data#data-types-in-statistics).
+
+**What kind of variables do we have in our dataset?**
+
+Some variables should be converted from
+[character](https://stat.ethz.ch/R-manual/R-devel/library/base/html/character.html)
+to
+[factor](https://stat.ethz.ch/R-manual/R-devel/library/base/html/factor.html).
+You probably will want to use `gender`, and `sport`. Convert these two
+variables one by one:
+
+``` r
+athletes$gender <- as.factor(athletes$gender)
+athletes$sport <- as.factor(athletes$sport)
+```
+
+Now note the change in data type:
+
+``` r
+str(athletes)
+```
+
+    ## spec_tbl_df [2,859 × 12] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+    ##  $ age          : num [1:2859] 17 27 21 21 21 21 18 23 17 21 ...
+    ##  $ birthdate    : Date[1:2859], format: "1996-04-12" "1986-05-14" ...
+    ##  $ gender       : Factor w/ 2 levels "Female","Male": 2 2 2 2 2 2 2 2 1 1 ...
+    ##  $ height       : num [1:2859] 1.72 1.85 1.78 1.68 1.86 1.75 1.7 1.78 1.63 1.62 ...
+    ##  $ name         : chr [1:2859] "Aaron Blunck" "Aaron March" "Abzal Azhgaliyev" "Abzal Rakimgaliev" ...
+    ##  $ weight       : num [1:2859] 68 85 68 NA 82 57 76 80 NA 56 ...
+    ##  $ gold_medals  : num [1:2859] 0 0 0 0 0 0 0 0 0 0 ...
+    ##  $ silver_medals: num [1:2859] 0 0 0 0 0 0 0 0 0 0 ...
+    ##  $ bronze_medals: num [1:2859] 0 0 0 0 0 0 0 0 0 0 ...
+    ##  $ total_medals : num [1:2859] 0 0 0 0 0 0 0 0 0 0 ...
+    ##  $ sport        : Factor w/ 15 levels "Alpine Skiing",..: 7 14 11 6 1 10 1 1 6 1 ...
+    ##  $ country      : chr [1:2859] "United States" "Italy" "Kazakhstan" "Kazakhstan" ...
+    ##  - attr(*, "spec")=
+    ##   .. cols(
+    ##   ..   age = col_double(),
+    ##   ..   birthdate = col_date(format = ""),
+    ##   ..   gender = col_character(),
+    ##   ..   height = col_double(),
+    ##   ..   name = col_character(),
+    ##   ..   weight = col_double(),
+    ##   ..   gold_medals = col_double(),
+    ##   ..   silver_medals = col_double(),
+    ##   ..   bronze_medals = col_double(),
+    ##   ..   total_medals = col_double(),
+    ##   ..   sport = col_character(),
+    ##   ..   country = col_character()
+    ##   .. )
+
+Also, recall our discussion about [tabular
+data](https://github.com/bambooforest/IntroDataScience/tree/main/3_data#tabular-data).
+
+What are the variables in `athletes`?
+
+What are the objects of observation?
+
+If any row is lacking information for a particular column, a missing
+value called `NA` will be inserted in that cell.
+
+One useful function is `summary()`, which will summarize the contents of
+the data frame.
+
+``` r
+summary(athletes)
+```
+
+    ##       age          birthdate             gender         height     
+    ##  Min.   :15.00   Min.   :1959-02-02   Female:1155   Min.   :1.460  
+    ##  1st Qu.:22.00   1st Qu.:1984-10-01   Male  :1704   1st Qu.:1.680  
+    ##  Median :25.00   Median :1988-03-13                 Median :1.760  
+    ##  Mean   :25.84   Mean   :1987-10-02                 Mean   :1.752  
+    ##  3rd Qu.:29.00   3rd Qu.:1991-05-14                 3rd Qu.:1.820  
+    ##  Max.   :55.00   Max.   :1998-12-31                 Max.   :2.060  
+    ##                                                     NA's   :139    
+    ##      name               weight        gold_medals      silver_medals    
+    ##  Length:2859        Min.   : 40.00   Min.   :0.00000   Min.   :0.00000  
+    ##  Class :character   1st Qu.: 62.00   1st Qu.:0.00000   1st Qu.:0.00000  
+    ##  Mode  :character   Median : 72.00   Median :0.00000   Median :0.00000  
+    ##                     Mean   : 73.11   Mean   :0.03358   Mean   :0.03218  
+    ##                     3rd Qu.: 83.00   3rd Qu.:0.00000   3rd Qu.:0.00000  
+    ##                     Max.   :120.00   Max.   :3.00000   Max.   :2.00000  
+    ##                     NA's   :378                                         
+    ##  bronze_medals      total_medals                  sport        country         
+    ##  Min.   :0.00000   Min.   :0.00000   Ice Hockey      : 469   Length:2859       
+    ##  1st Qu.:0.00000   1st Qu.:0.00000   Alpine Skiing   : 328   Class :character  
+    ##  Median :0.00000   Median :0.00000   Cross-Country   : 310   Mode  :character  
+    ##  Mean   :0.03253   Mean   :0.09829   Freestyle Skiing: 271                     
+    ##  3rd Qu.:0.00000   3rd Qu.:0.00000   Snowboard       : 239                     
+    ##  Max.   :2.00000   Max.   :3.00000   Biathlon        : 211                     
+    ##                                      (Other)         :1031
+
+Now some functions that we can select, filter, transform, extract, and
+summarize aspects of the data.
+
+## `select()`
+
+The dataset contains the details on age, birth date, gender, height,
+name, weight, medal counts, sport, and country and a few more variables.
+Not all of these variables are of interest for a specific research
+question and often one wants to have a “narrower” version of a dataset
+which contains only the variables of immediate interest.
+
+To prepare such a version of your dataset, use the function `select()`
+to select the variables (columns) you need.
+
+-   First, you can select the variables of interest just by naming them.
+    Note that this way you can also modify the order of the variables:
+
+``` r
+select(athletes, name, height, weight)
+```
+
+    ## # A tibble: 2,859 x 3
+    ##    name              height weight
+    ##    <chr>              <dbl>  <dbl>
+    ##  1 Aaron Blunck        1.72     68
+    ##  2 Aaron March         1.85     85
+    ##  3 Abzal Azhgaliyev    1.78     68
+    ##  4 Abzal Rakimgaliev   1.68     NA
+    ##  5 Adam Barwood        1.86     82
+    ##  6 Adam Cieslar        1.75     57
+    ##  7 Adam Lamhamedi      1.7      76
+    ##  8 Adam Zampa          1.78     80
+    ##  9 Adelina Sotnikova   1.63     NA
+    ## 10 Adeline Baud        1.62     56
+    ## # … with 2,849 more rows
+
+-   You can use `:` to select all columns in a range between two
+    specified columns (inclusively):
+
+``` r
+select(athletes, age:weight)
+```
+
+    ## # A tibble: 2,859 x 6
+    ##      age birthdate  gender height name              weight
+    ##    <dbl> <date>     <fct>   <dbl> <chr>              <dbl>
+    ##  1    17 1996-04-12 Male     1.72 Aaron Blunck          68
+    ##  2    27 1986-05-14 Male     1.85 Aaron March           85
+    ##  3    21 1992-06-30 Male     1.78 Abzal Azhgaliyev      68
+    ##  4    21 1992-05-25 Male     1.68 Abzal Rakimgaliev     NA
+    ##  5    21 1992-07-30 Male     1.86 Adam Barwood          82
+    ##  6    21 1992-12-18 Male     1.75 Adam Cieslar          57
+    ##  7    18 1995-04-22 Male     1.7  Adam Lamhamedi        76
+    ##  8    23 1990-09-13 Male     1.78 Adam Zampa            80
+    ##  9    17 1996-07-01 Female   1.63 Adelina Sotnikova     NA
+    ## 10    21 1992-09-28 Female   1.62 Adeline Baud          56
+    ## # … with 2,849 more rows
+
+-   You can exclude a variable with the help of `-`.
+
+``` r
+select(athletes, -birthdate, -age)
+```
+
+    ## # A tibble: 2,859 x 10
+    ##    gender height name             weight gold_medals silver_medals bronze_medals
+    ##    <fct>   <dbl> <chr>             <dbl>       <dbl>         <dbl>         <dbl>
+    ##  1 Male     1.72 Aaron Blunck         68           0             0             0
+    ##  2 Male     1.85 Aaron March          85           0             0             0
+    ##  3 Male     1.78 Abzal Azhgaliyev     68           0             0             0
+    ##  4 Male     1.68 Abzal Rakimgali…     NA           0             0             0
+    ##  5 Male     1.86 Adam Barwood         82           0             0             0
+    ##  6 Male     1.75 Adam Cieslar         57           0             0             0
+    ##  7 Male     1.7  Adam Lamhamedi       76           0             0             0
+    ##  8 Male     1.78 Adam Zampa           80           0             0             0
+    ##  9 Female   1.63 Adelina Sotniko…     NA           0             0             0
+    ## 10 Female   1.62 Adeline Baud         56           0             0             0
+    ## # … with 2,849 more rows, and 3 more variables: total_medals <dbl>,
+    ## #   sport <fct>, country <chr>
+
+Note that `dplyr` functions never modify their input dataframes. If you
+want to save the result e.g., of the `select()`function, you need to use
+the assignment operator `<-` and either overwrite the original dataframe
+or create a new one.
+
+For instance, here the original dataframe remains unchanged:
+
+``` r
+select(athletes, birthdate, age)
+```
+
+    ## # A tibble: 2,859 x 2
+    ##    birthdate    age
+    ##    <date>     <dbl>
+    ##  1 1996-04-12    17
+    ##  2 1986-05-14    27
+    ##  3 1992-06-30    21
+    ##  4 1992-05-25    21
+    ##  5 1992-07-30    21
+    ##  6 1992-12-18    21
+    ##  7 1995-04-22    18
+    ##  8 1990-09-13    23
+    ##  9 1996-07-01    17
+    ## 10 1992-09-28    21
+    ## # … with 2,849 more rows
+
+``` r
+athletes
+```
+
+    ## # A tibble: 2,859 x 12
+    ##      age birthdate  gender height name          weight gold_medals silver_medals
+    ##    <dbl> <date>     <fct>   <dbl> <chr>          <dbl>       <dbl>         <dbl>
+    ##  1    17 1996-04-12 Male     1.72 Aaron Blunck      68           0             0
+    ##  2    27 1986-05-14 Male     1.85 Aaron March       85           0             0
+    ##  3    21 1992-06-30 Male     1.78 Abzal Azhgal…     68           0             0
+    ##  4    21 1992-05-25 Male     1.68 Abzal Rakimg…     NA           0             0
+    ##  5    21 1992-07-30 Male     1.86 Adam Barwood      82           0             0
+    ##  6    21 1992-12-18 Male     1.75 Adam Cieslar      57           0             0
+    ##  7    18 1995-04-22 Male     1.7  Adam Lamhame…     76           0             0
+    ##  8    23 1990-09-13 Male     1.78 Adam Zampa        80           0             0
+    ##  9    17 1996-07-01 Female   1.63 Adelina Sotn…     NA           0             0
+    ## 10    21 1992-09-28 Female   1.62 Adeline Baud      56           0             0
+    ## # … with 2,849 more rows, and 4 more variables: bronze_medals <dbl>,
+    ## #   total_medals <dbl>, sport <fct>, country <chr>
+
+And here we create a new dataframe with the selected columns only:
+
+``` r
+athletes_age <- select(athletes, birthdate, age)
+athletes_age
+```
+
+    ## # A tibble: 2,859 x 2
+    ##    birthdate    age
+    ##    <date>     <dbl>
+    ##  1 1996-04-12    17
+    ##  2 1986-05-14    27
+    ##  3 1992-06-30    21
+    ##  4 1992-05-25    21
+    ##  5 1992-07-30    21
+    ##  6 1992-12-18    21
+    ##  7 1995-04-22    18
+    ##  8 1990-09-13    23
+    ##  9 1996-07-01    17
+    ## 10 1992-09-28    21
+    ## # … with 2,849 more rows
+
+There are a number of **helper functions** you can use within
+`select()`. Try to guess what they do before executing the commands:
+
+1.  **`ends_with()`**
+
+``` r
+select(athletes, ends_with("medals"))
+```
+
+    ## # A tibble: 2,859 x 4
+    ##    gold_medals silver_medals bronze_medals total_medals
+    ##          <dbl>         <dbl>         <dbl>        <dbl>
+    ##  1           0             0             0            0
+    ##  2           0             0             0            0
+    ##  3           0             0             0            0
+    ##  4           0             0             0            0
+    ##  5           0             0             0            0
+    ##  6           0             0             0            0
+    ##  7           0             0             0            0
+    ##  8           0             0             0            0
+    ##  9           0             0             0            0
+    ## 10           0             0             0            0
+    ## # … with 2,849 more rows
+
+2.  **`contains()`**
+
+``` r
+select(athletes, contains("eigh"))
+```
+
+    ## # A tibble: 2,859 x 2
+    ##    height weight
+    ##     <dbl>  <dbl>
+    ##  1   1.72     68
+    ##  2   1.85     85
+    ##  3   1.78     68
+    ##  4   1.68     NA
+    ##  5   1.86     82
+    ##  6   1.75     57
+    ##  7   1.7      76
+    ##  8   1.78     80
+    ##  9   1.63     NA
+    ## 10   1.62     56
+    ## # … with 2,849 more rows
+
+3.  For details on other helper functions, see `?select`.
+
+``` r
+?select
+```
+
+## `arrange()`
+
+`arrange()` changes the order of the rows. It takes a data frame and a
+set of column names to order by. If you list more than one column name,
+each additional column is used to break ties in the values of preceding
+columns.
+
+1.  Guess what the following code will do before executing it!
+
+``` r
+arrange(athletes, height, age)
+```
+
+<!-- The dataset is first order in an ascending order by `height`. In case two or more athletes have the same height, `age` is used to break ties (also in ascending order), e.g. several athletes have the height of 1.50 cm, they are then order from youngest to oldest. -->
+
+2.  Guess what the following code will do before executing it!
+
+``` r
+arrange(athletes, desc(height), age)
+```
+
+<!-- The dataset is first order in a descending order by `height`. In case two or more athletes have the same height, `age` is used to break ties (but now in ascending order), e.g. among the tallest athletes are the four athletes with the height of 2.00 cm, they are then order from youngest to oldest. -->
+
+3.  Use only the `arrange()` to display the oldest female athlete at the
+    top of the sorted dataset. How old is she?
+
+``` r
+arrange(athletes, gender, desc(age))
+```
+
+<!-- Angelica Morrone is 48 years old. -->
+
+## `mutate()`
+
+Besides working with existing columns, it is sometimes necessary to add
+new columns that are functions of existing columns. That’’’s what the
+`mutate()` function is for.
+
+`mutate()` always adds new columns at the end of your dataset so we’ll
+start by creating a narrower dataset so we can see the new variables.
+(Remember that when you use in RStudio, an easy way to see all the
+columns is `View()`.)
+
+First, create with `select()` a narrow dataset `athletes_narrow` which
+only contains the variables `name`, `gender`, `age`, `sport`, `height`,
+and `weight`. (Here, we add a few more columns than we need now, because
+we plan to use `athletes_narrow` later).
+
+``` r
+athletes_narrow <- select(athletes, name, gender, age, sport, height, weight)
+athletes_narrow
+```
+
+    ## # A tibble: 2,859 x 6
+    ##    name              gender   age sport            height weight
+    ##    <chr>             <fct>  <dbl> <fct>             <dbl>  <dbl>
+    ##  1 Aaron Blunck      Male      17 Freestyle Skiing   1.72     68
+    ##  2 Aaron March       Male      27 Snowboard          1.85     85
+    ##  3 Abzal Azhgaliyev  Male      21 Short Track        1.78     68
+    ##  4 Abzal Rakimgaliev Male      21 Figure Skating     1.68     NA
+    ##  5 Adam Barwood      Male      21 Alpine Skiing      1.86     82
+    ##  6 Adam Cieslar      Male      21 Nordic Combined    1.75     57
+    ##  7 Adam Lamhamedi    Male      18 Alpine Skiing      1.7      76
+    ##  8 Adam Zampa        Male      23 Alpine Skiing      1.78     80
+    ##  9 Adelina Sotnikova Female    17 Figure Skating     1.63     NA
+    ## 10 Adeline Baud      Female    21 Alpine Skiing      1.62     56
+    ## # … with 2,849 more rows
+
+Next, add the column BMI (body mass index). The BMI is calculated as the
+body mass (`weight`) divided by the square of the body `height`. It is
+universally expressed in units of kg/m<sup>2</sup>.
+
+``` r
+mutate(athletes_narrow, BMI = weight/height^2)
+```
+
+    ## # A tibble: 2,859 x 7
+    ##    name              gender   age sport            height weight   BMI
+    ##    <chr>             <fct>  <dbl> <fct>             <dbl>  <dbl> <dbl>
+    ##  1 Aaron Blunck      Male      17 Freestyle Skiing   1.72     68  23.0
+    ##  2 Aaron March       Male      27 Snowboard          1.85     85  24.8
+    ##  3 Abzal Azhgaliyev  Male      21 Short Track        1.78     68  21.5
+    ##  4 Abzal Rakimgaliev Male      21 Figure Skating     1.68     NA  NA  
+    ##  5 Adam Barwood      Male      21 Alpine Skiing      1.86     82  23.7
+    ##  6 Adam Cieslar      Male      21 Nordic Combined    1.75     57  18.6
+    ##  7 Adam Lamhamedi    Male      18 Alpine Skiing      1.7      76  26.3
+    ##  8 Adam Zampa        Male      23 Alpine Skiing      1.78     80  25.2
+    ##  9 Adelina Sotnikova Female    17 Figure Skating     1.63     NA  NA  
+    ## 10 Adeline Baud      Female    21 Alpine Skiing      1.62     56  21.3
+    ## # … with 2,849 more rows
+
+Notice that `mutate` does not overwrite the existing dataframe.
+
+``` r
+mutate(athletes_narrow, BMI = weight/height^2)
+```
+
+    ## # A tibble: 2,859 x 7
+    ##    name              gender   age sport            height weight   BMI
+    ##    <chr>             <fct>  <dbl> <fct>             <dbl>  <dbl> <dbl>
+    ##  1 Aaron Blunck      Male      17 Freestyle Skiing   1.72     68  23.0
+    ##  2 Aaron March       Male      27 Snowboard          1.85     85  24.8
+    ##  3 Abzal Azhgaliyev  Male      21 Short Track        1.78     68  21.5
+    ##  4 Abzal Rakimgaliev Male      21 Figure Skating     1.68     NA  NA  
+    ##  5 Adam Barwood      Male      21 Alpine Skiing      1.86     82  23.7
+    ##  6 Adam Cieslar      Male      21 Nordic Combined    1.75     57  18.6
+    ##  7 Adam Lamhamedi    Male      18 Alpine Skiing      1.7      76  26.3
+    ##  8 Adam Zampa        Male      23 Alpine Skiing      1.78     80  25.2
+    ##  9 Adelina Sotnikova Female    17 Figure Skating     1.63     NA  NA  
+    ## 10 Adeline Baud      Female    21 Alpine Skiing      1.62     56  21.3
+    ## # … with 2,849 more rows
+
+``` r
+athletes_narrow
+```
+
+    ## # A tibble: 2,859 x 6
+    ##    name              gender   age sport            height weight
+    ##    <chr>             <fct>  <dbl> <fct>             <dbl>  <dbl>
+    ##  1 Aaron Blunck      Male      17 Freestyle Skiing   1.72     68
+    ##  2 Aaron March       Male      27 Snowboard          1.85     85
+    ##  3 Abzal Azhgaliyev  Male      21 Short Track        1.78     68
+    ##  4 Abzal Rakimgaliev Male      21 Figure Skating     1.68     NA
+    ##  5 Adam Barwood      Male      21 Alpine Skiing      1.86     82
+    ##  6 Adam Cieslar      Male      21 Nordic Combined    1.75     57
+    ##  7 Adam Lamhamedi    Male      18 Alpine Skiing      1.7      76
+    ##  8 Adam Zampa        Male      23 Alpine Skiing      1.78     80
+    ##  9 Adelina Sotnikova Female    17 Figure Skating     1.63     NA
+    ## 10 Adeline Baud      Female    21 Alpine Skiing      1.62     56
+    ## # … with 2,849 more rows
+
+To add the new column to it permanently, you have to overwrite the
+original dataframe:
+
+``` r
+athletes_narrow <- mutate(athletes_narrow, BMI = weight/height^2)
+athletes_narrow
+```
+
+    ## # A tibble: 2,859 x 7
+    ##    name              gender   age sport            height weight   BMI
+    ##    <chr>             <fct>  <dbl> <fct>             <dbl>  <dbl> <dbl>
+    ##  1 Aaron Blunck      Male      17 Freestyle Skiing   1.72     68  23.0
+    ##  2 Aaron March       Male      27 Snowboard          1.85     85  24.8
+    ##  3 Abzal Azhgaliyev  Male      21 Short Track        1.78     68  21.5
+    ##  4 Abzal Rakimgaliev Male      21 Figure Skating     1.68     NA  NA  
+    ##  5 Adam Barwood      Male      21 Alpine Skiing      1.86     82  23.7
+    ##  6 Adam Cieslar      Male      21 Nordic Combined    1.75     57  18.6
+    ##  7 Adam Lamhamedi    Male      18 Alpine Skiing      1.7      76  26.3
+    ##  8 Adam Zampa        Male      23 Alpine Skiing      1.78     80  25.2
+    ##  9 Adelina Sotnikova Female    17 Figure Skating     1.63     NA  NA  
+    ## 10 Adeline Baud      Female    21 Alpine Skiing      1.62     56  21.3
+    ## # … with 2,849 more rows
+
+There are many functions for creating new variables that you can use
+with `mutate()`. Think of a function and look up
+[here](https://r4ds.had.co.nz/transform.html?q=dplyr#mutate-funs)
+(Wickham and Grolemund 2016) for possible solutions.
+
+## `filter()`
+
+Probably the most useful `dplyr` function is `filter()`. It allows you
+to subset observations based on their values. Or in other words, you can
+extract some rows from your dataset on the basis of certain conditions.
+The first argument of this function is the name of the data frame. The
+second and subsequent arguments are the expressions that filter the data
+frame.
+
+For example, we can select all athletes who are taller than 2.00 m. Here
+we continue to work with `athletes_narrow`:
+
+``` r
+filter(athletes_narrow, height > 2)
+```
+
+    ## # A tibble: 2 x 7
+    ##   name               gender   age sport      height weight   BMI
+    ##   <chr>              <fct>  <dbl> <fct>       <dbl>  <dbl> <dbl>
+    ## 1 Aleksandar Bundalo Male      24 Bobsleigh    2.02    106  26.0
+    ## 2 Zdeno Chara        Male      36 Ice Hockey   2.06    117  27.6
+
+To use `filter()` effectively, you have to know how to select the
+observations that you want using the comparison operators in R. The
+standard comparison operators are `>`, `>=`, `<`, `<=`, `!=` (not
+equal), and `==` (equal).
+
+The operator `==` can be used with numeric variables to filter a
+specific values, e.g., all athletes who are 15 years old:
+
+``` r
+filter(athletes_narrow, age == 15)
+```
+
+    ## # A tibble: 9 x 7
+    ##   name              gender   age sport            height weight   BMI
+    ##   <chr>             <fct>  <dbl> <fct>             <dbl>  <dbl> <dbl>
+    ## 1 Alina Muller      Female    15 Ice Hockey         1.62     50  19.1
+    ## 2 Anna Seidel       Female    15 Short Track       NA        43  NA  
+    ## 3 Ayumu Hirano      Male      15 Snowboard          1.6      50  19.5
+    ## 4 Elizaveta Ukolova Female    15 Figure Skating     1.71     NA  NA  
+    ## 5 Gianina Ernst     Female    15 Ski Jumping        1.53     44  18.8
+    ## 6 Marco Ladner      Male      15 Freestyle Skiing   1.75     65  21.2
+    ## 7 Perrine Laffont   Female    15 Freestyle Skiing   1.62     50  19.1
+    ## 8 Polina Edmunds    Female    15 Figure Skating     1.65     NA  NA  
+    ## 9 Yulia Lipnitskaya Female    15 Figure Skating     1.58     NA  NA
+
+When you’re starting out with R, the easiest mistake to make is to use =
+instead of == when testing for equality. When this happens you’ll get an
+informative error. Try it out:
+
+``` r
+filter(athletes_narrow, age = 15)
+```
+
+Another important function when filtering is to identify and potentially
+filter out `NA` cells. These are missing or unknown values in the
+dataset. R [provides a
+function](https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html)
+called `is.na()` that tests whether a value is missing or not. `NA` is a
+special value in R.
+
+``` r
+x <- NA # special value NA
+y <- 1 # integer
+z <- 'NA' # character (string)
+is.na(x)
+```
+
+    ## [1] TRUE
+
+``` r
+is.na(y)
+```
+
+    ## [1] FALSE
+
+``` r
+is.na(z)
+```
+
+    ## [1] FALSE
+
+Let’s filter the rows in `athletes` that do not have a height value,
+i.e., they are `NA` in the table.
+
+``` r
+athletes %>% filter(is.na(height))
+```
+
+    ## # A tibble: 139 x 12
+    ##      age birthdate  gender height name          weight gold_medals silver_medals
+    ##    <dbl> <date>     <fct>   <dbl> <chr>          <dbl>       <dbl>         <dbl>
+    ##  1    25 1988-05-12 Female     NA Aja Evans         NA           0             0
+    ##  2    21 1992-09-21 Male       NA Aleksander A…     NA           0             0
+    ##  3    24 1989-05-28 Male       NA Alexey Negod…     NA           0             0
+    ##  4    20 1993-05-08 Female     NA Anastasiya N…     NA           0             0
+    ##  5    22 1991-05-13 Male       NA Anders Fanne…     NA           0             0
+    ##  6    27 1986-05-22 Male       NA Anders Gloee…     NA           0             0
+    ##  7    28 1985-10-24 Female     NA Angeli Vanla…     NA           0             0
+    ##  8    31 1982-11-06 Female     NA Ann Kristin …     NA           0             0
+    ##  9    15 1998-03-31 Female     NA Anna Seidel       43           0             0
+    ## 10    23 1991-02-05 Female     NA Anna Sloan        NA           0             0
+    ## # … with 129 more rows, and 4 more variables: bronze_medals <dbl>,
+    ## #   total_medals <dbl>, sport <fct>, country <chr>
+
+You can also filter to **remove** `NA`s, which is often useful for when
+you want to visualize the data. Use the logical operation `!` mentioned
+above, i.e., “not.”
+
+``` r
+athletes %>% filter(!is.na(height))
+```
+
+    ## # A tibble: 2,720 x 12
+    ##      age birthdate  gender height name          weight gold_medals silver_medals
+    ##    <dbl> <date>     <fct>   <dbl> <chr>          <dbl>       <dbl>         <dbl>
+    ##  1    17 1996-04-12 Male     1.72 Aaron Blunck      68           0             0
+    ##  2    27 1986-05-14 Male     1.85 Aaron March       85           0             0
+    ##  3    21 1992-06-30 Male     1.78 Abzal Azhgal…     68           0             0
+    ##  4    21 1992-05-25 Male     1.68 Abzal Rakimg…     NA           0             0
+    ##  5    21 1992-07-30 Male     1.86 Adam Barwood      82           0             0
+    ##  6    21 1992-12-18 Male     1.75 Adam Cieslar      57           0             0
+    ##  7    18 1995-04-22 Male     1.7  Adam Lamhame…     76           0             0
+    ##  8    23 1990-09-13 Male     1.78 Adam Zampa        80           0             0
+    ##  9    17 1996-07-01 Female   1.63 Adelina Sotn…     NA           0             0
+    ## 10    21 1992-09-28 Female   1.62 Adeline Baud      56           0             0
+    ## # … with 2,710 more rows, and 4 more variables: bronze_medals <dbl>,
+    ## #   total_medals <dbl>, sport <fct>, country <chr>
+
+You can also combined the filters. For example, if you want all rows in
+`atheletes` that do not have `NA` values for `height` and `weight`.
+Notice how the number of rows decreases.
+
+``` r
+athletes %>% filter(!is.na(height)) %>% filter(!is.na(weight))
+```
+
+    ## # A tibble: 2,479 x 12
+    ##      age birthdate  gender height name          weight gold_medals silver_medals
+    ##    <dbl> <date>     <fct>   <dbl> <chr>          <dbl>       <dbl>         <dbl>
+    ##  1    17 1996-04-12 Male     1.72 Aaron Blunck      68           0             0
+    ##  2    27 1986-05-14 Male     1.85 Aaron March       85           0             0
+    ##  3    21 1992-06-30 Male     1.78 Abzal Azhgal…     68           0             0
+    ##  4    21 1992-07-30 Male     1.86 Adam Barwood      82           0             0
+    ##  5    21 1992-12-18 Male     1.75 Adam Cieslar      57           0             0
+    ##  6    18 1995-04-22 Male     1.7  Adam Lamhame…     76           0             0
+    ##  7    23 1990-09-13 Male     1.78 Adam Zampa        80           0             0
+    ##  8    21 1992-09-28 Female   1.62 Adeline Baud      56           0             0
+    ##  9    21 1992-11-22 Male     1.86 Adrian Krain…     75           0             0
+    ## 10    21 1992-08-07 Male     1.78 Adrien Backs…     73           0             0
+    ## # … with 2,469 more rows, and 4 more variables: bronze_medals <dbl>,
+    ## #   total_medals <dbl>, sport <fct>, country <chr>
+
+If you want to check if there are any `NA`s in a column, you can also
+use the `any()` function.
+
+``` r
+any(is.na(athletes$height))
+```
+
+    ## [1] TRUE
+
+``` r
+any(is.na(athletes$age))
+```
+
+    ## [1] FALSE
+
+Another useful function is called `table()`. What does it do?
+
+``` r
+table(athletes$sport)
+```
+
+    ## 
+    ##    Alpine Skiing         Biathlon        Bobsleigh    Cross-Country 
+    ##              328              211              176              310 
+    ##          Curling   Figure Skating Freestyle Skiing       Ice Hockey 
+    ##              100              149              271              469 
+    ##             Luge  Nordic Combined      Short Track         Skeleton 
+    ##              110               55              115               47 
+    ##      Ski Jumping        Snowboard    Speed Skating 
+    ##              100              239              179
+
+Note you need to use the `exclude = FALSE` parameter, if you want the
+`table()` function to count `NA`s. How many athelete
+
+``` r
+table(athletes$height)
+```
+
+    ## 
+    ## 1.46 1.48 1.49  1.5 1.51 1.52 1.53 1.54 1.55 1.56 1.57 1.58 1.59  1.6 1.61 1.62 
+    ##    2    2    1    5    1    7    9    6   11    9   26   25   11   61   34   51 
+    ## 1.63 1.64 1.65 1.66 1.67 1.68 1.69  1.7 1.71 1.72 1.73 1.74 1.75 1.76 1.77 1.78 
+    ##   75   51   89   49   60  104   60  147   60   96  103   80  122   64   77  128 
+    ## 1.79  1.8 1.81 1.82 1.83 1.84 1.85 1.86 1.87 1.88 1.89  1.9 1.91 1.92 1.93 1.94 
+    ##   58  184   86   93  144   73  107   57   52   69   30   32   26   24   27   10 
+    ## 1.95 1.96 1.97 1.98 1.99    2 2.02 2.06 
+    ##    4    6    1    4    1    4    1    1
+
+``` r
+table(athletes$height, exclude = FALSE)
+```
+
+    ## 
+    ## 1.46 1.48 1.49  1.5 1.51 1.52 1.53 1.54 1.55 1.56 1.57 1.58 1.59  1.6 1.61 1.62 
+    ##    2    2    1    5    1    7    9    6   11    9   26   25   11   61   34   51 
+    ## 1.63 1.64 1.65 1.66 1.67 1.68 1.69  1.7 1.71 1.72 1.73 1.74 1.75 1.76 1.77 1.78 
+    ##   75   51   89   49   60  104   60  147   60   96  103   80  122   64   77  128 
+    ## 1.79  1.8 1.81 1.82 1.83 1.84 1.85 1.86 1.87 1.88 1.89  1.9 1.91 1.92 1.93 1.94 
+    ##   58  184   86   93  144   73  107   57   52   69   30   32   26   24   27   10 
+    ## 1.95 1.96 1.97 1.98 1.99    2 2.02 2.06 <NA> 
+    ##    4    6    1    4    1    4    1    1  139
+
+------------------------------------------------------------------------
+
+**Try these out!**
+
+Use the dataframe `athletes_narrow`.
+
+1.  Filter all the athletes who are heavier than 110 kg.
+
+2.  Filter the athletes who weigh exactly 110 or more kg. How many
+    athletes are these? To get the answer, use the function `nrow()` for
+    **n**umber of **row**s’ in addition to `filter()`
+    (i.e. `nrows(filter(...))`). We recommend though looking first at
+    the filter output to be sure that it worked the way you intended
+    before applying `nrow()`.
+
+3.  Filter all the athletes who weigh between 105 and 110 kg. How many
+    are they?
 
 # Databases
 
 ## Overview
 
+The table (or flat file) model is simple to read and easy to manipulate.
+It consists of a two-dimensional array of data elements. The placement
+of data in rows and columns provides the data with structure, and thus,
+meaning.
+
+-   <https://glottolog.org>
+-   <https://glottolog.org/glottolog/language>
+-   <https://cdstar.eva.mpg.de/bitstreams/EAEA0-F8BB-0AB6-96FA-0/languages_and_dialects_geo.csv>
+
+``` r
+head(athletes)
+```
+
+    ## # A tibble: 6 x 12
+    ##     age birthdate  gender height name           weight gold_medals silver_medals
+    ##   <dbl> <date>     <fct>   <dbl> <chr>           <dbl>       <dbl>         <dbl>
+    ## 1    17 1996-04-12 Male     1.72 Aaron Blunck       68           0             0
+    ## 2    27 1986-05-14 Male     1.85 Aaron March        85           0             0
+    ## 3    21 1992-06-30 Male     1.78 Abzal Azhgali…     68           0             0
+    ## 4    21 1992-05-25 Male     1.68 Abzal Rakimga…     NA           0             0
+    ## 5    21 1992-07-30 Male     1.86 Adam Barwood       82           0             0
+    ## 6    21 1992-12-18 Male     1.75 Adam Cieslar       57           0             0
+    ## # … with 4 more variables: bronze_medals <dbl>, total_medals <dbl>,
+    ## #   sport <fct>, country <chr>
+
+A table’s columns and rows specify relationships among the cells in the
+table, some of which are implicit. Spreadsheets are a way to
+interactively work with the data.
+
+[Relational
+databases](https://en.wikipedia.org/wiki/Relational_database) are
+structures for storing data whose purpose is to make entering,
+searching, analyzing, and updating data as easy and efficient as
+possible.
+
+Fundamentally, a relational database is a set of tables, which
+themselves are made up of sets of rows and sets of columns. Relational
+databases provide two basic operations:
+
+-   Retrieving a set of columns and
+-   Retrieving a set of rows
+
+These two basic operations to retrieve columns and rows can also be
+combined. [Set
+operations](https://en.wikipedia.org/wiki/Set_operations_(SQL)) on
+tables can be performed on two or more tables, allowing users to perform
+operations like
+[intersection](https://en.wikipedia.org/wiki/Intersection), [cartesian
+product](https://en.wikipedia.org/wiki/Cartesian_product), adding or
+subtracting tables from each other, etc.
+
+The real power of relational databases is when operations are made on
+sets of tables that are not the same, but that share at least one
+column.
+
+[Here](https://www3.ntu.edu.sg/home/ehchua/programming/sql/Relational_Database_Design.html)
+is a tutorial on relational database design. Note the `Teachers` to
+`Classes` figure, where the two tables are “linked” or “related” to each
+other by the `teacherID` columns.
+
+It is rare that data analysis involves only on table. Often you want to
+combine different tables on a shared value, so that you can answer
+questions you are interested in.
+
 ## Joining tables
+
+When joining two or more tables, you always join two tables first. Then
+if you have a third, fourth, etc., table, you join them to the already
+joined table.
+
+Let’s install the
+[gapminder](https://cran.r-project.org/web/packages/gapminder/index.html)
+R library that contains an excerpt of data from
+[Gapminder.org](Gapminder.org). Read more about their mission
+[here](https://www.gapminder.org/about/).
+
+And as usual, make sure to properly cite your sources! Here’s an easy
+way to get the citation for the `gapminder` library (Bryan 2017) or more
+generally any R library with `citation()`.
+
+``` r
+citation('gapminder')
+```
+
+    ## 
+    ## To cite package 'gapminder' in publications use:
+    ## 
+    ##   Jennifer Bryan (2017). gapminder: Data from Gapminder. R package
+    ##   version 0.3.0. https://CRAN.R-project.org/package=gapminder
+    ## 
+    ## A BibTeX entry for LaTeX users is
+    ## 
+    ##   @Manual{,
+    ##     title = {gapminder: Data from Gapminder},
+    ##     author = {Jennifer Bryan},
+    ##     year = {2017},
+    ##     note = {R package version 0.3.0},
+    ##     url = {https://CRAN.R-project.org/package=gapminder},
+    ##   }
+
+First install the library, and if you already have, load it.
+
+``` r
+# install.packages('gapminder') # install the gapminder R library
+library(gapminder)
+```
+
+Let’s have a look at the description of the data. This will appear in
+RStudio.
+
+``` r
+?gapminder
+```
+
+How does the data look?
+
+``` r
+head(gapminder)
+```
+
+    ## # A tibble: 6 x 6
+    ##   country     continent  year lifeExp      pop gdpPercap
+    ##   <fct>       <fct>     <int>   <dbl>    <int>     <dbl>
+    ## 1 Afghanistan Asia       1952    28.8  8425333      779.
+    ## 2 Afghanistan Asia       1957    30.3  9240934      821.
+    ## 3 Afghanistan Asia       1962    32.0 10267083      853.
+    ## 4 Afghanistan Asia       1967    34.0 11537966      836.
+    ## 5 Afghanistan Asia       1972    36.1 13079460      740.
+    ## 6 Afghanistan Asia       1977    38.4 14880372      786.
+
+How is it structured? How many rows does the table have? How many
+columns?
+
+``` r
+str(gapminder)
+```
+
+    ## tibble [1,704 × 6] (S3: tbl_df/tbl/data.frame)
+    ##  $ country  : Factor w/ 142 levels "Afghanistan",..: 1 1 1 1 1 1 1 1 1 1 ...
+    ##  $ continent: Factor w/ 5 levels "Africa","Americas",..: 3 3 3 3 3 3 3 3 3 3 ...
+    ##  $ year     : int [1:1704] 1952 1957 1962 1967 1972 1977 1982 1987 1992 1997 ...
+    ##  $ lifeExp  : num [1:1704] 28.8 30.3 32 34 36.1 ...
+    ##  $ pop      : int [1:1704] 8425333 9240934 10267083 11537966 13079460 14880372 12881816 13867957 16317921 22227415 ...
+    ##  $ gdpPercap: num [1:1704] 779 821 853 836 740 ...
+
+Here’s some more gapminder data, but this data set is about the [sex
+ratios](https://en.wikipedia.org/wiki/List_of_countries_by_sex_ratio) by
+country, i.e., the comparative number of males with respect to each
+female in a population.
+
+We’ve accessed the data from this overview on how to [add and combine
+data
+sets](https://csiro-data-school.github.io/r/10-Data-Verbs---join/index.html).
+It has some great visualizations about [relational database
+joins](https://en.wikipedia.org/wiki/Join_(SQL)):
+
+-   <https://tavareshugo.github.io/r-intro-tidyverse-gapminder/08-joins/index.html>
+-   <https://csiro-data-school.github.io/r/10-Data-Verbs---join/index.html>
+
+Let’s load the [sex ratio
+data](https://csiro-data-school.github.io/r/data/gapminder_sex_ratios.csv)
+from Gapminder. There’s a copy in this course’s repository [in the
+datasets](https://github.com/bambooforest/IntroDataScience/blob/main/4_data_wrangling/datasets/gapminder_sex_ratios.csv)
+directory. Recall from above, you can load it locally or directly with
+the `url()` within the `read_csv()` function.
+
+This time when we load the data in R Markdown, we do not add the
+`message = FALSE` parameter to the code chunk, i.e.,
+`{r = message = FALSE}` (see the Rmd file for examples). This means that
+the Column specification is output to this markdown file below. What
+does it tell us about the columns?
+
+``` r
+sex_ratios <- read_csv('datasets/gapminder_sex_ratios.csv')
+```
+
+    ## 
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## cols(
+    ##   country = col_character(),
+    ##   year = col_double(),
+    ##   sex_ratio = col_double()
+    ## )
+
+So now we have two data sets from Gapminder.
+
+``` r
+str(gapminder)
+```
+
+    ## tibble [1,704 × 6] (S3: tbl_df/tbl/data.frame)
+    ##  $ country  : Factor w/ 142 levels "Afghanistan",..: 1 1 1 1 1 1 1 1 1 1 ...
+    ##  $ continent: Factor w/ 5 levels "Africa","Americas",..: 3 3 3 3 3 3 3 3 3 3 ...
+    ##  $ year     : int [1:1704] 1952 1957 1962 1967 1972 1977 1982 1987 1992 1997 ...
+    ##  $ lifeExp  : num [1:1704] 28.8 30.3 32 34 36.1 ...
+    ##  $ pop      : int [1:1704] 8425333 9240934 10267083 11537966 13079460 14880372 12881816 13867957 16317921 22227415 ...
+    ##  $ gdpPercap: num [1:1704] 779 821 853 836 740 ...
+
+``` r
+str(sex_ratios)
+```
+
+    ## spec_tbl_df [1,722 × 3] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+    ##  $ country  : chr [1:1722] "Burundi" "Comoros" "Djibouti" "Eritrea" ...
+    ##  $ year     : num [1:1722] 1952 1952 1952 1952 1952 ...
+    ##  $ sex_ratio: num [1:1722] 91.9 98.8 98.6 98.2 98.6 ...
+    ##  - attr(*, "spec")=
+    ##   .. cols(
+    ##   ..   country = col_character(),
+    ##   ..   year = col_double(),
+    ##   ..   sex_ratio = col_double()
+    ##   .. )
+
+Which columns are shared between the two datasets? Notice again the
+[data
+types](https://github.com/bambooforest/IntroDataScience/tree/main/3_data#data-types-for-computer-programming).
+
+So how do we combine the tables / data frames?
 
 # Code style
 
-According to the [dictionary
+Let’s talk about (code) style. According to the [dictionary
 app](https://en.wikipedia.org/wiki/Dictionary_(software)) on my
 computer, style can be defined in various ways, including:
 
@@ -197,7 +1237,7 @@ R doesn’t seem to have its own official style guide, e.g.:
 
 -   <https://www.google.com/search?client=safari&rls=en&q=r+style+guide&ie=UTF-8&oe=UTF-8>
 
-But there are numerous “R style guides”. For example, when writing
+But there are numerous “R style guides.” For example, when writing
 packages for [The Comprehensive R Archive Network
 (CRAN)](https://cran.r-project.org):
 
@@ -241,7 +1281,8 @@ The
 Follow a style guide! It makes your code easier to read. Or as [Hadley
 Wickham](https://en.wikipedia.org/wiki/Hadley_Wickham) apparently said:
 
-    Good coding style is like using correct punctuation. You can manage without it, but it sure makes things easier to read. 
+> > > Good coding style is like using correct punctuation. You can
+> > > manage without it, but it sure makes things easier to read.
 
 Which makes sense. If you want your data practicals to be easily
 understood and reproducible, and you want to be come a better and more
@@ -280,3 +1321,48 @@ In short, make your coding life easier; use a linter! Here’s one for R:
 -   <https://r-pkgs.org/tests.html>
 -   <https://testthat.r-lib.org>
 -   <https://towardsdatascience.com/unit-testing-in-r-68ab9cc8d211>
+
+# References
+
+<div id="refs" class="references csl-bib-body hanging-indent">
+
+<div id="ref-Bryan2017" class="csl-entry">
+
+Bryan, Jennifer. 2017. *Gapminder: Data from Gapminder*.
+<https://CRAN.R-project.org/package=gapminder>.
+
+</div>
+
+<div id="ref-R" class="csl-entry">
+
+R Core Team. 2021. *R: A Language and Environment for Statistical
+Computing*. Vienna, Austria: R Foundation for Statistical Computing.
+<https://www.R-project.org/>.
+
+</div>
+
+<div id="ref-tidyverse" class="csl-entry">
+
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy
+D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019.
+“Welcome to the <span class="nocase">tidyverse</span>.” *Journal of Open
+Source Software* 4 (43): 1686. <https://doi.org/10.21105/joss.01686>.
+
+</div>
+
+<div id="ref-WickhamGrolemund2016" class="csl-entry">
+
+Wickham, Hadley, and Garrett Grolemund. 2016. *R for Data Science:
+Import, Tidy, Transform, Visualize, and Model Data*. O’Reilly Media,
+Inc. <https://r4ds.had.co.nz>.
+
+</div>
+
+<div id="ref-knitr" class="csl-entry">
+
+Xie, Yihui. 2021. *Knitr: A General-Purpose Package for Dynamic Report
+Generation in r*. <https://yihui.org/knitr/>.
+
+</div>
+
+</div>

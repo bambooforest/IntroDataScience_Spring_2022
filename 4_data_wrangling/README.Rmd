@@ -5,28 +5,26 @@ date: "(`r format(Sys.time(), '%d %B, %Y')`)"
 output:
   github_document:
       toc: true
+bibliography: '../2_writing_scientific_reports/references.bib'
 ---
+
+This report uses the [R programming language](https://cran.r-project.org/doc/FAQ/R-FAQ.html) [@R] and the following [R libraries](https://r-pkgs.org/intro.html) [@tidyverse;@knitr].
 
 ```{r, message=FALSE, warning=FALSE}
 library(dplyr)
 library(knitr)
 ```
 
+
 # Overview
 
-[Data wrangling](https://en.wikipedia.org/wiki/Data_wrangling) is a recent coinage that means to converting [raw data](https://en.wikipedia.org/wiki/Raw_data) (whether analog or digital) into (an)other format(s) usually with the goal to extract information through "downstream" analysis of the data.
-
-Is this raw data?
-
-```{r}
-text <- "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vitae nisi nibh. In dolor neque, ultricies a tincidunt et, rutrum in erat. Morbi venenatis massa at neque imperdiet, eu faucibus augue varius. Ut molestie risus in dolor porttitor pretium sit amet vel enim. Pellentesque posuere blandit velit eget ultrices. Sed tristique dui ipsum, id sodales dui egestas id. Proin a dolor placerat, accumsan quam nec, ullamcorper enim. Nunc commodo a quam sit amet molestie. Quisque nec elit et diam consequat aliquet nec sed leo. Mauris scelerisque sed lorem eu bibendum. Morbi id ex commodo, elementum elit at, varius dui. Maecenas facilisis velit ut malesuada lobortis. Vestibulum dictum dapibus velit ut pellentesque."
-```
+[Data wrangling](https://en.wikipedia.org/wiki/Data_wrangling) is the process (or processes) of cleaning, structuring (aka transforming), and enriching data into a format that allows one to do things like visualization and analysis. Typically, [raw data](https://en.wikipedia.org/wiki/Raw_data) is converted into structured data. During this process, raw data often need to be cleaned, organized, and transformed into formats that are allow for analysis, i.e., converted into data formats or data structures that can be fed directly into functions for coding or statistical analysis.
 
 Here's a [visualization of the process](https://en.wikipedia.org/wiki/Data_wrangling#/media/File:Data_Wrangling_From_Messy_To_Clean_Data_Management.jpg) of converting raw data to formatted (or structured) data:
 
 ![Visualization of data wrangling](figures/Data_Wrangling_From_Messy_To_Clean_Data_Management.jpg)
 
-The steps typically include:
+The steps in data wrangling, broadly, include:
 
 * **Discovery your data** -- look at and think about your data and maybe come up with some questions to ask
 * **Structure your data** -- organize the data (necessarily if its in a raw format) and structure it for the functions or methods that will take it as input
@@ -36,26 +34,27 @@ The steps typically include:
 * **Publish your data** -- and publish your analysis, findings, etc., for consumption, reproducibility, etc.
 
 
-# In R
+# Data wrangling in R
 
-Here is a visualization of how the data science workflow works in [R for Data Science](https://r4ds.had.co.nz/index.html):
+Here is a visualization of how the data science workflow works in the book [R for Data Science](https://r4ds.had.co.nz/index.html):
 
 * https://r4ds.had.co.nz/introduction.html
 
 That is you:
 
-* First **import** (load) the data into R -- this entails that the data is already in a loadable format (e.g., CSV file, Excel spreadsheet, relational database)
-* Second you "**tidy**" the data (in terms of the "[tidyverse](https://www.tidyverse.org)", i.e., a set of R packages for data science) -- more on this below
-* Next you may need to **transform** your data, e.g., select the data of interest, extend your data by adding other data source(s), summarize results
-* Then you may **visualize** your data, i.e., create plots to explore and interact with your data and to develop questions to answer
-* Next you may **model** your data to answer those questions
-* Lastly, you may want to **communicate** your results, e.g., through scientific reports like we are developing in class
+1. **Load**, aka "import", your data into R -- this entails that the data is already in a loadable format (e.g., text, CSV file, Excel spreadsheet, relational database)
+2. **Tidy** the data -- in terms of the R [tidyverse](https://www.tidyverse.org), i.e., a set of R packages aimed to make data science easy (more on this below)
+3. **Transform** your data -- select the data of interest, extend your data by adding other data source(s), summarize results
+4. **Visualize** your data -- create plots to explore and interact with your data and to develop questions to answer
+5. **Model** your data -- to answer questions and hypotheses
+6. **Communicate** your results -- through scientific reports like we the ones we are developing in class
 
-All of these step fall under the rubric of [computer programming](https://en.wikipedia.org/wiki/Computer_programming) and to some extent -- if we are trying to follow [coding best practices](https://en.wikipedia.org/wiki/Coding_best_practices); see also [here](https://www.cs.utexas.edu/~mitra/csSummer2014/cs312/lectures/bestPractices.html) -- [software engineering](https://en.wikipedia.org/wiki/Software_engineering). 
+All of these step fall under the rubric of [computer programming](https://en.wikipedia.org/wiki/Computer_programming). You may not become expert computer progammers, or software engineers, but in this course will need to be able to do some basic coding in R. Keep in mind: tou do not need to be an expert coder, or programmer, to do data science!
 
-You will not become software engineers in this class, but you will need to be able to do some coding. You do not need to be an expert coder, or programmer, to do data science!
+<!-- and to some extent -- if we are trying to follow [coding best practices](https://en.wikipedia.org/wiki/Coding_best_practices); see also [here](https://www.cs.utexas.edu/~mitra/csSummer2014/cs312/lectures/bestPractices.html) -- [software engineering](https://en.wikipedia.org/wiki/Software_engineering). -->
 
 
+<!-- 
 ## Loading data
 
 When working with data you first have to have some data. What about this data for example?
@@ -74,21 +73,424 @@ The "tidying" and "transforming" of your data is commonly referred to as "data w
 * https://r4ds.had.co.nz/introduction.html
 
 when your data is tidy, each column is a variable, and each row is an observation. Tidy data is important because the consistent structure lets you focus your struggle on questions about the data, not fighting to get the data into the right form for different functions.
+-->
+
+`dplyr` was developed by [Hadley Wickham](https://en.wikipedia.org/wiki/Hadley_Wickham) (the author of `plyr`, `ggplot2`).
+He also co-wrote a great introduction on the topic, look at [R for Data Science](https://r4ds.had.co.nz/) [@WickhamGrolemund2016], specifically the section [dplyr basics](https://r4ds.had.co.nz/transform.html?q=dplyr#dplyr-basics). 
+
+`dplyr` is super-fast on data frames. Essentially, one works with five basic "verbs" or functions:
+
+* `select()`: for subsetting variables/columns
+* `arrange()`: for re-ordering rows
+* `mutate()`: for adding new columns
+* `filter()`: for subsetting rows
+* `summarize()` (or `summarise()` if you prefer [British spelling](https://en.wikipedia.org/wiki/American_and_British_English_spelling_differences)): for reducing each group to a smaller number of summary statistics
+
+Let's try them out!
+
+***
+
+[Tidyverse](https://www.tidyverse.org) includes several R [packages](https://www.tidyverse.org/packages/) for data science. We may not use all of them in this class, but they currently include:
+
+* [ggplot2](https://ggplot2.tidyverse.org): for creating graphics
+* [dplyr](https://dplyr.tidyverse.org): for data manipulation
+* [tidyr](https://tidyr.tidyverse.org): to make your data tidy
+* [readr](https://readr.tidyverse.org): for reading / loading data
+* [purr](https://purrr.tidyverse.org): enhancements for functional programming
+* [tibble](https://tibble.tidyverse.org): update of the R [data frame](https://stat.ethz.ch/R-manual/R-devel/library/base/html/data.frame.html)
+* [stringr](https://stringr.tidyverse.org): functions for working with strings
+* [forcats](https://forcats.tidyverse.org): functions for dealing with [factors](https://stat.ethz.ch/R-manual/R-devel/library/base/html/factor.html) in R
+
+First, load the `tidyverse` package:
+
+```{r message = FALSE, warning=FALSE}
+# install.packages("tidyverse") # run this first if you need to install tidyverse
+library(tidyverse)
+```
+
+Let's use the dataset `athletes.csv` for an example of working with some of `tidyverse` tools. 
+
+The dataset `athletes.csv` contains various details about the athletes who participated in the [2014 Winter Olympics in Sochi](https://en.wikipedia.org/wiki/2014_Winter_Olympics). Here we use the version of this dataset converted by [Dana Silver](https://www.danasilver.org/sochi/). The data was originally retrieved in [JSON format](https://en.wikipedia.org/wiki/JSON) from Kimono Lab's Sochi API on February 18, 2014.
+
+Weh we load tabular (or table) data, we will usually be using the R data frame. A data frame is a table in which columns contain values of one data type and each row contains a set of values of that data type. The data frame is the most common way of storing data in R. ([Under the hood](https://en.wiktionary.org/wiki/under_the_hood), data frames are a list of equal legnth vectors -- each element of the list can be thought of as a column and the length of each element of the list is its number of rows.) Data frames have the following characteristics:
+
+* Column names should not be empty
+* Row names should be unique
+* Data stored in the data frame can be of type numeric, factor, of character
+* Each column should contain the same number of items
+
+If you are working within this repository on your local computer, you can load the data in this directory with this command:
+
+```{r message = FALSE, warning=FALSE}
+athletes <- read_csv("datasets/athletes.csv")
+```
+
+You can also give it the full path, depending on where the data is on your local computer.
+
+Perhaps easiest, however, is to load it from the repository on the web directly. The `readr` package makes this easy by allowing you to wrap the `url` fucntion into the `read_csv` function:
+
+```{r message = FALSE, warning=FALSE}
+athletes <- read_csv(url("https://raw.githubusercontent.com/bambooforest/IntroDataScience/main/4_data_wrangling/datasets/athletes.csv"))
+```
+
+Note that GitHub displays well-formatted CSV files as tabular data:
+
+* https://github.com/bambooforest/IntroDataScience/blob/main/4_data_wrangling/datasets/athletes.csv
+
+But if you want to load it from the web, you need to use the raw data (note the button on the GitHub page with the label "raw", which results in this URL:
+
+* https://raw.githubusercontent.com/bambooforest/IntroDataScience/main/4_data_wrangling/datasets/athletes.csv
+
+Now that you've loaded the `atheletes.csv` data, let's have a look at its structure with the `str()` function:
+
+```{r}
+str(athletes)
+```
+
+Recall our discussion about [data types for computer programming](https://github.com/bambooforest/IntroDataScience/tree/main/3_data#data-types-for-computer-programming) and [data types for statistics](https://github.com/bambooforest/IntroDataScience/tree/main/3_data#data-types-in-statistics).
+
+**What kind of variables do we have in our dataset?**
+
+Some variables should be converted from [character](https://stat.ethz.ch/R-manual/R-devel/library/base/html/character.html) to [factor](https://stat.ethz.ch/R-manual/R-devel/library/base/html/factor.html). You probably will want to use `gender`, and `sport`. Convert these two variables one by one:
+
+```{r}
+athletes$gender <- as.factor(athletes$gender)
+athletes$sport <- as.factor(athletes$sport)
+```
+
+Now note the change in data type:
+
+```{r}
+str(athletes)
+```
+
+Also, recall our discussion about [tabular data](https://github.com/bambooforest/IntroDataScience/tree/main/3_data#tabular-data).
+
+What are the variables in `athletes`?
+
+What are the objects of observation?
+
+If any row is lacking information for a particular column, a missing value called `NA` will be inserted in that cell.
+
+One useful function is `summary()`, which will summarize the contents of the data frame.
+
+```{r}
+summary(athletes)
+```
+
+Now some functions that we can select, filter, transform, extract, and summarize aspects of the data.
 
 
+## `select()`
 
+The dataset contains the details on age, birth date, gender, height, name, weight, medal counts, sport, and country and a few more variables. Not all of these variables are of interest for a specific research question and often one wants to have a "narrower" version of a dataset which contains only the variables of immediate interest. 
+
+To prepare such a version of your dataset, use the function `select()` to select the variables (columns) you need.
+
+- First, you can select the variables of interest just by naming them. Note that this way you can also modify the order of the variables:
+
+```{r}
+select(athletes, name, height, weight)
+```
+- You can use `:` to select all columns in a range between two specified columns (inclusively):
+ 
+```{r}
+select(athletes, age:weight)
+```
+
+- You can exclude a variable with the help of `-`.
+
+```{r}
+select(athletes, -birthdate, -age)
+```
+
+Note that `dplyr` functions never modify their input dataframes. If you want to save the result e.g., of the `select()`function, you need to use the assignment operator ` <-` and either overwrite the original dataframe or create a new one. 
+
+For instance, here the original dataframe remains unchanged: 
+
+```{r}
+select(athletes, birthdate, age)
+athletes
+```
+
+And here we create a new dataframe with the selected columns only:
+
+```{r}
+athletes_age <- select(athletes, birthdate, age)
+athletes_age
+```
+
+There are a number of **helper functions** you can use within `select()`. Try to guess what they do before executing the commands:
+
+1. **`ends_with()`**
+
+```{r}
+select(athletes, ends_with("medals"))
+```
+
+2. **`contains()`**
+
+```{r}
+select(athletes, contains("eigh"))
+```
+
+3. For details on other helper functions, see `?select`.
+
+```{r}
+?select
+```
+
+
+## `arrange()`
+
+`arrange()` changes the order of the rows. It takes a data frame and a set of column names to order by. If you list more than one column name, each additional column is used to break ties in the values of preceding columns.
+
+1. Guess what the following code will do before executing it!
+
+```{r, eval=FALSE}
+arrange(athletes, height, age)
+```
+
+<!-- The dataset is first order in an ascending order by `height`. In case two or more athletes have the same height, `age` is used to break ties (also in ascending order), e.g. several athletes have the height of 1.50 cm, they are then order from youngest to oldest. -->
+
+2. Guess what the following code will do before executing it!
+
+```{r, eval=FALSE}
+arrange(athletes, desc(height), age)
+```
+
+<!-- The dataset is first order in a descending order by `height`. In case two or more athletes have the same height, `age` is used to break ties (but now in ascending order), e.g. among the tallest athletes are the four athletes with the height of 2.00 cm, they are then order from youngest to oldest. -->
+
+3. Use only the `arrange()` to display the oldest female athlete at the top of the sorted dataset. How old is she?
+
+```{r, eval=FALSE}
+arrange(athletes, gender, desc(age))
+```
+
+<!-- Angelica Morrone is 48 years old. -->
+
+
+## `mutate()`
+
+Besides working with existing columns, it is sometimes necessary to add new columns that are functions of existing columns. That'''s what the `mutate()` function is for. 
+
+`mutate()` always adds new columns at the end of your dataset so we'll start by creating a narrower dataset so we can see the new variables. (Remember that when you use in RStudio, an easy way to see all the columns is `View()`.)
+
+First, create with `select()` a narrow dataset `athletes_narrow` which only contains the variables `name`, `gender`, `age`, `sport`, `height`, and `weight`. (Here, we add a few more columns than we need now, because we plan to use `athletes_narrow` later).
+
+```{r}
+athletes_narrow <- select(athletes, name, gender, age, sport, height, weight)
+athletes_narrow
+```
+
+Next, add the column BMI (body mass index). The BMI is calculated as the body mass (`weight`) divided by the square of the body `height`. It is universally expressed in units of kg/m^2^. 
+
+```{r}
+mutate(athletes_narrow, BMI = weight/height^2)
+```
+
+Notice that `mutate` does not overwrite the existing dataframe.
+
+```{r}
+mutate(athletes_narrow, BMI = weight/height^2)
+athletes_narrow
+```
+
+To add the new column to it permanently, you have to overwrite the original dataframe:
+
+```{r}
+athletes_narrow <- mutate(athletes_narrow, BMI = weight/height^2)
+athletes_narrow
+```
+
+There are many functions for creating new variables that you can use with `mutate()`. Think of a function and look up  [here](https://r4ds.had.co.nz/transform.html?q=dplyr#mutate-funs) [@WickhamGrolemund2016] for possible solutions. 
+
+
+## `filter()`
+
+Probably the most useful `dplyr` function is `filter()`. It allows you to subset observations based on their values. Or in other words, you can extract some rows from your dataset on the basis of certain conditions. The first argument of this function is the name of the data frame. The second and subsequent arguments are the expressions that filter the data frame. 
+
+For example, we can select all athletes who are taller than 2.00 m. Here we continue to work with `athletes_narrow`:
+
+```{r}
+filter(athletes_narrow, height > 2)
+```
+
+To use `filter()` effectively, you have to know how to select the observations that you want using the comparison operators in R. The standard comparison operators are  `>`, `>=`, `<`, `<=`, `!=` (not equal), and `==` (equal).
+
+The operator `==` can be used with numeric variables to filter a specific values, e.g., all athletes who are 15 years old: 
+
+```{r}
+filter(athletes_narrow, age == 15)
+```
+
+When you’re starting out with R, the easiest mistake to make is to use = instead of == when testing for equality. When this happens you’ll get an informative error. Try it out:
+
+```{r, eval=FALSE}
+filter(athletes_narrow, age = 15)
+```
+
+Another important function when filtering is to identify and potentially filter out `NA` cells. These are missing or unknown values in the dataset. R [provides a function](https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html) called `is.na()` that tests whether a value is missing or not. `NA` is a special value in R.
+
+```{r}
+x <- NA # special value NA
+y <- 1 # integer
+z <- 'NA' # character (string)
+is.na(x)
+is.na(y)
+is.na(z)
+```
+
+Let's filter the rows in `athletes` that do not have a height value, i.e., they are `NA` in the table.
+
+```{r}
+athletes %>% filter(is.na(height))
+```
+
+You can also filter to **remove** `NA`s, which is often useful for when you want to visualize the data. Use the logical operation `!` mentioned above, i.e., "not".
+
+```{r}
+athletes %>% filter(!is.na(height))
+```
+
+You can also combined the filters. For example, if you want all rows in `atheletes` that do not have `NA` values for `height` and `weight`. Notice how the number of rows decreases.
+
+```{r}
+athletes %>% filter(!is.na(height)) %>% filter(!is.na(weight))
+```
+
+If you want to check if there are any `NA`s in a column, you can also use the `any()` function.
+
+```{r}
+any(is.na(athletes$height))
+any(is.na(athletes$age))
+```
+
+
+Another useful function is called `table()`. What does it do?
+
+```{r}
+table(athletes$sport)
+```
+
+Note you need to use the `exclude = FALSE` parameter, if you want the `table()` function to count `NA`s. How many athelete
+
+```{r}
+table(athletes$height)
+table(athletes$height, exclude = FALSE)
+```
+
+***
+
+**Try these out!**
+
+Use the dataframe `athletes_narrow`.
+
+1. Filter all the athletes who are heavier than 110 kg.
+
+2. Filter the athletes who weigh exactly 110 or more kg. How many athletes are these? To get the answer, use the function `nrow()` for **n**umber of **row**s' in addition to `filter()` (i.e. `nrows(filter(...))`). We recommend though looking first at the filter output to be sure that it worked the way you intended before applying `nrow()`.
+
+3. Filter all the athletes who weigh between 105 and 110 kg. How many are they?
 
 
 # Databases
 
 ## Overview
 
+The table (or flat file) model is simple to read and easy to manipulate. It consists of a two-dimensional array of data elements. The placement of data in rows and columns provides the data with structure, and thus, meaning.
+
+* https://glottolog.org
+* https://glottolog.org/glottolog/language
+* https://cdstar.eva.mpg.de/bitstreams/EAEA0-F8BB-0AB6-96FA-0/languages_and_dialects_geo.csv
+
+```{r}
+head(athletes)
+```
+A table's columns and rows specify relationships among the cells in the table, some of which are implicit. Spreadsheets are a way to interactively work with the data.
+
+[Relational databases](https://en.wikipedia.org/wiki/Relational_database) are structures for storing data whose purpose is to make entering, searching, analyzing, and updating data as easy and efficient as possible.
+
+Fundamentally, a relational database is a set of tables, which themselves are made up of sets of rows and sets of columns. Relational databases provide two basic operations:
+
+* Retrieving a set of columns and 
+* Retrieving a set of rows
+
+These two basic operations to retrieve columns and rows can also be combined. [Set operations](https://en.wikipedia.org/wiki/Set_operations_(SQL)) on tables can be performed on two or more tables, allowing users to perform operations like [intersection](https://en.wikipedia.org/wiki/Intersection), [cartesian product](https://en.wikipedia.org/wiki/Cartesian_product), adding or subtracting tables from each other, etc.
+
+The real power of relational databases is when operations are made on sets of tables that are not the same, but that share at least one column.
+
+[Here](https://www3.ntu.edu.sg/home/ehchua/programming/sql/Relational_Database_Design.html) is a tutorial on relational database design. Note the `Teachers` to `Classes` figure, where the two tables are "linked" or "related" to each other by the `teacherID` columns.
+
+It is rare that data analysis involves only on table. Often you want to combine different tables on a shared value, so that you can answer questions you are interested in.
+
 ## Joining tables
+
+When joining two or more tables, you always join two tables first. Then if you have a third, fourth, etc., table, you join them to the already joined table.
+
+Let's install the [gapminder](https://cran.r-project.org/web/packages/gapminder/index.html) R library that contains an excerpt of data from [Gapminder.org](Gapminder.org). Read more about their mission [here](https://www.gapminder.org/about/).
+
+And as usual, make sure to properly cite your sources! Here's an easy way to get the citation for the `gapminder` library [@Bryan2017] or more generally any R library with `citation()`.
+
+```{r}
+citation('gapminder')
+```
+
+First install the library, and if you already have, load it.
+
+```{r}
+# install.packages('gapminder') # install the gapminder R library
+library(gapminder)
+```
+
+Let's have a look at the description of the data. This will appear in RStudio.
+
+```{r}
+?gapminder
+```
+
+How does the data look?
+
+```{r}
+head(gapminder)
+```
+
+How is it structured? How many rows does the table have? How many columns?
+
+```{r}
+str(gapminder)
+```
+
+Here's some more gapminder data, but this data set is about the [sex ratios](https://en.wikipedia.org/wiki/List_of_countries_by_sex_ratio) by country, i.e., the comparative number of males with respect to each female in a population.
+
+We've accessed the data from this overview on how to [add and combine data sets](https://csiro-data-school.github.io/r/10-Data-Verbs---join/index.html). It has some great visualizations about [relational database joins](https://en.wikipedia.org/wiki/Join_(SQL)):
+
+* https://tavareshugo.github.io/r-intro-tidyverse-gapminder/08-joins/index.html
+* https://csiro-data-school.github.io/r/10-Data-Verbs---join/index.html
+
+Let's load the [sex ratio data](https://csiro-data-school.github.io/r/data/gapminder_sex_ratios.csv) from Gapminder. There's a copy in this course's repository [in the datasets](https://github.com/bambooforest/IntroDataScience/blob/main/4_data_wrangling/datasets/gapminder_sex_ratios.csv) directory. Recall from above, you can load it locally or directly with the `url()` within the `read_csv()` function.
+
+This time when we load the data in R Markdown, we do not add the `message = FALSE` parameter to the code chunk, i.e., `{r = message = FALSE}` (see the Rmd file for examples). This means that the Column specification is output to this markdown file below. What does it tell us about the columns?
+
+```{r}
+sex_ratios <- read_csv('datasets/gapminder_sex_ratios.csv')
+```
+
+So now we have two data sets from Gapminder.
+
+```{r}
+str(gapminder)
+str(sex_ratios)
+```
+
+Which columns are shared between the two datasets? Notice again the [data types](https://github.com/bambooforest/IntroDataScience/tree/main/3_data#data-types-for-computer-programming).
+
+So how do we combine the tables / data frames?
+
 
 
 # Code style
 
-According to the [dictionary app](https://en.wikipedia.org/wiki/Dictionary_(software)) on my computer, style can be defined in various ways, including:
+Let's talk about (code) style. According to the [dictionary app](https://en.wikipedia.org/wiki/Dictionary_(software)) on my computer, style can be defined in various ways, including:
 
 * "a manner of doing something"
 * "a way of using language"
@@ -161,9 +563,7 @@ To summarize, every programming language, and most groups of programmers, will h
 
 The [TL;DR](https://en.wikipedia.org/wiki/Wikipedia:Too_long;_didn%27t_read)? Follow a style guide! It makes your code easier to read. Or as [Hadley Wickham](https://en.wikipedia.org/wiki/Hadley_Wickham) apparently said:
 
-```
-Good coding style is like using correct punctuation. You can manage without it, but it sure makes things easier to read. 
-```
+>>> Good coding style is like using correct punctuation. You can manage without it, but it sure makes things easier to read. 
 
 Which makes sense. If you want your data practicals to be easily understood and reproducible, and you want to be come a better and more consistent programmer (regardless of the programming language), follow a style guide!
 
@@ -194,4 +594,4 @@ In short, make your coding life easier; use a linter! Here's one for R:
 * https://towardsdatascience.com/unit-testing-in-r-68ab9cc8d211
 
 
-
+# References
