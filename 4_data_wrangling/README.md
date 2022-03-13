@@ -9,6 +9,7 @@ Steven Moran
     -   [`arrange()`](#arrange)
     -   [`mutate()`](#mutate)
     -   [`filter()`](#filter)
+    -   [`summarize()`](#summarize)
 -   [Databases](#databases)
     -   [Overview](#overview-1)
     -   [Joining tables](#joining-tables)
@@ -943,6 +944,13 @@ Use the dataframe `athletes_narrow`.
 3.  Filter all the athletes who weigh between 105 and 110 kg. How many
     are they?
 
+## `summarize()`
+
+The dplyr function `summarize()` (or `summarise()`) summarizes multiple
+values in a single value.
+
+Let’s create a data frame as an
+
 # Databases
 
 ## Overview
@@ -1317,6 +1325,20 @@ In short, make your coding life easier; use a linter! Here’s one for R:
 -   <https://cran.r-project.org/web/packages/lintr/readme/README.html>
 
 # Tests
+
+[Software testing](https://en.wikipedia.org/wiki/Software_testing)
+involves evaluating and verifying whether aspects of software validate
+and perform as expected. The idea is to verify that the code (or system)
+is working as expected, i.e., that the behavior of the software is
+performing as expected.
+
+[Test driven
+development](https://en.wikipedia.org/wiki/Test-driven_development) is a
+framework for creating [test
+cases](https://en.wikipedia.org/wiki/Test_case) that verify compliance
+of specific code requirements.
+
+In R, information about testing can be found here, e.g.:
 
 -   <https://r-pkgs.org/tests.html>
 -   <https://testthat.r-lib.org>
