@@ -1,0 +1,1723 @@
+country,year,sex_ratio
+Burundi,1952,91.9
+Comoros,1952,98.8
+Djibouti,1952,98.6
+Eritrea,1952,98.2
+Ethiopia,1952,98.6
+Kenya,1952,101.7
+Madagascar,1952,105.9
+Malawi,1952,92.3
+Mauritius,1952,99.2
+Mozambique,1952,95.6
+Rwanda,1952,96.6
+Somalia,1952,98.6
+Uganda,1952,99.5
+Zambia,1952,99.1
+Zimbabwe,1952,99.4
+Angola,1952,94.2
+Cameroon,1952,96.1
+Central African Republic,1952,97.2
+Chad,1952,97.5
+Equatorial Guinea,1952,96.7
+Gabon,1952,95.2
+Sao Tome and Principe,1952,124.9
+Algeria,1952,103.5
+Egypt,1952,101.7
+Libya,1952,107.2
+Morocco,1952,99
+Sudan,1952,99.8
+Tunisia,1952,98.7
+Botswana,1952,93.8
+Lesotho,1952,88.3
+Namibia,1952,98.7
+South Africa,1952,101.6
+Swaziland,1952,94.6
+Benin,1952,87.2
+Burkina Faso,1952,110.3
+Gambia,1952,95
+Ghana,1952,102.2
+Guinea,1952,100
+Guinea-Bissau,1952,97.8
+Liberia,1952,108.5
+Mali,1952,104.8
+Mauritania,1952,95.8
+Niger,1952,82.3
+Nigeria,1952,99.5
+Senegal,1952,95.4
+Sierra Leone,1952,96
+Togo,1952,97.2
+China,1952,107.9
+Japan,1952,96.2
+Mongolia,1952,96.7
+Afghanistan,1952,112.2
+Bangladesh,1952,109.2
+India,1952,105.4
+Nepal,1952,98.2
+Pakistan,1952,119.8
+Sri Lanka,1952,119.5
+Cambodia,1952,100
+Indonesia,1952,98.4
+Malaysia,1952,106
+Myanmar,1952,98.3
+Philippines,1952,98.9
+Singapore,1952,107.4
+Thailand,1952,100.7
+Bahrain,1952,116.1
+Iraq,1952,99.5
+Israel,1952,105.8
+Jordan,1952,107.9
+Kuwait,1952,147.7
+Lebanon,1952,101.3
+Oman,1952,103.1
+Saudi Arabia,1952,103.1
+Turkey,1952,101.1
+Bulgaria,1952,99.9
+Hungary,1952,92.8
+Poland,1952,91
+Romania,1952,93.6
+Denmark,1952,98.4
+Finland,1952,91.5
+Iceland,1952,100
+Ireland,1952,103.6
+Norway,1952,98.2
+Sweden,1952,99.2
+United Kingdom,1952,92.6
+Albania,1952,105.4
+Bosnia and Herzegovina,1952,93.3
+Croatia,1952,91
+Greece,1952,94.7
+Italy,1952,94.9
+Montenegro,1952,90.8
+Portugal,1952,92.6
+Serbia,1952,94.4
+Slovenia,1952,91.6
+Spain,1952,92.8
+Austria,1952,86.6
+Belgium,1952,97.2
+France,1952,92.6
+Germany,1952,85.7
+Netherlands,1952,99.4
+Switzerland,1952,93
+Cuba,1952,106.8
+Dominican Republic,1952,102.6
+Haiti,1952,95.3
+Jamaica,1952,94.7
+Puerto Rico,1952,100.9
+Trinidad and Tobago,1952,100.7
+Costa Rica,1952,104.2
+El Salvador,1952,97.4
+Guatemala,1952,102
+Honduras,1952,101.2
+Mexico,1952,98.9
+Nicaragua,1952,98.9
+Panama,1952,105.1
+Argentina,1952,106.1
+Brazil,1952,98.4
+Chile,1952,97.2
+Colombia,1952,98.4
+Ecuador,1952,98.8
+Paraguay,1952,96.9
+Peru,1952,100.9
+Uruguay,1952,102.4
+Canada,1952,102.9
+Australia,1952,101.6
+New Zealand,1952,101.1
+Burundi,1957,92.6
+Comoros,1957,98.9
+Djibouti,1957,98.7
+Eritrea,1957,98.4
+Ethiopia,1957,98.7
+Kenya,1957,101.1
+Madagascar,1957,104.5
+Malawi,1957,93.2
+Mauritius,1957,99.2
+Mozambique,1957,95.5
+Rwanda,1957,96.4
+Somalia,1957,98.2
+Uganda,1957,99
+Zambia,1957,98.8
+Zimbabwe,1957,99.4
+Angola,1957,94.4
+Cameroon,1957,96.4
+Central African Republic,1957,96.9
+Chad,1957,96.1
+Equatorial Guinea,1957,96.3
+Gabon,1957,95.2
+Sao Tome and Principe,1957,124.9
+Algeria,1957,101.6
+Egypt,1957,102.3
+Libya,1957,105
+Morocco,1957,99.1
+Sudan,1957,99.7
+Tunisia,1957,99
+Botswana,1957,93.8
+Lesotho,1957,88.2
+Namibia,1957,97.8
+South Africa,1957,100.6
+Swaziland,1957,93.9
+Benin,1957,89.4
+Burkina Faso,1957,106.5
+Gambia,1957,95.7
+Ghana,1957,102.8
+Guinea,1957,98.7
+Guinea-Bissau,1957,97.6
+Liberia,1957,105.3
+Mali,1957,103.3
+Mauritania,1957,97.1
+Niger,1957,86.4
+Nigeria,1957,99.6
+Senegal,1957,97.2
+Sierra Leone,1957,95.5
+Togo,1957,97.1
+China,1957,107.1
+Japan,1957,96.7
+Mongolia,1957,96.9
+Afghanistan,1957,109.3
+Bangladesh,1957,107.9
+India,1957,106
+Nepal,1957,98.4
+Pakistan,1957,117.4
+Sri Lanka,1957,114.3
+Cambodia,1957,99.8
+Indonesia,1957,98.6
+Malaysia,1957,104.1
+Myanmar,1957,96.5
+Philippines,1957,100.3
+Singapore,1957,111
+Thailand,1957,100.3
+Bahrain,1957,113.9
+Iraq,1957,100
+Israel,1957,103.3
+Jordan,1957,109
+Kuwait,1957,159
+Lebanon,1957,101.2
+Oman,1957,100.3
+Saudi Arabia,1957,101.8
+Turkey,1957,100.1
+Bulgaria,1957,99.6
+Hungary,1957,93.7
+Poland,1957,92.2
+Romania,1957,94.6
+Denmark,1957,98.5
+Finland,1957,92.2
+Iceland,1957,101.4
+Ireland,1957,102.5
+Norway,1957,99
+Sweden,1957,99.5
+United Kingdom,1957,92.7
+Albania,1957,105.9
+Bosnia and Herzegovina,1957,95.1
+Croatia,1957,91.9
+Greece,1957,95.1
+Italy,1957,94.6
+Montenegro,1957,93.1
+Portugal,1957,92.2
+Serbia,1957,95.9
+Slovenia,1957,91.7
+Spain,1957,93.6
+Austria,1957,86.8
+Belgium,1957,97
+France,1957,93.8
+Germany,1957,86.4
+Netherlands,1957,99.2
+Switzerland,1957,93.4
+Cuba,1957,105.6
+Dominican Republic,1957,102.8
+Haiti,1957,95.8
+Jamaica,1957,94.8
+Puerto Rico,1957,99.2
+Trinidad and Tobago,1957,100.9
+Costa Rica,1957,103.8
+El Salvador,1957,96.7
+Guatemala,1957,102.4
+Honduras,1957,101.2
+Mexico,1957,99.1
+Nicaragua,1957,99.2
+Panama,1957,104.5
+Argentina,1957,104.4
+Brazil,1957,98.8
+Chile,1957,97.1
+Colombia,1957,98.6
+Ecuador,1957,99.5
+Paraguay,1957,96.6
+Peru,1957,101
+Uruguay,1957,101.2
+Canada,1957,102.8
+Australia,1957,102.5
+New Zealand,1957,101.4
+Burundi,1962,93.3
+Comoros,1962,99
+Djibouti,1962,98.8
+Eritrea,1962,98.8
+Ethiopia,1962,98.8
+Kenya,1962,100.6
+Madagascar,1962,103.4
+Malawi,1962,93.8
+Mauritius,1962,99.5
+Mozambique,1962,95.6
+Rwanda,1962,96.4
+Somalia,1962,97.9
+Uganda,1962,98.8
+Zambia,1962,98.7
+Zimbabwe,1962,99.4
+Angola,1962,94.6
+Cameroon,1962,96.7
+Central African Republic,1962,96.8
+Chad,1962,95.6
+Equatorial Guinea,1962,96
+Gabon,1962,95.3
+Sao Tome and Principe,1962,125.4
+Algeria,1962,101.3
+Egypt,1962,102.6
+Libya,1962,105.4
+Morocco,1962,99.3
+Sudan,1962,99.8
+Tunisia,1962,99.4
+Botswana,1962,91.1
+Lesotho,1962,87
+Namibia,1962,97.5
+South Africa,1962,100
+Swaziland,1962,93.8
+Benin,1962,90.7
+Burkina Faso,1962,103.7
+Gambia,1962,96.8
+Ghana,1962,103.3
+Guinea,1962,97.9
+Guinea-Bissau,1962,97.4
+Liberia,1962,102.9
+Mali,1962,102.2
+Mauritania,1962,98.1
+Niger,1962,89.1
+Nigeria,1962,99.7
+Senegal,1962,98.7
+Sierra Leone,1962,95.1
+Togo,1962,97.1
+China,1962,106.4
+Japan,1962,96.9
+Mongolia,1962,96.7
+Afghanistan,1962,107
+Bangladesh,1962,107
+India,1962,106.6
+Nepal,1962,99.2
+Pakistan,1962,115.4
+Sri Lanka,1962,110.5
+Cambodia,1962,99.6
+Indonesia,1962,98.8
+Malaysia,1962,103.7
+Myanmar,1962,95.5
+Philippines,1962,101.3
+Singapore,1962,111.3
+Thailand,1962,100.3
+Bahrain,1962,115.2
+Iraq,1962,101.2
+Israel,1962,102.9
+Jordan,1962,109.5
+Kuwait,1962,179.5
+Lebanon,1962,101.1
+Oman,1962,98.1
+Saudi Arabia,1962,100.9
+Turkey,1962,99.4
+Bulgaria,1962,99.7
+Hungary,1962,93.1
+Poland,1962,93.7
+Romania,1962,95.4
+Denmark,1962,98.5
+Finland,1962,92.9
+Iceland,1962,102.1
+Ireland,1962,101.2
+Norway,1962,99.2
+Sweden,1962,99.5
+United Kingdom,1962,93.4
+Albania,1962,106.1
+Bosnia and Herzegovina,1962,96.3
+Croatia,1962,92.4
+Greece,1962,96.2
+Italy,1962,94.7
+Montenegro,1962,94.9
+Portugal,1962,91.7
+Serbia,1962,96.8
+Slovenia,1962,92
+Spain,1962,94.4
+Austria,1962,87.2
+Belgium,1962,96.9
+France,1962,94.7
+Germany,1962,86.9
+Netherlands,1962,99.2
+Switzerland,1962,93.9
+Cuba,1962,104.5
+Dominican Republic,1962,102.6
+Haiti,1962,96.4
+Jamaica,1962,92.8
+Puerto Rico,1962,97.7
+Trinidad and Tobago,1962,100.7
+Costa Rica,1962,103.5
+El Salvador,1962,97.2
+Guatemala,1962,102.6
+Honduras,1962,100.7
+Mexico,1962,99.3
+Nicaragua,1962,99.6
+Panama,1962,104.2
+Argentina,1962,103.2
+Brazil,1962,99.2
+Chile,1962,96.9
+Colombia,1962,98.7
+Ecuador,1962,100
+Paraguay,1962,97
+Peru,1962,101
+Uruguay,1962,100.1
+Canada,1962,102.3
+Australia,1962,102.1
+New Zealand,1962,101
+Burundi,1967,94
+Comoros,1967,99.2
+Djibouti,1967,99
+Eritrea,1967,99.1
+Ethiopia,1967,98.9
+Kenya,1967,100
+Madagascar,1967,102.5
+Malawi,1967,94.2
+Mauritius,1967,100
+Mozambique,1967,95.6
+Rwanda,1967,96.2
+Somalia,1967,97.8
+Uganda,1967,98.8
+Zambia,1967,98.7
+Zimbabwe,1967,99.4
+Angola,1967,94.7
+Cameroon,1967,97
+Central African Republic,1967,96.7
+Chad,1967,95.6
+Equatorial Guinea,1967,97
+Gabon,1967,94.2
+Sao Tome and Principe,1967,111.6
+Algeria,1967,100.9
+Egypt,1967,102.9
+Libya,1967,105.7
+Morocco,1967,97.5
+Sudan,1967,99.9
+Tunisia,1967,100.9
+Botswana,1967,90.3
+Lesotho,1967,85.4
+Namibia,1967,97.5
+South Africa,1967,99.7
+Swaziland,1967,91.4
+Benin,1967,91.8
+Burkina Faso,1967,101
+Gambia,1967,100.1
+Ghana,1967,103.6
+Guinea,1967,97.5
+Guinea-Bissau,1967,97.3
+Liberia,1967,101.1
+Mali,1967,101.1
+Mauritania,1967,98.8
+Niger,1967,91.6
+Nigeria,1967,99.8
+Senegal,1967,100
+Sierra Leone,1967,94.9
+Togo,1967,97.3
+China,1967,105.9
+Japan,1967,97
+Mongolia,1967,96.9
+Afghanistan,1967,105.3
+Bangladesh,1967,105.9
+India,1967,107.1
+Nepal,1967,99.1
+Pakistan,1967,113.6
+Sri Lanka,1967,107.8
+Cambodia,1967,99.4
+Indonesia,1967,99.2
+Malaysia,1967,103.4
+Myanmar,1967,95
+Philippines,1967,102.1
+Singapore,1967,106.5
+Thailand,1967,100.4
+Bahrain,1967,120.8
+Iraq,1967,102.5
+Israel,1967,102
+Jordan,1967,108.9
+Kuwait,1967,160.4
+Lebanon,1967,101.6
+Oman,1967,96.6
+Saudi Arabia,1967,101.9
+Turkey,1967,98.9
+Bulgaria,1967,99.9
+Hungary,1967,93.7
+Poland,1967,94.2
+Romania,1967,96
+Denmark,1967,98.4
+Finland,1967,93.4
+Iceland,1967,102.2
+Ireland,1967,100.9
+Norway,1967,99.2
+Sweden,1967,99.7
+United Kingdom,1967,94.1
+Albania,1967,106.1
+Bosnia and Herzegovina,1967,97.2
+Croatia,1967,93.3
+Greece,1967,96.2
+Italy,1967,94.8
+Montenegro,1967,96.5
+Portugal,1967,91.4
+Serbia,1967,97.5
+Slovenia,1967,91.9
+Spain,1967,94.9
+Austria,1967,87.8
+Belgium,1967,96.5
+France,1967,95.8
+Germany,1967,88.9
+Netherlands,1967,99.4
+Switzerland,1967,94.9
+Cuba,1967,103.7
+Dominican Republic,1967,102.3
+Haiti,1967,96.8
+Jamaica,1967,91.8
+Puerto Rico,1967,95.9
+Trinidad and Tobago,1967,99.5
+Costa Rica,1967,103.3
+El Salvador,1967,98.3
+Guatemala,1967,102.6
+Honduras,1967,100.1
+Mexico,1967,99.4
+Nicaragua,1967,100
+Panama,1967,103.8
+Argentina,1967,101.9
+Brazil,1967,99.4
+Chile,1967,96.8
+Colombia,1967,98.9
+Ecuador,1967,100.4
+Paraguay,1967,98.1
+Peru,1967,101
+Uruguay,1967,99.4
+Canada,1967,101.1
+Australia,1967,101.5
+New Zealand,1967,100.6
+Burundi,1972,94.5
+Comoros,1972,99.4
+Djibouti,1972,99.1
+Eritrea,1972,99.4
+Ethiopia,1972,99
+Kenya,1972,99.5
+Madagascar,1972,101.8
+Malawi,1972,94.7
+Mauritius,1972,100.1
+Mozambique,1972,95.7
+Rwanda,1972,96.4
+Somalia,1972,97.8
+Uganda,1972,98.8
+Zambia,1972,98.8
+Zimbabwe,1972,99.3
+Angola,1972,95
+Cameroon,1972,97.4
+Central African Republic,1972,96.6
+Chad,1972,96.1
+Equatorial Guinea,1972,98.5
+Gabon,1972,91.9
+Sao Tome and Principe,1972,100.5
+Algeria,1972,101.1
+Egypt,1972,102.6
+Libya,1972,106.5
+Morocco,1972,97.8
+Sudan,1972,100.1
+Tunisia,1972,100.6
+Botswana,1972,91.4
+Lesotho,1972,85.9
+Namibia,1972,97.6
+South Africa,1972,99.9
+Swaziland,1972,90.4
+Benin,1972,92.6
+Burkina Faso,1972,99.1
+Gambia,1972,104.8
+Ghana,1972,103.8
+Guinea,1972,97.3
+Guinea-Bissau,1972,97.3
+Liberia,1972,100.2
+Mali,1972,100.2
+Mauritania,1972,99.1
+Niger,1972,93.8
+Nigeria,1972,100
+Senegal,1972,101.4
+Sierra Leone,1972,94.9
+Togo,1972,97.4
+China,1972,105.4
+Japan,1972,97.2
+Mongolia,1972,97.1
+Afghanistan,1972,104.1
+Bangladesh,1972,105.2
+India,1972,107.4
+Nepal,1972,98.9
+Pakistan,1972,112.2
+Sri Lanka,1972,106.2
+Cambodia,1972,99
+Indonesia,1972,99.4
+Malaysia,1972,102.8
+Myanmar,1972,95.1
+Philippines,1972,102.4
+Singapore,1972,104.9
+Thailand,1972,100.5
+Bahrain,1972,117.6
+Iraq,1972,103.5
+Israel,1972,101.8
+Jordan,1972,107.7
+Kuwait,1972,129.4
+Lebanon,1972,102
+Oman,1972,96.6
+Saudi Arabia,1972,103.7
+Turkey,1972,98.7
+Bulgaria,1972,100
+Hungary,1972,94.1
+Poland,1972,94.4
+Romania,1972,96.5
+Denmark,1972,98.7
+Finland,1972,93.4
+Iceland,1972,102.3
+Ireland,1972,100.8
+Norway,1972,98.9
+Sweden,1972,99.7
+United Kingdom,1972,94.3
+Albania,1972,106.1
+Bosnia and Herzegovina,1972,96.7
+Croatia,1972,93.8
+Greece,1972,96.7
+Italy,1972,95.1
+Montenegro,1972,95.4
+Portugal,1972,90.4
+Serbia,1972,97.8
+Slovenia,1972,93.8
+Spain,1972,95.3
+Austria,1972,88.6
+Belgium,1972,96.1
+France,1972,96.6
+Germany,1972,89.9
+Netherlands,1972,99.5
+Switzerland,1972,95.5
+Cuba,1972,103.4
+Dominican Republic,1972,102.1
+Haiti,1972,96.9
+Jamaica,1972,95.5
+Puerto Rico,1972,96.1
+Trinidad and Tobago,1972,98.6
+Costa Rica,1972,103
+El Salvador,1972,99
+Guatemala,1972,102.5
+Honduras,1972,99.4
+Mexico,1972,99.5
+Nicaragua,1972,100
+Panama,1972,103.5
+Argentina,1972,100.6
+Brazil,1972,99.3
+Chile,1972,96.8
+Colombia,1972,99.1
+Ecuador,1972,100.8
+Paraguay,1972,99.5
+Peru,1972,100.9
+Uruguay,1972,98.8
+Canada,1972,100.6
+Australia,1972,101.1
+New Zealand,1972,99.9
+Burundi,1977,94.2
+Comoros,1977,99.6
+Djibouti,1977,99.3
+Eritrea,1977,99.5
+Ethiopia,1977,99.2
+Kenya,1977,99.3
+Madagascar,1977,101.1
+Malawi,1977,95.2
+Mauritius,1977,97.4
+Mozambique,1977,95.9
+Rwanda,1977,96.5
+Somalia,1977,97.8
+Uganda,1977,98.9
+Zambia,1977,98.7
+Zimbabwe,1977,99.2
+Angola,1977,95.3
+Cameroon,1977,97.7
+Central African Republic,1977,96.6
+Chad,1977,96.7
+Equatorial Guinea,1977,98.2
+Gabon,1977,92.9
+Sao Tome and Principe,1977,99
+Algeria,1977,101.4
+Egypt,1977,102.3
+Libya,1977,108.2
+Morocco,1977,98.4
+Sudan,1977,100.2
+Tunisia,1977,101.1
+Botswana,1977,93.3
+Lesotho,1977,85.7
+Namibia,1977,97.5
+South Africa,1977,99.7
+Swaziland,1977,90.5
+Benin,1977,93
+Burkina Faso,1977,97.5
+Gambia,1977,101.7
+Ghana,1977,103.5
+Guinea,1977,97.2
+Guinea-Bissau,1977,97.3
+Liberia,1977,99.6
+Mali,1977,99.8
+Mauritania,1977,99.2
+Niger,1977,95.4
+Nigeria,1977,100.3
+Senegal,1977,102
+Sierra Leone,1977,95.9
+Togo,1977,97.5
+China,1977,105.4
+Japan,1977,97.5
+Mongolia,1977,97.2
+Afghanistan,1977,103.4
+Bangladesh,1977,104.4
+India,1977,107.5
+Nepal,1977,99.5
+Pakistan,1977,111
+Sri Lanka,1977,104.8
+Cambodia,1977,97.9
+Indonesia,1977,99.6
+Malaysia,1977,102.2
+Myanmar,1977,95.2
+Philippines,1977,102.5
+Singapore,1977,104.4
+Thailand,1977,100.5
+Bahrain,1977,126.8
+Iraq,1977,104.1
+Israel,1977,100.5
+Jordan,1977,107.1
+Kuwait,1977,119.3
+Lebanon,1977,102
+Oman,1977,101.6
+Saudi Arabia,1977,108.4
+Turkey,1977,98.7
+Bulgaria,1977,99.7
+Hungary,1977,94
+Poland,1977,94.7
+Romania,1977,97
+Denmark,1977,98.2
+Finland,1977,93.6
+Iceland,1977,102.1
+Ireland,1977,100.9
+Norway,1977,98.7
+Sweden,1977,98.9
+United Kingdom,1977,94.7
+Albania,1977,105.9
+Bosnia and Herzegovina,1977,96.9
+Croatia,1977,94.1
+Greece,1977,97.2
+Italy,1977,95
+Montenegro,1977,96
+Portugal,1977,91.6
+Serbia,1977,97.9
+Slovenia,1977,93.8
+Spain,1977,95.9
+Austria,1977,89.2
+Belgium,1977,95.7
+France,1977,97.3
+Germany,1977,90.5
+Netherlands,1977,99.4
+Switzerland,1977,95.2
+Cuba,1977,102.8
+Dominican Republic,1977,101.8
+Haiti,1977,96.7
+Jamaica,1977,96.1
+Puerto Rico,1977,95.6
+Trinidad and Tobago,1977,98.4
+Costa Rica,1977,102.7
+El Salvador,1977,98.4
+Guatemala,1977,102
+Honduras,1977,98.9
+Mexico,1977,99.5
+Nicaragua,1977,100.5
+Panama,1977,103.2
+Argentina,1977,99.5
+Brazil,1977,99.1
+Chile,1977,96.8
+Colombia,1977,99.1
+Ecuador,1977,101
+Paraguay,1977,100.8
+Peru,1977,100.6
+Uruguay,1977,98.1
+Canada,1977,100.2
+Australia,1977,100.5
+New Zealand,1977,99.5
+Burundi,1982,94.1
+Comoros,1982,99.8
+Djibouti,1982,101.8
+Eritrea,1982,99.6
+Ethiopia,1982,99.1
+Kenya,1982,99.2
+Madagascar,1982,100.6
+Malawi,1982,96
+Mauritius,1982,97.3
+Mozambique,1982,95.7
+Rwanda,1982,96.7
+Somalia,1982,104.1
+Uganda,1982,99
+Zambia,1982,98.8
+Zimbabwe,1982,98.5
+Angola,1982,95.6
+Cameroon,1982,98
+Central African Republic,1982,96.6
+Chad,1982,97.4
+Equatorial Guinea,1982,98
+Gabon,1982,94
+Sao Tome and Principe,1982,97.4
+Algeria,1982,101.6
+Egypt,1982,101.9
+Libya,1982,109.9
+Morocco,1982,99
+Sudan,1982,100.4
+Tunisia,1982,101.1
+Botswana,1982,94.9
+Lesotho,1982,87.8
+Namibia,1982,94.9
+South Africa,1982,98.9
+Swaziland,1982,90.4
+Benin,1982,93.4
+Burkina Faso,1982,96.2
+Gambia,1982,98.4
+Ghana,1982,103.4
+Guinea,1982,97.2
+Guinea-Bissau,1982,94.4
+Liberia,1982,99.3
+Mali,1982,99.2
+Mauritania,1982,99.3
+Niger,1982,96.8
+Nigeria,1982,101.1
+Senegal,1982,100.3
+Sierra Leone,1982,96.5
+Togo,1982,97.6
+China,1982,105.4
+Japan,1982,97.5
+Mongolia,1982,97.3
+Afghanistan,1982,103.5
+Bangladesh,1982,104.1
+India,1982,107.4
+Nepal,1982,100.1
+Pakistan,1982,109.7
+Sri Lanka,1982,104
+Cambodia,1982,88.8
+Indonesia,1982,99.8
+Malaysia,1982,102.2
+Myanmar,1982,95.4
+Philippines,1982,102.4
+Singapore,1982,104.1
+Thailand,1982,100.3
+Bahrain,1982,140.7
+Iraq,1982,104.4
+Israel,1982,99.7
+Jordan,1982,109.4
+Kuwait,1982,133.7
+Lebanon,1982,98.3
+Oman,1982,111.4
+Saudi Arabia,1982,115.7
+Turkey,1982,98.4
+Bulgaria,1982,99.2
+Hungary,1982,94
+Poland,1982,94.8
+Romania,1982,97.3
+Denmark,1982,97.6
+Finland,1982,93.6
+Iceland,1982,101.6
+Ireland,1982,100.9
+Norway,1982,98.2
+Sweden,1982,98.1
+United Kingdom,1982,94.7
+Albania,1982,105.9
+Bosnia and Herzegovina,1982,97.8
+Croatia,1982,93.9
+Greece,1982,98
+Italy,1982,94.7
+Montenegro,1982,96.4
+Portugal,1982,92.8
+Serbia,1982,97.8
+Slovenia,1982,93.1
+Spain,1982,96.3
+Austria,1982,89.8
+Belgium,1982,95.6
+France,1982,97.2
+Germany,1982,91.1
+Netherlands,1982,98.6
+Switzerland,1982,94.7
+Cuba,1982,102.4
+Dominican Republic,1982,101.6
+Haiti,1982,96.7
+Jamaica,1982,97.7
+Puerto Rico,1982,94.9
+Trinidad and Tobago,1982,98.8
+Costa Rica,1982,102.3
+El Salvador,1982,97.3
+Guatemala,1982,101
+Honduras,1982,98.7
+Mexico,1982,99.5
+Nicaragua,1982,100.2
+Panama,1982,102.7
+Argentina,1982,97.3
+Brazil,1982,98.9
+Chile,1982,97
+Colombia,1982,99.2
+Ecuador,1982,101.1
+Paraguay,1982,101.8
+Peru,1982,100.2
+Uruguay,1982,96.3
+Canada,1982,99.2
+Australia,1982,99.7
+New Zealand,1982,98.8
+Burundi,1987,94.2
+Comoros,1987,100.2
+Djibouti,1987,101.6
+Eritrea,1987,99.8
+Ethiopia,1987,99.1
+Kenya,1987,99.2
+Madagascar,1987,100.1
+Malawi,1987,96.6
+Mauritius,1987,98.5
+Mozambique,1987,95.1
+Rwanda,1987,97
+Somalia,1987,102.4
+Uganda,1987,99
+Zambia,1987,98.6
+Zimbabwe,1987,98.7
+Angola,1987,95.6
+Cameroon,1987,98.4
+Central African Republic,1987,96.6
+Chad,1987,98
+Equatorial Guinea,1987,98.2
+Gabon,1987,95
+Sao Tome and Principe,1987,97.8
+Algeria,1987,101.9
+Egypt,1987,101
+Libya,1987,113.6
+Morocco,1987,99.3
+Sudan,1987,100.5
+Tunisia,1987,100.8
+Botswana,1987,96.1
+Lesotho,1987,89.3
+Namibia,1987,93.9
+South Africa,1987,98.6
+Swaziland,1987,89.4
+Benin,1987,94
+Burkina Faso,1987,95.5
+Gambia,1987,99.4
+Ghana,1987,103.3
+Guinea,1987,97.4
+Guinea-Bissau,1987,94.9
+Liberia,1987,99.3
+Mali,1987,98.8
+Mauritania,1987,99.3
+Niger,1987,95.9
+Nigeria,1987,101
+Senegal,1987,99.6
+Sierra Leone,1987,97.1
+Togo,1987,97.7
+China,1987,105.4
+Japan,1987,97.4
+Mongolia,1987,97.4
+Afghanistan,1987,104.4
+Bangladesh,1987,104.6
+India,1987,107.3
+Nepal,1987,99.8
+Pakistan,1987,108.5
+Sri Lanka,1987,103.2
+Cambodia,1987,91.5
+Indonesia,1987,100
+Malaysia,1987,102.2
+Myanmar,1987,95.6
+Philippines,1987,102.2
+Singapore,1987,103.8
+Thailand,1987,99.4
+Bahrain,1987,133.4
+Iraq,1987,102.3
+Israel,1987,99.9
+Jordan,1987,111.2
+Kuwait,1987,130
+Lebanon,1987,97.8
+Oman,1987,117.6
+Saudi Arabia,1987,121.7
+Turkey,1987,97.8
+Bulgaria,1987,98.4
+Hungary,1987,93.1
+Poland,1987,95
+Romania,1987,97.3
+Denmark,1987,97.2
+Finland,1987,93.9
+Iceland,1987,101.2
+Ireland,1987,100.1
+Norway,1987,97.8
+Sweden,1987,97.5
+United Kingdom,1987,94.6
+Albania,1987,105.5
+Bosnia and Herzegovina,1987,98.1
+Croatia,1987,93.8
+Greece,1987,98.4
+Italy,1987,94.9
+Montenegro,1987,97.2
+Portugal,1987,93.1
+Serbia,1987,97.7
+Slovenia,1987,94.5
+Spain,1987,96.3
+Austria,1987,90.6
+Belgium,1987,95.6
+France,1987,96.8
+Germany,1987,91.6
+Netherlands,1987,98
+Switzerland,1987,95
+Cuba,1987,101.6
+Dominican Republic,1987,101.5
+Haiti,1987,96.9
+Jamaica,1987,98.7
+Puerto Rico,1987,95.5
+Trinidad and Tobago,1987,98.9
+Costa Rica,1987,101.9
+El Salvador,1987,96.2
+Guatemala,1987,100
+Honduras,1987,98.7
+Mexico,1987,99.2
+Nicaragua,1987,99.4
+Panama,1987,102.7
+Argentina,1987,96.7
+Brazil,1987,98.7
+Chile,1987,97.1
+Colombia,1987,99
+Ecuador,1987,101.1
+Paraguay,1987,102.2
+Peru,1987,100
+Uruguay,1987,95.2
+Canada,1987,98.6
+Australia,1987,99.7
+New Zealand,1987,98.1
+Burundi,1992,95.4
+Comoros,1992,100.6
+Djibouti,1992,101.2
+Eritrea,1992,100
+Ethiopia,1992,99.5
+Kenya,1992,99.1
+Madagascar,1992,99.7
+Malawi,1992,96.6
+Mauritius,1992,99.5
+Mozambique,1992,91.4
+Rwanda,1992,97.1
+Somalia,1992,101.2
+Uganda,1992,98.6
+Zambia,1992,98.3
+Zimbabwe,1992,98.5
+Angola,1992,95.7
+Cameroon,1992,98.7
+Central African Republic,1992,96.5
+Chad,1992,98.6
+Equatorial Guinea,1992,98.2
+Gabon,1992,96
+Sao Tome and Principe,1992,98.1
+Algeria,1992,102.5
+Egypt,1992,100.8
+Libya,1992,111.5
+Morocco,1992,99.6
+Sudan,1992,100.6
+Tunisia,1992,101.1
+Botswana,1992,96.8
+Lesotho,1992,93.4
+Namibia,1992,94.9
+South Africa,1992,97.6
+Swaziland,1992,89.1
+Benin,1992,94.9
+Burkina Faso,1992,95.6
+Gambia,1992,101.4
+Ghana,1992,103.3
+Guinea,1992,97.8
+Guinea-Bissau,1992,95.3
+Liberia,1992,99.1
+Mali,1992,97.5
+Mauritania,1992,99.4
+Niger,1992,95.4
+Nigeria,1992,101.2
+Senegal,1992,99.1
+Sierra Leone,1992,97.6
+Togo,1992,97.4
+China,1992,105.4
+Japan,1992,97.2
+Mongolia,1992,97.5
+Afghanistan,1992,104.8
+Bangladesh,1992,104.5
+India,1992,107.3
+Nepal,1992,98.5
+Pakistan,1992,107.6
+Sri Lanka,1992,102
+Cambodia,1992,93.4
+Indonesia,1992,100.9
+Malaysia,1992,103.6
+Myanmar,1992,95.8
+Philippines,1992,102.1
+Singapore,1992,101.2
+Thailand,1992,98.2
+Bahrain,1992,136.4
+Iraq,1992,101.8
+Israel,1992,99.6
+Jordan,1992,110
+Kuwait,1992,131.6
+Lebanon,1992,97.3
+Oman,1992,125.5
+Saudi Arabia,1992,127.3
+Turkey,1992,97.6
+Bulgaria,1992,97.2
+Hungary,1992,92.4
+Poland,1992,94.9
+Romania,1992,97.2
+Denmark,1992,97.3
+Finland,1992,94.3
+Iceland,1992,100.8
+Ireland,1992,99.2
+Norway,1992,97.8
+Sweden,1992,97.6
+United Kingdom,1992,94.6
+Albania,1992,105
+Bosnia and Herzegovina,1992,98.1
+Croatia,1992,94.1
+Greece,1992,98.4
+Italy,1992,94.7
+Montenegro,1992,99.2
+Portugal,1992,93
+Serbia,1992,97.5
+Slovenia,1992,94.3
+Spain,1992,96
+Austria,1992,91.7
+Belgium,1992,95.8
+France,1992,96.5
+Germany,1992,93.2
+Netherlands,1992,97.9
+Switzerland,1992,95.4
+Cuba,1992,101.5
+Dominican Republic,1992,101.3
+Haiti,1992,97.2
+Jamaica,1992,97.3
+Puerto Rico,1992,93.9
+Trinidad and Tobago,1992,99.2
+Costa Rica,1992,101.6
+El Salvador,1992,95.3
+Guatemala,1992,98.8
+Honduras,1992,98.7
+Mexico,1992,98.9
+Nicaragua,1992,98.4
+Panama,1992,102.2
+Argentina,1992,96.2
+Brazil,1992,98.4
+Chile,1992,97.4
+Colombia,1992,98.7
+Ecuador,1992,101
+Paraguay,1992,102.2
+Peru,1992,99.9
+Uruguay,1992,94.2
+Canada,1992,98.4
+Australia,1992,99.5
+New Zealand,1992,96.9
+Burundi,1997,94.8
+Comoros,1997,100.9
+Djibouti,1997,101.3
+Eritrea,1997,99.9
+Ethiopia,1997,99.4
+Kenya,1997,98.9
+Madagascar,1997,99.4
+Malawi,1997,97.5
+Mauritius,1997,99.4
+Mozambique,1997,91.2
+Rwanda,1997,94.2
+Somalia,1997,100.8
+Uganda,1997,98
+Zambia,1997,97.9
+Zimbabwe,1997,97.5
+Angola,1997,95.5
+Cameroon,1997,99
+Central African Republic,1997,96.6
+Chad,1997,98.9
+Equatorial Guinea,1997,102.2
+Gabon,1997,96.9
+Sao Tome and Principe,1997,98.4
+Algeria,1997,102.6
+Egypt,1997,101.3
+Libya,1997,110
+Morocco,1997,99
+Sudan,1997,100.6
+Tunisia,1997,101.5
+Botswana,1997,97.2
+Lesotho,1997,94.9
+Namibia,1997,95.3
+South Africa,1997,96.5
+Swaziland,1997,92.1
+Benin,1997,96.1
+Burkina Faso,1997,96
+Gambia,1997,100.1
+Ghana,1997,102.3
+Guinea,1997,98.4
+Guinea-Bissau,1997,95.6
+Liberia,1997,99.1
+Mali,1997,97.9
+Mauritania,1997,99.3
+Niger,1997,96.7
+Nigeria,1997,101.4
+Senegal,1997,98.6
+Sierra Leone,1997,97.5
+Togo,1997,97.9
+China,1997,105.5
+Japan,1997,96.9
+Mongolia,1997,98.2
+Afghanistan,1997,107.3
+Bangladesh,1997,104.3
+India,1997,107.4
+Nepal,1997,101.9
+Pakistan,1997,106.9
+Sri Lanka,1997,100.9
+Cambodia,1997,94.4
+Indonesia,1997,100.1
+Malaysia,1997,103.7
+Myanmar,1997,96
+Philippines,1997,101.8
+Singapore,1997,101.3
+Thailand,1997,98.7
+Bahrain,1997,136.1
+Iraq,1997,101.7
+Israel,1997,97.6
+Jordan,1997,109.7
+Kuwait,1997,138.5
+Lebanon,1997,98.3
+Oman,1997,145.7
+Saudi Arabia,1997,124.6
+Turkey,1997,97.3
+Bulgaria,1997,95.9
+Hungary,1997,91.5
+Poland,1997,94.7
+Romania,1997,96.6
+Denmark,1997,97.6
+Finland,1997,94.9
+Iceland,1997,100.6
+Ireland,1997,98.7
+Norway,1997,97.8
+Sweden,1997,97.7
+United Kingdom,1997,94.6
+Albania,1997,96.9
+Bosnia and Herzegovina,1997,96.3
+Croatia,1997,93.7
+Greece,1997,98.8
+Italy,1997,94.4
+Montenegro,1997,98.6
+Portugal,1997,93.1
+Serbia,1997,97.1
+Slovenia,1997,94
+Spain,1997,95.9
+Austria,1997,93.3
+Belgium,1997,95.9
+France,1997,96.1
+Germany,1997,94.1
+Netherlands,1997,98.1
+Switzerland,1997,95.4
+Cuba,1997,101.4
+Dominican Republic,1997,100.9
+Haiti,1997,97.4
+Jamaica,1997,97.8
+Puerto Rico,1997,93.2
+Trinidad and Tobago,1997,99.2
+Costa Rica,1997,101.2
+El Salvador,1997,94.4
+Guatemala,1997,97.4
+Honduras,1997,98.7
+Mexico,1997,98.6
+Nicaragua,1997,98.1
+Panama,1997,101.8
+Argentina,1997,96
+Brazil,1997,98
+Chile,1997,97.6
+Colombia,1997,98.2
+Ecuador,1997,100.8
+Paraguay,1997,102.3
+Peru,1997,99.9
+Uruguay,1997,94
+Canada,1997,98
+Australia,1997,99
+New Zealand,1997,97.2
+Burundi,2002,96.3
+Comoros,2002,101.2
+Djibouti,2002,101.1
+Eritrea,2002,100
+Ethiopia,2002,99.4
+Kenya,2002,98.7
+Madagascar,2002,99.2
+Malawi,2002,97.3
+Mauritius,2002,98.4
+Mozambique,2002,92.2
+Rwanda,2002,95.2
+Somalia,2002,100.5
+Uganda,2002,97.8
+Zambia,2002,97.8
+Zimbabwe,2002,96.6
+Angola,2002,95.6
+Cameroon,2002,99.4
+Central African Republic,2002,96.9
+Chad,2002,99.2
+Equatorial Guinea,2002,107.4
+Gabon,2002,98.4
+Sao Tome and Principe,2002,98.6
+Algeria,2002,102.7
+Egypt,2002,101.2
+Libya,2002,108
+Morocco,2002,98.2
+Sudan,2002,100.6
+Tunisia,2002,100.7
+Botswana,2002,97.2
+Lesotho,2002,92.8
+Namibia,2002,95.7
+South Africa,2002,96.4
+Swaziland,2002,92.8
+Benin,2002,97.1
+Burkina Faso,2002,96.5
+Gambia,2002,98.7
+Ghana,2002,102
+Guinea,2002,99.2
+Guinea-Bissau,2002,95.8
+Liberia,2002,99.9
+Mali,2002,98.4
+Mauritania,2002,99.9
+Niger,2002,98.5
+Nigeria,2002,101.7
+Senegal,2002,96.9
+Sierra Leone,2002,97.5
+Togo,2002,98.4
+China,2002,105.6
+Japan,2002,96.5
+Mongolia,2002,99.5
+Afghanistan,2002,106.2
+Bangladesh,2002,104.2
+India,2002,107.5
+Nepal,2002,98.9
+Pakistan,2002,106.6
+Sri Lanka,2002,99.5
+Cambodia,2002,94.6
+Indonesia,2002,100.2
+Malaysia,2002,103.9
+Myanmar,2002,95.5
+Philippines,2002,101.5
+Singapore,2002,99.8
+Thailand,2002,97.6
+Bahrain,2002,134.5
+Iraq,2002,101.8
+Israel,2002,97.2
+Jordan,2002,107.6
+Kuwait,2002,140.6
+Lebanon,2002,98.5
+Oman,2002,128
+Saudi Arabia,2002,119.6
+Turkey,2002,97
+Bulgaria,2002,95.1
+Hungary,2002,90.7
+Poland,2002,94.4
+Romania,2002,95.8
+Denmark,2002,97.9
+Finland,2002,95.4
+Iceland,2002,100.2
+Ireland,2002,99
+Norway,2002,98.2
+Sweden,2002,97.8
+United Kingdom,2002,95
+Albania,2002,102.2
+Bosnia and Herzegovina,2002,96.5
+Croatia,2002,92.8
+Greece,2002,98.9
+Italy,2002,94.2
+Montenegro,2002,97.6
+Portugal,2002,93.3
+Serbia,2002,96.4
+Slovenia,2002,95.4
+Spain,2002,96.4
+Austria,2002,94.3
+Belgium,2002,96
+France,2002,96.2
+Germany,2002,94.9
+Netherlands,2002,98.2
+Switzerland,2002,95.5
+Cuba,2002,100.7
+Dominican Republic,2002,100.5
+Haiti,2002,97.5
+Jamaica,2002,98.7
+Puerto Rico,2002,92.8
+Trinidad and Tobago,2002,98.9
+Costa Rica,2002,100.8
+El Salvador,2002,93
+Guatemala,2002,96.3
+Honduras,2002,98.9
+Mexico,2002,98.6
+Nicaragua,2002,97.9
+Panama,2002,101.6
+Argentina,2002,95.8
+Brazil,2002,97.7
+Chile,2002,97.8
+Colombia,2002,97.8
+Ecuador,2002,100.5
+Paraguay,2002,102.5
+Peru,2002,99.9
+Uruguay,2002,93.8
+Canada,2002,98.2
+Australia,2002,99.6
+New Zealand,2002,96.4
+Burundi,2007,96.8
+Comoros,2007,101.5
+Djibouti,2007,101
+Eritrea,2007,100.1
+Ethiopia,2007,99.5
+Kenya,2007,98.7
+Madagascar,2007,99.2
+Malawi,2007,97.5
+Mauritius,2007,98.3
+Mozambique,2007,93.4
+Rwanda,2007,95.6
+Somalia,2007,100.2
+Uganda,2007,98.1
+Zambia,2007,98.1
+Zimbabwe,2007,95.3
+Angola,2007,95.6
+Cameroon,2007,99.7
+Central African Republic,2007,97.2
+Chad,2007,99.7
+Equatorial Guinea,2007,112.6
+Gabon,2007,100.3
+Sao Tome and Principe,2007,98.8
+Algeria,2007,102.3
+Egypt,2007,101.7
+Libya,2007,106.5
+Morocco,2007,97.6
+Sudan,2007,100.6
+Tunisia,2007,99.2
+Botswana,2007,97.5
+Lesotho,2007,93.5
+Namibia,2007,94.5
+South Africa,2007,96.4
+Swaziland,2007,93.8
+Benin,2007,98.2
+Burkina Faso,2007,97.4
+Gambia,2007,98.4
+Ghana,2007,99.9
+Guinea,2007,100
+Guinea-Bissau,2007,95.4
+Liberia,2007,100.6
+Mali,2007,99.1
+Mauritania,2007,100.4
+Niger,2007,99.3
+Nigeria,2007,102
+Senegal,2007,96.2
+Sierra Leone,2007,97.3
+Togo,2007,98.7
+China,2007,105.8
+Japan,2007,96.1
+Mongolia,2007,99
+Afghanistan,2007,107.2
+Bangladesh,2007,103.8
+India,2007,107.6
+Nepal,2007,98.5
+Pakistan,2007,106.4
+Sri Lanka,2007,97.2
+Cambodia,2007,94.3
+Indonesia,2007,100.8
+Malaysia,2007,105.1
+Myanmar,2007,95.5
+Philippines,2007,101
+Singapore,2007,98.5
+Thailand,2007,96.8
+Bahrain,2007,150.5
+Iraq,2007,102.2
+Israel,2007,97.4
+Jordan,2007,106.6
+Kuwait,2007,144.2
+Lebanon,2007,103.3
+Oman,2007,130.2
+Saudi Arabia,2007,125.5
+Turkey,2007,96.9
+Bulgaria,2007,94.8
+Hungary,2007,90.3
+Poland,2007,93.9
+Romania,2007,95.1
+Denmark,2007,98.1
+Finland,2007,95.9
+Iceland,2007,100.6
+Ireland,2007,99.8
+Norway,2007,98.5
+Sweden,2007,98.4
+United Kingdom,2007,95.9
+Albania,2007,100.6
+Bosnia and Herzegovina,2007,96.6
+Croatia,2007,92.9
+Greece,2007,98.1
+Italy,2007,94.8
+Montenegro,2007,96.6
+Portugal,2007,93.7
+Serbia,2007,95.6
+Slovenia,2007,95.4
+Spain,2007,97.3
+Austria,2007,94.6
+Belgium,2007,96.3
+France,2007,96.3
+Germany,2007,95.6
+Netherlands,2007,98.4
+Switzerland,2007,95.9
+Cuba,2007,100.7
+Dominican Republic,2007,100
+Haiti,2007,97.7
+Jamaica,2007,98
+Puerto Rico,2007,92.3
+Trinidad and Tobago,2007,98.3
+Costa Rica,2007,100.6
+El Salvador,2007,91.4
+Guatemala,2007,96.2
+Honduras,2007,99.1
+Mexico,2007,98.9
+Nicaragua,2007,97.5
+Panama,2007,101.3
+Argentina,2007,95.8
+Brazil,2007,97.4
+Chile,2007,97.9
+Colombia,2007,97.6
+Ecuador,2007,100.3
+Paraguay,2007,102.6
+Peru,2007,99.9
+Uruguay,2007,93.3
+Canada,2007,98.3
+Australia,2007,99.6
+New Zealand,2007,96
+Burundi,2012,96.5
+Comoros,2012,101.6
+Djibouti,2012,100.9
+Eritrea,2012,100.2
+Ethiopia,2012,99.6
+Kenya,2012,98.8
+Madagascar,2012,99.3
+Malawi,2012,97.8
+Mauritius,2012,98.3
+Mozambique,2012,94.4
+Rwanda,2012,95.9
+Somalia,2012,99.7
+Uganda,2012,98.6
+Zambia,2012,98.3
+Zimbabwe,2012,94.9
+Angola,2012,95.8
+Cameroon,2012,100
+Central African Republic,2012,97.4
+Chad,2012,100
+Equatorial Guinea,2012,118.8
+Gabon,2012,104.2
+Sao Tome and Principe,2012,99
+Algeria,2012,101.9
+Egypt,2012,102
+Libya,2012,104.3
+Morocco,2012,97.2
+Sudan,2012,99.5
+Tunisia,2012,98.4
+Botswana,2012,97.8
+Lesotho,2012,93.9
+Namibia,2012,93.9
+South Africa,2012,96.5
+Swaziland,2012,94.2
+Benin,2012,98.7
+Burkina Faso,2012,98.3
+Gambia,2012,98.1
+Ghana,2012,98
+Guinea,2012,100.1
+Guinea-Bissau,2012,96.2
+Liberia,2012,101.2
+Mali,2012,99.8
+Mauritania,2012,100.9
+Niger,2012,99.9
+Nigeria,2012,102.3
+Senegal,2012,95.9
+Sierra Leone,2012,97.6
+Togo,2012,99.1
+China,2012,106.1
+Japan,2012,95.7
+Mongolia,2012,98.5
+Afghanistan,2012,105.7
+Bangladesh,2012,102.3
+India,2012,107.8
+Nepal,2012,95.2
+Pakistan,2012,105.8
+Sri Lanka,2012,94.8
+Cambodia,2012,95
+Indonesia,2012,101.7
+Malaysia,2012,106.3
+Myanmar,2012,95.3
+Philippines,2012,101.9
+Singapore,2012,97.4
+Thailand,2012,96.1
+Bahrain,2012,165.8
+Iraq,2012,102.2
+Israel,2012,97.6
+Jordan,2012,104.1
+Kuwait,2012,137.1
+Lebanon,2012,104.1
+Oman,2012,152
+Saudi Arabia,2012,128.1
+Turkey,2012,96.7
+Bulgaria,2012,94.9
+Hungary,2012,90.3
+Poland,2012,93.6
+Romania,2012,94.4
+Denmark,2012,98.5
+Finland,2012,96.4
+Iceland,2012,101.5
+Ireland,2012,99.3
+Norway,2012,100
+Sweden,2012,99.2
+United Kingdom,2012,96.6
+Albania,2012,100.7
+Bosnia and Herzegovina,2012,96.5
+Croatia,2012,92.9
+Greece,2012,97.2
+Italy,2012,94.5
+Montenegro,2012,97.1
+Portugal,2012,91.9
+Serbia,2012,95.7
+Slovenia,2012,97.9
+Spain,2012,97.8
+Austria,2012,95.1
+Belgium,2012,96.5
+France,2012,96.4
+Germany,2012,96.2
+Netherlands,2012,98.6
+Switzerland,2012,97
+Cuba,2012,100.4
+Dominican Republic,2012,99.7
+Haiti,2012,97.8
+Jamaica,2012,98.6
+Puerto Rico,2012,92.5
+Trinidad and Tobago,2012,98
+Costa Rica,2012,100.4
+El Salvador,2012,89.9
+Guatemala,2012,96.5
+Honduras,2012,99.3
+Mexico,2012,99.1
+Nicaragua,2012,97.1
+Panama,2012,100.9
+Argentina,2012,95.7
+Brazil,2012,97.1
+Chile,2012,98
+Colombia,2012,97.3
+Ecuador,2012,100.1
+Paraguay,2012,103
+Peru,2012,99.8
+Uruguay,2012,93.1
+Canada,2012,98.5
+Australia,2012,100
+New Zealand,2012,96.5
+Burundi,2017,96.7
+Comoros,2017,101.7
+Djibouti,2017,100.8
+Eritrea,2017,100.4
+Ethiopia,2017,99.7
+Kenya,2017,98.8
+Madagascar,2017,99.4
+Malawi,2017,98.1
+Mauritius,2017,98.1
+Mozambique,2017,95.2
+Rwanda,2017,96.2
+Somalia,2017,99.3
+Uganda,2017,98.9
+Zambia,2017,98.5
+Zimbabwe,2017,94.8
+Angola,2017,96.1
+Cameroon,2017,100.1
+Central African Republic,2017,97.3
+Chad,2017,100.2
+Equatorial Guinea,2017,123
+Gabon,2017,105.7
+Sao Tome and Principe,2017,99.2
+Algeria,2017,102
+Egypt,2017,102.2
+Libya,2017,102
+Morocco,2017,97.9
+Sudan,2017,99.8
+Tunisia,2017,97.7
+Botswana,2017,97.7
+Lesotho,2017,94.2
+Namibia,2017,94.5
+South Africa,2017,96.5
+Swaziland,2017,94
+Benin,2017,99.3
+Burkina Faso,2017,99.2
+Gambia,2017,98
+Ghana,2017,99
+Guinea,2017,100.5
+Guinea-Bissau,2017,96.7
+Liberia,2017,101.7
+Mali,2017,100
+Mauritania,2017,101.4
+Niger,2017,100.4
+Nigeria,2017,102.6
+Senegal,2017,96.4
+Sierra Leone,2017,98
+Togo,2017,99.3
+China,2017,106.3
+Japan,2017,95.5
+Mongolia,2017,98.1
+Afghanistan,2017,106.4
+Bangladesh,2017,101.9
+India,2017,107.6
+Nepal,2017,94.2
+Pakistan,2017,105.6
+Sri Lanka,2017,93
+Cambodia,2017,95.2
+Indonesia,2017,101.5
+Malaysia,2017,106.9
+Myanmar,2017,95.5
+Philippines,2017,101.5
+Singapore,2017,97.6
+Thailand,2017,95.4
+Bahrain,2017,161.3
+Iraq,2017,102.4
+Israel,2017,98.4
+Jordan,2017,102.7
+Kuwait,2017,135
+Lebanon,2017,100.9
+Oman,2017,184.4
+Saudi Arabia,2017,130.9
+Turkey,2017,96.8
+Bulgaria,2017,94.7
+Hungary,2017,90.6
+Poland,2017,93.4
+Romania,2017,94
+Denmark,2017,98.9
+Finland,2017,96.9
+Iceland,2017,100.7
+Ireland,2017,98.4
+Norway,2017,101.4
+Sweden,2017,99.9
+United Kingdom,2017,97.2
+Albania,2017,102
+Bosnia and Herzegovina,2017,96.4
+Croatia,2017,93
+Greece,2017,97
+Italy,2017,94.8
+Montenegro,2017,97.3
+Portugal,2017,90
+Serbia,2017,95.6
+Slovenia,2017,98.5
+Spain,2017,96.4
+Austria,2017,95.9
+Belgium,2017,96.7
+France,2017,96.6
+Germany,2017,96.8
+Netherlands,2017,98.9
+Switzerland,2017,98
+Cuba,2017,100.2
+Dominican Republic,2017,99.3
+Haiti,2017,97.9
+Jamaica,2017,99
+Puerto Rico,2017,92.5
+Trinidad and Tobago,2017,97.4
+Costa Rica,2017,100.1
+El Salvador,2017,88.9
+Guatemala,2017,96.8
+Honduras,2017,99.4
+Mexico,2017,99.2
+Nicaragua,2017,97.2
+Panama,2017,100.6
+Argentina,2017,95.8
+Brazil,2017,96.8
+Chile,2017,98.1
+Colombia,2017,97
+Ecuador,2017,100
+Paraguay,2017,103
+Peru,2017,99.8
+Uruguay,2017,93.3
+Canada,2017,98.4
+Australia,2017,99.4
+New Zealand,2017,96.7
