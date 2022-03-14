@@ -425,9 +425,38 @@ We can do the same thing with the `athletes` data frame, for example, for gold m
 athletes %>% summarize(totals = sum(gold_medals))
 ```
 
+An important function of `summarize()` is in coordination with the `group_by()` function. The dplyr `group_by` function take an existing data frame and performs an operation by group. For example, let's group our data frame `df` by the color column.
 
+```{r}
+df %>% group_by(color) %>% summarize(total = sum(value))
+```
 
+You can also save the results to a new data frame.
 
+```{r}
+by_color <- df %>% group_by(color) %>% summarize(total = sum(value))
+by_color
+```
+
+We can also use `group_by` on the atheltes data. For example, how many gold medals per country?
+
+```{r}
+athletes %>% group_by(country) %>% summarize(gold_medals = sum(gold_medals))
+```
+
+Maybe for viewing purposes it's better to arrange them by number of gold medals instead of alphabetically by country name.
+
+```{r}
+athletes %>% group_by(country) %>% summarize(gold_medals = sum(gold_medals)) %>% arrange(desc(gold_medals))
+```
+As we continue to [pipe](https://r4ds.had.co.nz/pipes.html) commands together, i.e., putting multiple operations (aka dplyr verbs) together -- we can use [white space](https://en.wikipedia.org/wiki/Whitespace_character) to style the code. More on style below.
+
+```{r}
+athletes %>% 
+  group_by(country) %>% 
+  summarize(gold_medals = sum(gold_medals)) %>% 
+  arrange(desc(gold_medals))
+```
 
 
 # Databases
@@ -459,6 +488,7 @@ The real power of relational databases is when operations are made on sets of ta
 [Here](https://www3.ntu.edu.sg/home/ehchua/programming/sql/Relational_Database_Design.html) is a tutorial on relational database design. Note the `Teachers` to `Classes` figure, where the two tables are "linked" or "related" to each other by the `teacherID` columns.
 
 It is rare that data analysis involves only on table. Often you want to combine different tables on a shared value, so that you can answer questions you are interested in.
+
 
 ## Joining tables
 
@@ -521,8 +551,113 @@ str(sex_ratios)
 
 Which columns are shared between the two datasets? Notice again the [data types](https://github.com/bambooforest/IntroDataScience/tree/main/3_data#data-types-for-computer-programming).
 
-So how do we combine the tables / data frames?
+So how do we combine the tables / data frames? Dplyr has several functions for **joining** tables. Often [Venn diagrams](https://en.wikipedia.org/wiki/Venn_diagram) are used to show the logical relationships described by different join functions. The following image is taken from [here](https://en.wikipedia.org/wiki/Venn_diagram).
 
+![Set functions.](figures/venn_diagrams.png)
+
+They describe the operations from [set theory](https://en.wikipedia.org/wiki/Set_theory) including:
+
+* [Intersection](https://en.wikipedia.org/wiki/Intersection_(set_theory))
+* [Union](https://en.wikipedia.org/wiki/Union_(set_theory))
+* [Symmetric difference](https://en.wikipedia.org/wiki/Symmetric_difference)
+* [Relative complement](https://en.wikipedia.org/wiki/Complement_(set_theory)#Relative_complement)
+* [Absolute complement](https://en.wikipedia.org/wiki/Complement_(set_theory)#Absolute_complement)
+
+Important for us, will be the following types of joins as they are implemented in dplyr (for more information see the chapter on [Relational data](https://r4ds.had.co.nz/relational-data.html) in [R for Data Science](https://r4ds.had.co.nz/index.html), from which the following image was copied):
+
+![Dplyr joins.](figures/dplyr_joins.png)
+
+Before we return to the gapminder data, let's illustrate joins with some example data. First, let's create two small tables (data frames) -- one for a record of orders and one for customers that made orders.
+
+```{r}
+orders <- data.frame(
+    OrderID = c(101, 102, 103),
+    CustomerID = c(2, 37, 77),
+    OrderData = c('01.01.2021', '01.02.2021', '02.02.2021')
+)
+orders
+```
+
+```{r}
+customers <- data.frame(
+    CustomerID = c(1, 2, 3),
+    CustomerName = c('Lee Stan', 'Mary Grand', 'Ana Lake'),
+    Country = c('USA', 'Australia', 'UK')
+)
+customers
+```
+
+Now we can use the joins to join the table in various ways. What does each do?
+
+- Inner join
+
+```{r}
+inner_join(orders, customers)
+```
+
+- Full join
+
+```{r}
+full_join(orders, customers)
+```
+
+- Left join
+
+```{r}
+left_join(orders, customers)
+```
+
+- Right join
+
+```{r}
+right_join(orders, customers)
+```
+
+Note that `NA` (not applicable, missing data, etc.) is inserted when the data does not come from one table or the other.
+
+Note also that the join functions will identify which shared columns exist and the join on those columns. Often it will be the case that you would like to join two tables that have different column names. You have two options:
+
+* Change the column names to match
+* Tell the join on which columns to match
+
+Let's make another example. Different programming languages have different style for naming variables, column names, etc. These styles go by various names, such as: [camelCase](https://en.wikipedia.org/wiki/Camel_case) (e.g., iPhone), PascalCase, and [snake_case](https://en.wikipedia.org/wiki/Snake_case).
+
+We will discuss below more about [code style](http://adv-r.had.co.nz/Style.html), but for example R style guides like [the one from Google](https://google.github.io/styleguide/Rguide.html) suggests using `BigCamelCase` (i.e., PascalCase) for naming functions. The [tidyverse style guide](http://adv-r.had.co.nz/Style.html) suggests using snake_case for function names and variables. So, as you can see, different developers different opinions. What is importat for your work is that you choose a style and try to stick with it.
+
+Let's update our customers example to snake_case and then show how to combine it to the orders table.
+
+```{r}
+customers <- data.frame(
+    customer_id = c(1, 2, 3),
+    customer_name = c('Lee Stan', 'Mary Grand', 'Ana Lake'),
+    country = c('USA', 'Australia', 'UK')
+)
+customers
+```
+
+If you run this code, you will get an error. Try it. What does it tell you?
+
+```{r, eval=FALSE}
+inner_join(orders, customers)
+```
+
+Now let's specify a parameter in the join so we can map two columns together.
+
+```{r}
+inner_join(orders, customers, by=c('CustomerID'='customer_id'))
+```
+
+It works the same for all the joins.
+
+```{r}
+left_join(orders, customers, by=c('CustomerID'='customer_id'))
+```
+
+Now, back to the gapminder and sex ratio data. What's going on here?
+
+```{r}
+left_join(gapminder, sex_ratios)
+```
 
 
 # Code style
@@ -549,7 +684,7 @@ What do you like about it? What don't you like about it?
 We will talk more about style in data visualizations in future lectures.
 
 
-# Code style in R
+## Code style in R
 
 Style is also an important factor when writing computer code. All major software companies have [programming style guides](https://en.wikipedia.org/wiki/Programming_style). Why? Because a style guide standard that software engineers follow for writing code creates a consistent code base that makes it easier to maintain in the long run and it also helps people new to programming, or people not so new to programming, in the developer learning curve, e.g.:
 
@@ -604,8 +739,11 @@ The [TL;DR](https://en.wikipedia.org/wiki/Wikipedia:Too_long;_didn%27t_read)? Fo
 
 Which makes sense. If you want your data practicals to be easily understood and reproducible, and you want to be come a better and more consistent programmer (regardless of the programming language), follow a style guide!
 
+## stylr and lintr
+
 So how do you do that in the easiest way possible? There's tools for that! For example, there's an R library called `styler`:
 
+* https://style.tidyverse.org
 * https://www.tidyverse.org/blog/2017/12/styler-1.0.0/
 * https://cran.r-project.org/web/packages/styler/vignettes/introducing_styler.html
 
@@ -621,10 +759,11 @@ https://en.wikipedia.org/wiki/Lint_(software)
 
 In short, make your coding life easier; use a linter! Here's one for R:
 
+* https://style.tidyverse.org
 * https://cran.r-project.org/web/packages/lintr/readme/README.html
 
 
-# Tests
+## Tests
 
 [Software testing](https://en.wikipedia.org/wiki/Software_testing) involves evaluating and verifying whether aspects of software validate and perform as expected. The idea is to verify that the code (or system) is working as expected, i.e., that the behavior of the software is performing as expected.
 
@@ -635,6 +774,9 @@ In R, information about testing can be found here, e.g.:
 * https://r-pkgs.org/tests.html
 * https://testthat.r-lib.org
 * https://towardsdatascience.com/unit-testing-in-r-68ab9cc8d211
+
+
+# Data practical
 
 
 # References

@@ -1,7 +1,7 @@
 Data wrangling
 ================
 Steven Moran
-(13 March, 2022)
+(14 March, 2022)
 
 -   [Overview](#overview)
 -   [Data wrangling in R](#data-wrangling-in-r)
@@ -14,8 +14,9 @@ Steven Moran
     -   [Overview](#overview-1)
     -   [Joining tables](#joining-tables)
 -   [Code style](#code-style)
--   [Code style in R](#code-style-in-r)
--   [Tests](#tests)
+    -   [Code style in R](#code-style-in-r)
+    -   [stylr and lintr](#stylr-and-lintr)
+    -   [Tests](#tests)
 -   [References](#references)
 
 This report uses the [R programming
@@ -949,7 +950,146 @@ Use the dataframe `athletes_narrow`.
 The dplyr function `summarize()` (or `summarise()`) summarizes multiple
 values in a single value.
 
-Let’s create a data frame as an
+Let’s create a data frame as an [reproducible
+example](http://adv-r.had.co.nz/Reproducibility.html). What is a
+reproducible example:
+
+-   <https://stackoverflow.com/questions/5963269/how-to-make-a-great-r-reproducible-example>
+-   <https://stackoverflow.com/help/minimal-reproducible-example>
+-   <http://adv-r.had.co.nz/Reproducibility.html>
+-   <https://xiangxing98.github.io/R_Learning/R_Reproducible.nb.html>
+
+``` r
+df <- data.frame(
+    color = c('blue', 'black', 'blue', 'blue', 'black'),
+    value = c(1, 2, 3, 4, 5)
+)
+
+df
+```
+
+    ##   color value
+    ## 1  blue     1
+    ## 2 black     2
+    ## 3  blue     3
+    ## 4  blue     4
+    ## 5 black     5
+
+So, let’s sum up the value column with `summarize()`.
+
+``` r
+summarize(df, total = sum(value))
+```
+
+    ##   total
+    ## 1    15
+
+We can do the same thing with the `athletes` data frame, for example,
+for gold medals.
+
+``` r
+athletes %>% summarize(totals = sum(gold_medals))
+```
+
+An important function of `summarize()` is in coordination with the
+`group_by()` function. The dplyr `group_by` function take an existing
+data frame and performs an operation by group. For example, let’s group
+our data frame `df` by the color column.
+
+``` r
+df %>% group_by(color) %>% summarize(total = sum(value))
+```
+
+    ## # A tibble: 2 x 2
+    ##   color total
+    ##   <chr> <dbl>
+    ## 1 black     7
+    ## 2 blue      8
+
+You can also save the results to a new data frame.
+
+``` r
+by_color <- df %>% group_by(color) %>% summarize(total = sum(value))
+by_color
+```
+
+    ## # A tibble: 2 x 2
+    ##   color total
+    ##   <chr> <dbl>
+    ## 1 black     7
+    ## 2 blue      8
+
+We can also use `group_by` on the atheltes data. For example, how many
+gold medals per country?
+
+``` r
+athletes %>% group_by(country) %>% summarize(gold_medals = sum(gold_medals))
+```
+
+    ## # A tibble: 88 x 2
+    ##    country    gold_medals
+    ##    <chr>            <dbl>
+    ##  1 Albania              0
+    ##  2 Andorra              0
+    ##  3 Argentina            0
+    ##  4 Armenia              0
+    ##  5 Australia            0
+    ##  6 Austria              2
+    ##  7 Azerbaijan           0
+    ##  8 Belarus              5
+    ##  9 Belgium              0
+    ## 10 Bermuda              0
+    ## # … with 78 more rows
+
+Maybe for viewing purposes it’s better to arrange them by number of gold
+medals instead of alphabetically by country name.
+
+``` r
+athletes %>% group_by(country) %>% summarize(gold_medals = sum(gold_medals)) %>% arrange(desc(gold_medals))
+```
+
+    ## # A tibble: 88 x 2
+    ##    country       gold_medals
+    ##    <chr>               <dbl>
+    ##  1 Russian Fed.           16
+    ##  2 Germany                15
+    ##  3 Sweden                  8
+    ##  4 Norway                  7
+    ##  5 Korea                   6
+    ##  6 Netherlands             6
+    ##  7 United States           6
+    ##  8 Belarus                 5
+    ##  9 Switzerland             5
+    ## 10 Canada                  4
+    ## # … with 78 more rows
+
+As we continue to [pipe](https://r4ds.had.co.nz/pipes.html) commands
+together, i.e., putting multiple operations (aka dplyr verbs) together –
+we can use [white
+space](https://en.wikipedia.org/wiki/Whitespace_character) to style the
+code. More on style below.
+
+``` r
+athletes %>% 
+  group_by(country) %>% 
+  summarize(gold_medals = sum(gold_medals)) %>% 
+  arrange(desc(gold_medals))
+```
+
+    ## # A tibble: 88 x 2
+    ##    country       gold_medals
+    ##    <chr>               <dbl>
+    ##  1 Russian Fed.           16
+    ##  2 Germany                15
+    ##  3 Sweden                  8
+    ##  4 Norway                  7
+    ##  5 Korea                   6
+    ##  6 Netherlands             6
+    ##  7 United States           6
+    ##  8 Belarus                 5
+    ##  9 Switzerland             5
+    ## 10 Canada                  4
+    ## # … with 78 more rows
 
 # Databases
 
@@ -1172,7 +1312,216 @@ Which columns are shared between the two datasets? Notice again the
 [data
 types](https://github.com/bambooforest/IntroDataScience/tree/main/3_data#data-types-for-computer-programming).
 
-So how do we combine the tables / data frames?
+So how do we combine the tables / data frames? Dplyr has several
+functions for **joining** tables. Often [Venn
+diagrams](https://en.wikipedia.org/wiki/Venn_diagram) are used to show
+the logical relationships described by different join functions. The
+following image is taken from
+[here](https://en.wikipedia.org/wiki/Venn_diagram).
+
+![Set functions.](figures/venn_diagrams.png)
+
+They describe the operations from [set
+theory](https://en.wikipedia.org/wiki/Set_theory) including:
+
+-   [Intersection](https://en.wikipedia.org/wiki/Intersection_(set_theory))
+-   [Union](https://en.wikipedia.org/wiki/Union_(set_theory))
+-   [Symmetric
+    difference](https://en.wikipedia.org/wiki/Symmetric_difference)
+-   [Relative
+    complement](https://en.wikipedia.org/wiki/Complement_(set_theory)#Relative_complement)
+-   [Absolute
+    complement](https://en.wikipedia.org/wiki/Complement_(set_theory)#Absolute_complement)
+
+Important for us, will be the following types of joins as they are
+implemented in dplyr (for more information see the chapter on
+[Relational data](https://r4ds.had.co.nz/relational-data.html) in [R for
+Data Science](https://r4ds.had.co.nz/index.html), from which the
+following image was copied):
+
+![Dplyr joins.](figures/dplyr_joins.png)
+
+Before we return to the gapminder data, let’s illustrate joins with some
+example data. First, let’s create two small tables (data frames) – one
+for a record of orders and one for customers that made orders.
+
+``` r
+orders <- data.frame(
+    OrderID = c(101, 102, 103),
+    CustomerID = c(2, 37, 77),
+    OrderData = c('01.01.2021', '01.02.2021', '02.02.2021')
+)
+orders
+```
+
+    ##   OrderID CustomerID  OrderData
+    ## 1     101          2 01.01.2021
+    ## 2     102         37 01.02.2021
+    ## 3     103         77 02.02.2021
+
+``` r
+customers <- data.frame(
+    CustomerID = c(1, 2, 3),
+    CustomerName = c('Lee Stan', 'Mary Grand', 'Ana Lake'),
+    Country = c('USA', 'Australia', 'UK')
+)
+customers
+```
+
+    ##   CustomerID CustomerName   Country
+    ## 1          1     Lee Stan       USA
+    ## 2          2   Mary Grand Australia
+    ## 3          3     Ana Lake        UK
+
+Now we can use the joins to join the table in various ways. What does
+each do?
+
+-   Inner join
+
+``` r
+inner_join(orders, customers)
+```
+
+    ## Joining, by = "CustomerID"
+
+    ##   OrderID CustomerID  OrderData CustomerName   Country
+    ## 1     101          2 01.01.2021   Mary Grand Australia
+
+-   Full join
+
+``` r
+full_join(orders, customers)
+```
+
+    ## Joining, by = "CustomerID"
+
+    ##   OrderID CustomerID  OrderData CustomerName   Country
+    ## 1     101          2 01.01.2021   Mary Grand Australia
+    ## 2     102         37 01.02.2021         <NA>      <NA>
+    ## 3     103         77 02.02.2021         <NA>      <NA>
+    ## 4      NA          1       <NA>     Lee Stan       USA
+    ## 5      NA          3       <NA>     Ana Lake        UK
+
+-   Left join
+
+``` r
+left_join(orders, customers)
+```
+
+    ## Joining, by = "CustomerID"
+
+    ##   OrderID CustomerID  OrderData CustomerName   Country
+    ## 1     101          2 01.01.2021   Mary Grand Australia
+    ## 2     102         37 01.02.2021         <NA>      <NA>
+    ## 3     103         77 02.02.2021         <NA>      <NA>
+
+-   Right join
+
+``` r
+right_join(orders, customers)
+```
+
+    ## Joining, by = "CustomerID"
+
+    ##   OrderID CustomerID  OrderData CustomerName   Country
+    ## 1     101          2 01.01.2021   Mary Grand Australia
+    ## 2      NA          1       <NA>     Lee Stan       USA
+    ## 3      NA          3       <NA>     Ana Lake        UK
+
+Note that `NA` (not applicable, missing data, etc.) is inserted when the
+data does not come from one table or the other.
+
+Note also that the join functions will identify which shared columns
+exist and the join on those columns. Often it will be the case that you
+would like to join two tables that have different column names. You have
+two options:
+
+-   Change the column names to match
+-   Tell the join on which columns to match
+
+Let’s make another example. Different programming languages have
+different style for naming variables, column names, etc. These styles go
+by various names, such as:
+[camelCase](https://en.wikipedia.org/wiki/Camel_case) (e.g., iPhone),
+PascalCase, and [snake_case](https://en.wikipedia.org/wiki/Snake_case).
+
+We will discuss below more about [code
+style](http://adv-r.had.co.nz/Style.html), but for example R style
+guides like [the one from
+Google](https://google.github.io/styleguide/Rguide.html) suggests using
+`BigCamelCase` (i.e., PascalCase) for naming functions. The [tidyverse
+style guide](http://adv-r.had.co.nz/Style.html) suggests using
+snake_case for function names and variables. So, as you can see,
+different developers different opinions. What is importat for your work
+is that you choose a style and try to stick with it.
+
+Let’s update our customers example to snake_case and then show how to
+combine it to the orders table.
+
+``` r
+customers <- data.frame(
+    customer_id = c(1, 2, 3),
+    customer_name = c('Lee Stan', 'Mary Grand', 'Ana Lake'),
+    country = c('USA', 'Australia', 'UK')
+)
+customers
+```
+
+    ##   customer_id customer_name   country
+    ## 1           1      Lee Stan       USA
+    ## 2           2    Mary Grand Australia
+    ## 3           3      Ana Lake        UK
+
+If you run this code, you will get an error. Try it. What does it tell
+you?
+
+``` r
+inner_join(orders, customers)
+```
+
+Now let’s specify a parameter in the join so we can map two columns
+together.
+
+``` r
+inner_join(orders, customers, by=c('CustomerID'='customer_id'))
+```
+
+    ##   OrderID CustomerID  OrderData customer_name   country
+    ## 1     101          2 01.01.2021    Mary Grand Australia
+
+It works the same for all the joins.
+
+``` r
+left_join(orders, customers, by=c('CustomerID'='customer_id'))
+```
+
+    ##   OrderID CustomerID  OrderData customer_name   country
+    ## 1     101          2 01.01.2021    Mary Grand Australia
+    ## 2     102         37 01.02.2021          <NA>      <NA>
+    ## 3     103         77 02.02.2021          <NA>      <NA>
+
+Now, back to the gapminder and sex ratio data. What’s going on here?
+
+``` r
+left_join(gapminder, sex_ratios)
+```
+
+    ## Joining, by = c("country", "year")
+
+    ## # A tibble: 1,704 x 7
+    ##    country     continent  year lifeExp      pop gdpPercap sex_ratio
+    ##    <chr>       <fct>     <dbl>   <dbl>    <int>     <dbl>     <dbl>
+    ##  1 Afghanistan Asia       1952    28.8  8425333      779.      112.
+    ##  2 Afghanistan Asia       1957    30.3  9240934      821.      109.
+    ##  3 Afghanistan Asia       1962    32.0 10267083      853.      107 
+    ##  4 Afghanistan Asia       1967    34.0 11537966      836.      105.
+    ##  5 Afghanistan Asia       1972    36.1 13079460      740.      104.
+    ##  6 Afghanistan Asia       1977    38.4 14880372      786.      103.
+    ##  7 Afghanistan Asia       1982    39.9 12881816      978.      104.
+    ##  8 Afghanistan Asia       1987    40.8 13867957      852.      104.
+    ##  9 Afghanistan Asia       1992    41.7 16317921      649.      105.
+    ## 10 Afghanistan Asia       1997    41.8 22227415      635.      107.
+    ## # … with 1,694 more rows
 
 # Code style
 
@@ -1213,7 +1562,7 @@ What do you like about it? What don’t you like about it?
 
 We will talk more about style in data visualizations in future lectures.
 
-# Code style in R
+## Code style in R
 
 Style is also an important factor when writing computer code. All major
 software companies have [programming style
@@ -1297,9 +1646,12 @@ understood and reproducible, and you want to be come a better and more
 consistent programmer (regardless of the programming language), follow a
 style guide!
 
+## stylr and lintr
+
 So how do you do that in the easiest way possible? There’s tools for
 that! For example, there’s an R library called `styler`:
 
+-   <https://style.tidyverse.org>
 -   <https://www.tidyverse.org/blog/2017/12/styler-1.0.0/>
 -   <https://cran.r-project.org/web/packages/styler/vignettes/introducing_styler.html>
 
@@ -1322,9 +1674,10 @@ in your code:
 
 In short, make your coding life easier; use a linter! Here’s one for R:
 
+-   <https://style.tidyverse.org>
 -   <https://cran.r-project.org/web/packages/lintr/readme/README.html>
 
-# Tests
+## Tests
 
 [Software testing](https://en.wikipedia.org/wiki/Software_testing)
 involves evaluating and verifying whether aspects of software validate
