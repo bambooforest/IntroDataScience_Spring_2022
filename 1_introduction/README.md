@@ -3,6 +3,13 @@
 To get started with this course, you will need to [install](https://en.wikipedia.org/wiki/Installation_(computer_programs)) several software packages and get to know how to use them. Follow all the steps that you need below, before moving on to [chapter 2](https://github.com/bambooforest/IntroDataScience/2_writing_scientific_reports).
 
 
+## R
+
+This course assumes you are familiar with the basics of the [R programming language](https://en.wikipedia.org/wiki/R_(programming_language). If you are not, please familiarize yourself with the basics. There are many tutorials out there! Here is a free one from [DataCamp](https://www.datacamp.com):
+
+* https://app.datacamp.com/learn/courses/free-introduction-to-r
+
+
 ## GitHub
 
 Create a [GitHub](https://en.wikipedia.org/wiki/GitHub) account:
@@ -58,13 +65,6 @@ Pro-tip: when you initially create a [GitHub repository](https://docs.github.com
 Install [RStudio](https://www.rstudio.com), unless you are already an R Pro and prefer some other [GUI](https://en.wikipedia.org/wiki/Graphical_user_interface), [CLI](https://en.wikipedia.org/wiki/Command-line_interface), or [computer program](https://en.wikipedia.org/wiki/Computer_program) that allows you to [create R markdown](https://rmarkdown.rstudio.com/authoring_quick_tour.html) reports that will be stored in your GitHub repository. Note: be weary of automatic spell checking -- and presumably grammar checking -- in RStudio.
 
 
-## R
-
-This course assumes you are familiar with the basics of the [R programming language](https://en.wikipedia.org/wiki/R_(programming_language). If you are not, please familiarize yourself with the basics. There are many tutorials out there! Here is a free one from [DataCamp](https://www.datacamp.com):
-
-* https://app.datacamp.com/learn/courses/free-introduction-to-r
-
-
 ## Text editor
 
 You will need a good [text editor](https://en.wikipedia.org/wiki/Text_editor) to access and edit [plain text](https://en.wikipedia.org/wiki/Plain_text). Please try to understand the difference between plain text and so-called [rich text](https://en.wikipedia.org/wiki/Formatted_text). For example, a good text editor is not [Microsoft Word](https://en.wikipedia.org/wiki/Microsoft_Word) -- MS Word is a good rich text editor. Depending on your computer's [operating system](https://en.wikipedia.org/wiki/Operating_system), you might consider for example:
@@ -86,6 +86,29 @@ You will also want a [spreadsheet program](https://en.wikipedia.org/wiki/Spreads
 * [Microsoft Excel](https://en.wikipedia.org/wiki/Microsoft_Excel)
 * [OpenOffice](https://en.wikipedia.org/wiki/Apache_OpenOffice)
 * [Numbers](https://en.wikipedia.org/wiki/Numbers_(spreadsheet))
+
+
+## Accesing GitHub with RStudio
+
+You can access your GitHub repository from within RStudio by using Git in RStudio.
+
+If you have not yet cloned your repository, follow these steps:
+
+1. Click on the green "Code" button on your Github repository and copy the URL.
+2. Open RStudio, and go to File > New Project > Version Control > Git, and paste in the URL that you  copied. Under "Create Project as Subdirectory of", browse and select a folder on your computer where you want the course materials to go.
+3. Click on "Create Project". This will create a folder called that has the name of the repository that you have cloned.
+4. You can open this as a project in RStudio by using the projects tab in the upper right of RStudio. Alternatively, try File > Open Project and then navigate to the folder where your repository is. Then open the R project file, i.e., name-of-your-project.Rproj.
+
+
+If you have already cloned your repository to your computer, you can nevertheless associate the directory of your local repository with RStudio:
+
+1. In RStudio, go to File > New Project > Existing Directory, and then navigate / click on the your repository's directory.
+2. Click on "Create Project".
+3. Follow step 4 above.
+
+Here some information about RStudio projects:
+
+* https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects
 
 
 
