@@ -5,11 +5,13 @@ Steven Moran
 
 -   [Overview](#overview)
 -   [Data wrangling in R](#data-wrangling-in-r)
-    -   [`select()`](#select)
-    -   [`arrange()`](#arrange)
-    -   [`mutate()`](#mutate)
-    -   [`filter()`](#filter)
-    -   [`summarize()`](#summarize)
+    -   [tidyverse](#tidyverse)
+    -   [dplyr](#dplyr)
+        -   [`select()`](#select)
+        -   [`arrange()`](#arrange)
+        -   [`mutate()`](#mutate)
+        -   [`filter()`](#filter)
+        -   [`summarize()`](#summarize)
 -   [Databases](#databases)
     -   [Overview](#overview-1)
     -   [Joining tables](#joining-tables)
@@ -17,6 +19,7 @@ Steven Moran
     -   [Code style in R](#code-style-in-r)
     -   [stylr and lintr](#stylr-and-lintr)
     -   [Tests](#tests)
+-   [Data practical](#data-practical)
 -   [References](#references)
 
 This report uses the [R programming
@@ -93,10 +96,10 @@ That is you:
 
 All of these step fall under the rubric of [computer
 programming](https://en.wikipedia.org/wiki/Computer_programming). You
-may not become expert computer progammers, or software engineers, but in
-this course will need to be able to do some basic coding in R. Keep in
-mind: tou do not need to be an expert coder, or programmer, to do data
-science!
+may not become expert computer programmers, or software engineers, but
+in this course will need to be able to do some basic coding in R. Keep
+in mind: you do not need to be an expert coder, or programmer, to do
+data science!
 
 <!-- and to some extent -- if we are trying to follow [coding best practices](https://en.wikipedia.org/wiki/Coding_best_practices); see also [here](https://www.cs.utexas.edu/~mitra/csSummer2014/cs312/lectures/bestPractices.html) -- [software engineering](https://en.wikipedia.org/wiki/Software_engineering). -->
 <!-- 
@@ -120,28 +123,11 @@ The "tidying" and "transforming" of your data is commonly referred to as "data w
 when your data is tidy, each column is a variable, and each row is an observation. Tidy data is important because the consistent structure lets you focus your struggle on questions about the data, not fighting to get the data into the right form for different functions.
 -->
 
-`dplyr` was developed by [Hadley
-Wickham](https://en.wikipedia.org/wiki/Hadley_Wickham) (the author of
-`plyr`, `ggplot2`). He also co-wrote a great introduction on the topic,
-look at [R for Data Science](https://r4ds.had.co.nz/) (Wickham and
-Grolemund 2016), specifically the section [dplyr
-basics](https://r4ds.had.co.nz/transform.html?q=dplyr#dplyr-basics).
+## tidyverse
 
-`dplyr` is super-fast on data frames. Essentially, one works with five
-basic “verbs” or functions:
-
--   `select()`: for subsetting variables/columns
--   `arrange()`: for re-ordering rows
--   `mutate()`: for adding new columns
--   `filter()`: for subsetting rows
--   `summarize()` (or `summarise()` if you prefer [British
-    spelling](https://en.wikipedia.org/wiki/American_and_British_English_spelling_differences)):
-    for reducing each group to a smaller number of summary statistics
-
-Let’s try them out!
-
-------------------------------------------------------------------------
-
+The [tidyverse](https://www.tidyverse.org/) is an opinionated collection
+of R packages designed for data science. All packages share an
+underlying design philosophy, grammar, and data structures.
 [Tidyverse](https://www.tidyverse.org) includes several R
 [packages](https://www.tidyverse.org/packages/) for data science. We may
 not use all of them in this class, but they currently include:
@@ -167,6 +153,30 @@ First, load the `tidyverse` package:
 library(tidyverse)
 ```
 
+## dplyr
+
+`dplyr` was developed by [Hadley
+Wickham](https://en.wikipedia.org/wiki/Hadley_Wickham) (the author of
+`plyr`, `ggplot2, etc.`). He also co-wrote a great introduction on the
+topic, look at [R for Data Science](https://r4ds.had.co.nz/) (Wickham
+and Grolemund 2016), specifically the section [dplyr
+basics](https://r4ds.had.co.nz/transform.html?q=dplyr#dplyr-basics).
+
+`dplyr` is super-fast on data frames. Essentially, one works with five
+basic “verbs” or functions:
+
+-   `select()`: for subsetting variables/columns
+-   `arrange()`: for re-ordering rows
+-   `mutate()`: for adding new columns
+-   `filter()`: for subsetting rows
+-   `summarize()` (or `summarise()` if you prefer [British
+    spelling](https://en.wikipedia.org/wiki/American_and_British_English_spelling_differences)):
+    for reducing each group to a smaller number of summary statistics
+
+Let’s try them out!
+
+------------------------------------------------------------------------
+
 Let’s use the dataset `athletes.csv` for an example of working with some
 of `tidyverse` tools.
 
@@ -178,10 +188,10 @@ Silver](https://www.danasilver.org/sochi/). The data was originally
 retrieved in [JSON format](https://en.wikipedia.org/wiki/JSON) from
 Kimono Lab’s Sochi API on February 18, 2014.
 
-Weh we load tabular (or table) data, we will usually be using the R data
-frame. A data frame is a table in which columns contain values of one
-data type and each row contains a set of values of that data type. The
-data frame is the most common way of storing data in R. ([Under the
+When we load tabular (or table) data, we will usually be using the R
+data frame. A data frame is a table in which columns contain values of
+one data type and each row contains a set of values of that data type.
+The data frame is the most common way of storing data in R. ([Under the
 hood](https://en.wiktionary.org/wiki/under_the_hood), data frames are a
 list of equal legnth vectors – each element of the list can be thought
 of as a column and the length of each element of the list is its number
@@ -356,7 +366,7 @@ summary(athletes)
 Now some functions that we can select, filter, transform, extract, and
 summarize aspects of the data.
 
-## `select()`
+### `select()`
 
 The dataset contains the details on age, birth date, gender, height,
 name, weight, medal counts, sport, and country and a few more variables.
@@ -552,7 +562,7 @@ select(athletes, contains("eigh"))
 ?select
 ```
 
-## `arrange()`
+### `arrange()`
 
 `arrange()` changes the order of the rows. It takes a data frame and a
 set of column names to order by. If you list more than one column name,
@@ -584,7 +594,7 @@ arrange(athletes, gender, desc(age))
 
 <!-- Angelica Morrone is 48 years old. -->
 
-## `mutate()`
+### `mutate()`
 
 Besides working with existing columns, it is sometimes necessary to add
 new columns that are functions of existing columns. That’’’s what the
@@ -711,7 +721,7 @@ with `mutate()`. Think of a function and look up
 [here](https://r4ds.had.co.nz/transform.html?q=dplyr#mutate-funs)
 (Wickham and Grolemund 2016) for possible solutions.
 
-## `filter()`
+### `filter()`
 
 Probably the most useful `dplyr` function is `filter()`. It allows you
 to subset observations based on their values. Or in other words, you can
@@ -945,7 +955,7 @@ Use the dataframe `athletes_narrow`.
 3.  Filter all the athletes who weigh between 105 and 110 kg. How many
     are they?
 
-## `summarize()`
+### `summarize()`
 
 The dplyr function `summarize()` (or `summarise()`) summarizes multiple
 values in a single value.
@@ -1696,6 +1706,8 @@ In R, information about testing can be found here, e.g.:
 -   <https://r-pkgs.org/tests.html>
 -   <https://testthat.r-lib.org>
 -   <https://towardsdatascience.com/unit-testing-in-r-68ab9cc8d211>
+
+# Data practical
 
 # References
 
