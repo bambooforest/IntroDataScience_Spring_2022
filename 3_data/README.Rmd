@@ -58,7 +58,7 @@ Let's look at some examples. Is it *data* or *information*?
 4. 2000 Neuchatel
 5. $2000 monthly income
 6. Satellite image data
-7. Meterological data
+7. Meteorological data
 8. Weather forecasts
 9. Average annual temperature in Neuchatel
 10. Daily temperature in Neuchatel
@@ -68,7 +68,7 @@ Data is raw facts, typically without context, and includes numbers, images, word
 
 # Structured vs unstructured data
 
-[Raw data](https://en.wikipedia.org/wiki/Raw_data) (aka primary data) are data collected from some source. Raw data has not yet been processed for use. Human brains are very good at prcessing raw data and making decisions. Consider crossing a street -- your brain processing the data around you, from your eyes and your ears, together with your working memory, to make an informed decision of whether crossing the street is safe or not.
+[Raw data](https://en.wikipedia.org/wiki/Raw_data) (aka primary data) are data collected from some source. Raw data has not yet been processed for use. Human brains are very good at processing raw data and making decisions. Consider crossing a street -- your brain processing the data around you, from your eyes and your ears, together with your working memory, to make an informed decision of whether crossing the street is safe or not.
 
 Information is the end product of [data processing](https://en.wikipedia.org/wiki/Data_processing). Data processing may include:
 
@@ -134,7 +134,7 @@ Why do we need binary?
 
 Binary encodes at the lowest level all electronic text, audio files, video files, etc. However, there is a difference between different file formats (see section below) and how those files are encoded.
 
-In this course we will be focused on [plain text] encodings and file formants (unless for example you read data directly from a program like Excel). Because all electronic (aka digital) text is encoded at the "lowest" level in binary, there are ways of turning binary into plain text:
+In this course we will be focused on [plain text] encodings and file formats (unless for example you read data directly from a program like Excel). Because all electronic (aka digital) text is encoded at the "lowest" level in binary, there are ways of turning binary into plain text:
 
 * https://en.wikipedia.org/wiki/Binary-to-text_encoding
 
@@ -170,7 +170,7 @@ And there's apparently an R package for that!
 
 * https://github.com/hadley/emo
 
-First you need to install the [devtools](https://devtools.r-lib.org) package (first line below) -- commented out so that it does not run *everytime* I compile this R Markdown file. The devtools package allows you to install [R packages](https://en.wikipedia.org/wiki/R_(programming_language)#Packages) from third parties, e.g., from someones GitHub repository. That's line two below (also commented out because you only need to install it once). The third line uses the command `emo::ji` and the parameter (or argument) within ()'s and the value you're passing as the parameter, i.e., "poop". This function then renders the [pile of poo emoji](https://en.wikipedia.org/wiki/Pile_of_Poo_emoji), aka "poomoji", "poop emoji", which in binary is: 11110000 10011111 10010010 10101001.
+First you need to install the [devtools](https://devtools.r-lib.org) package (first line below) -- commented out so that it does not run *every time* I compile this R Markdown file. The devtools package allows you to install [R packages](https://en.wikipedia.org/wiki/R_(programming_language)#Packages) from third parties, e.g., from someones GitHub repository. That's line two below (also commented out because you only need to install it once). The third line uses the command `emo::ji` and the parameter (or argument) within ()'s and the value you're passing as the parameter, i.e., "poop". This function then renders the [pile of poo emoji](https://en.wikipedia.org/wiki/Pile_of_Poo_emoji), aka "poomoji", "poop emoji", which in binary is: 11110000 10011111 10010010 10101001.
 
 ```{r}
 # install.packages("devtools")  # line 1
@@ -214,7 +214,7 @@ R has several data types underlying its data structures, e.g.:
 | [Enumerated type](https://en.wikipedia.org/wiki/Enumerated_type) | [Categorical variable](https://en.wikipedia.org/wiki/Categorical_variable) |
 | [List](https://en.wikipedia.org/wiki/List_(abstract_data_type)), [Array](https://en.wikipedia.org/wiki/Array_data_type) | [Random vector](https://en.wikipedia.org/wiki/Multivariate_random_variable) |
 
-Why is important to keep this in mind? How you can programatically access, perform functions or statistics on these data types -- whether in programming code or in statistical methods -- depends on what **type** of data you are dealing with. For example:
+Why is important to keep this in mind? How you can programmatically access, perform functions or statistics on these data types -- whether in programming code or in statistical methods -- depends on what **type** of data you are dealing with. For example:
 
 * You cannot apply arithmetic to qualitative / categorical values
 * Ordinal scales are equidistant, so you can rank them, but how much x from y are is unknown
@@ -244,7 +244,7 @@ x + y
 
 # Data types in statistics
 
-In contrast to variables in computer programming, variables in statistics are *properties* or *characteristics* used to measure a population of individuals. A varaible is thus a quantity whose value can change across a population.
+In contrast to variables in computer programming, variables in statistics are *properties* or *characteristics* used to measure a population of individuals. A variable is thus a quantity whose value can change across a population.
 
 They include:
 
@@ -286,7 +286,7 @@ The best-known classification scheme has four levels [@Stevens1946]. It was deve
 * **Nominal** -- the so-called naming scale, i.e., variables have categorical values with no specific order (thus it's not really a scale at all because it does not scale along any dimension!); instead the nominal scale is generally used for classification purposes, e.g., the numbers worn by athletes
 * **Ordinal** -- the simplest true scale in which variables are encoded in a specific order, but the individual positions are equidistant, e.g., the rank of winners in a marathon
 * **Interval** -- a scale of measurement in which the order of the variables and the distance between them is known, e.g., a scale for temperature (e.g., Celsius or Fahrenheit) in which a different of 10 degrees has the same meaning anywhere on the scale
-* **Ratio** -- a scale of measurement that includes rank (ordinal), distancce between points on the scale (interval) and additionally information about the value of true zero, where zero means the complete absence of the property under measurement, e.g., how many [cervelat](https://en.wikipedia.org/wiki/Cervelat) can you eat per day?
+* **Ratio** -- a scale of measurement that includes rank (ordinal), distance between points on the scale (interval) and additionally information about the value of true zero, where zero means the complete absence of the property under measurement, e.g., how many [cervelat](https://en.wikipedia.org/wiki/Cervelat) can you eat per day?
 
 Depending on what is being measured (i.e., what kind of variables) and how we measure it (i.e., with what methods and scales), the numbers or categories may have different properties. We will talk about this more in future lectures. But not that in general it is rare to find a true and unambiguous example of any particular kind of scale. Consider for example that Stevens' scale unifies qualitative and quantitative beneath the "nominal" type. Stevens' typology has been widely criticized, e.g., @Michell1986.
 
@@ -297,7 +297,7 @@ df <- readr::read_csv('levels_of_measurement.csv')
 knitr::kable(df)
 ```
 
-And here is a table that compares the levels of measurment.
+And here is a table that compares the levels of measurement.
 
 ```{r, warning=FALSE, message=FALSE}
 df <- readr::read_csv('comparison_of_levels.csv')
@@ -320,7 +320,7 @@ To summarize, knowing the distinctions among the four scales of measurement will
 
 # Data structures
 
-[Data structures](https://en.wikipedia.org/wiki/Data_structure) are collections of data values that are organized so that operations can be peformed on them. They include the primative data types (some mentioned above) but also abstract data types, linear data structures, trees, hashes, graphs, and so on. 
+[Data structures](https://en.wikipedia.org/wiki/Data_structure) are collections of data values that are organized so that operations can be performed on them. They include the primitive data types (some mentioned above) but also abstract data types, linear data structures, trees, hashes, graphs, and so on. 
 
 * https://en.wikipedia.org/wiki/List_of_data_structures
 
@@ -333,7 +333,7 @@ Data structures are also typically programming language dependent, i.e., the dev
 
 # File formants
 
-[File formants](https://en.wikipedia.org/wiki/File_format) are standardized ways of encoding digitial data for storage as computer files. You know these mainly from their appearance, e.g., text document, image, audio or video file. But also from their [filename extensions](https://en.wikipedia.org/wiki/Filename_extension), i.e., the suffix (typically) after "." in the filename. For example, this file is a markdown file that ends in ".md" (or a R Markdown file ".Rmd" if you are looking at the source code).
+[File formants](https://en.wikipedia.org/wiki/File_format) are standardized ways of encoding digital data for storage as computer files. You know these mainly from their appearance, e.g., text document, image, audio or video file. But also from their [filename extensions](https://en.wikipedia.org/wiki/Filename_extension), i.e., the suffix (typically) after "." in the file name. For example, this file is a markdown file that ends in ".md" (or a R Markdown file ".Rmd" if you are looking at the source code).
 
 Typical file names include suffixes such as:
 
@@ -404,7 +404,7 @@ Which of these formats above are stored in plain text?
 
 Tabular (or table) data has several properties. It consists of [rows and columns](https://en.wikipedia.org/wiki/Row_and_column_vectors) in the linear algebra sense, and [rows](https://en.wikipedia.org/wiki/Row_(database)) and [columns](https://en.wikipedia.org/wiki/Column_(database)) in the relational database sense.
 
-Columns in tabular data contain a set of data of a particular type and contain (typically) one value (data type -- see above) for each row in the table. Each row in the table contains an observation, in which each row represents a set of related data, i.e., every row has the same structure and each cell in each row should adhere to the column's specification (i.e., that data type of that column). For example if you run the `data()` command in R / RStudio, you will get a list of all of the pre-loaded datasets available in R.
+Columns in tabular data contain a set of data of a particular type and contain (typically) one value (data type -- see above) for each row in the table. Each row in the table contains an observation, in which each row represents a set of related data, i.e., every row has the same structure and each cell in each row should adhere to the column's specification (i.e., that data type of that column). For example if you run the `data()` command in R / RStudio, you will get a list of all of the pre-loaded data sets available in R.
 
 For example, want to know about [Swiss Fertility and Socioeconomic Indicators (1888) Data](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/swiss.html), i.e., standardized fertility measure and socio-economic indicators for each of 47 French-speaking provinces of Switzerland at about 1888?
 
@@ -456,7 +456,7 @@ We won't talk much about data archiving, but it is important for research and re
 
 # Open data
 
-[Open data](https://en.wikipedia.org/wiki/Open_data) are data that are freely available and also the idea that data should be freely available. (Recall what we've discussed about data and software licenses.) The idea is similar to [open source code](https://en.wikipedia.org/wiki/Open_source), i.e., the idea that source code is made openly and freely aailable. Both open data and open source code are integral to [open data science](https://en.wikipedia.org/wiki/Open_science_data) and [reproducible science](https://en.wikipedia.org/wiki/Reproducibility).
+[Open data](https://en.wikipedia.org/wiki/Open_data) are data that are freely available and also the idea that data should be freely available. (Recall what we've discussed about data and software licenses.) The idea is similar to [open source code](https://en.wikipedia.org/wiki/Open_source), i.e., the idea that source code is made openly and freely available. Both open data and open source code are integral to [open data science](https://en.wikipedia.org/wiki/Open_science_data) and [reproducible science](https://en.wikipedia.org/wiki/Reproducibility).
 
 There is a lot of open data out there, e.g.:
 
@@ -466,13 +466,13 @@ There is a lot of open data out there, e.g.:
 
 # Data practical
 
-For this week's data practical, load three datasets into an R Markdown notebook and describe some of their variables in terms of the data types used in R and data types in terms of statistical data types. 
+For this week's data practical, load three data sets into an R Markdown notebook and describe their variables in terms of the data types used in R and data types in terms of statistical data types. 
 
 First, load one of [R's pre-loaded data](http://www.sthda.com/english/wiki/r-built-in-data-sets) (hint use the `data()` command in RStudio to have a look at what's available). There's a description of the data -- summarize it. What kind of R data types are there?
 
-Second, load a dataset of an external source, e.g., from a CSV file or a spreadsheet. Recall, there's lots of open data out there! One very interesting website that I recently came across from my colleague [Alena Witzlack](https://en.linguistics.huji.ac.il/people/alena-witzlack-makarevich) is [The Pudding](https://pudding.cool), which publishes stories on data journalism -- and makes the data for those stories freely available.
+Second, load a data set of an external source, e.g., from a CSV file or a spreadsheet. Recall, there's lots of open data out there! One very interesting website that I recently came across from my colleague [Alena Witzlack](https://en.linguistics.huji.ac.il/people/alena-witzlack-makarevich) is [The Pudding](https://pudding.cool), which publishes stories on data journalism -- and makes the data for those stories freely available.
 
-Again, for the dataset (whether you download it and put it in your GitHub repository and read it there locally -- be sure to cite your source) even if you [read (load) it from your R Markdown data practical directly](https://stackoverflow.com/questions/6299220/access-a-url-and-read-data-with-r). Describe the data in terms of R data types (hint there's a fuction to do that) and also describe it in terms of statistical variables. What data type is each column? Is it qualitative or quantitative in nature? What type of variables are there? Categorical or numeric? Why kind of categorical or numeric variable?
+Again, for the data set (whether you download it and put it in your GitHub repository and read it there locally -- be sure to cite your source) even if you [read (load) it from your R Markdown data practical directly](https://stackoverflow.com/questions/6299220/access-a-url-and-read-data-with-r). Describe the data in terms of R data types (hint there's a function to do that) and also describe it in terms of statistical variables. What data type is each column? Is it qualitative or quantitative in nature? What type of variables are there? Categorical or numeric? Why kind of categorical or numeric variable?
 
 
 # References

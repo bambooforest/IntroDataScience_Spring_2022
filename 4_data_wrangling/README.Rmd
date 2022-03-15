@@ -30,7 +30,7 @@ The steps in data wrangling, broadly, include:
 * **Structure your data** -- organize the data (necessarily if its in a raw format) and structure it for the functions or methods that will take it as input
 * **Clean your data** -- in the process of dealing with data (especially raw data), you may need to clean it, e.g., get all the dates into the same format (Feb 1 vs 2/1 vs 1/2 etc.)
 * **Enrich your data** -- do you need more data for your analysis? E.g., you have a list of languages but you need to know where they are spoken to plot them on a world map
-* **Validate your data** -- basically making sure that your structured and cleaned data is actually structured and clean -- also commonly refered to as [software testing](https://en.wikipedia.org/wiki/Software_testing)
+* **Validate your data** -- basically making sure that your structured and cleaned data is actually structured and clean -- also commonly refereed to as [software testing](https://en.wikipedia.org/wiki/Software_testing)
 * **Publish your data** -- and publish your analysis, findings, etc., for consumption, reproducibility, etc.
 
 
@@ -112,11 +112,11 @@ Let's try them out!
 
 ***
 
-Let's use the dataset `athletes.csv` for an example of working with some of `tidyverse` tools. 
+Let's use the data set `athletes.csv` for an example of working with some of `tidyverse` tools. 
 
-The dataset `athletes.csv` contains various details about the athletes who participated in the [2014 Winter Olympics in Sochi](https://en.wikipedia.org/wiki/2014_Winter_Olympics). Here we use the version of this dataset converted by [Dana Silver](https://www.danasilver.org/sochi/). The data was originally retrieved in [JSON format](https://en.wikipedia.org/wiki/JSON) from Kimono Lab's Sochi API on February 18, 2014.
+The data set `athletes.csv` contains various details about the athletes who participated in the [2014 Winter Olympics in Sochi](https://en.wikipedia.org/wiki/2014_Winter_Olympics). Here we use the version of this data set converted by [Dana Silver](https://www.danasilver.org/sochi/). The data was originally retrieved in [JSON format](https://en.wikipedia.org/wiki/JSON) from Kimono Lab's Sochi API on February 18, 2014.
 
-When we load tabular (or table) data, we will usually be using the R data frame. A data frame is a table in which columns contain values of one data type and each row contains a set of values of that data type. The data frame is the most common way of storing data in R. ([Under the hood](https://en.wiktionary.org/wiki/under_the_hood), data frames are a list of equal legnth vectors -- each element of the list can be thought of as a column and the length of each element of the list is its number of rows.) Data frames have the following characteristics:
+When we load tabular (or table) data, we will usually be using the R data frame. A data frame is a table in which columns contain values of one data type and each row contains a set of values of that data type. The data frame is the most common way of storing data in R. ([Under the hood](https://en.wiktionary.org/wiki/under_the_hood), data frames are a list of equal length vectors -- each element of the list can be thought of as a column and the length of each element of the list is its number of rows.) Data frames have the following characteristics:
 
 * Column names should not be empty
 * Row names should be unique
@@ -131,7 +131,7 @@ athletes <- read_csv("datasets/athletes.csv")
 
 You can also give it the full path, depending on where the data is on your local computer.
 
-Perhaps easiest, however, is to load it from the repository on the web directly. The `readr` package makes this easy by allowing you to wrap the `url` fucntion into the `read_csv` function:
+Perhaps easiest, however, is to load it from the repository on the web directly. The `readr` package makes this easy by allowing you to wrap the `url` function into the `read_csv` function:
 
 ```{r message = FALSE, warning=FALSE}
 athletes <- read_csv(url("https://raw.githubusercontent.com/bambooforest/IntroDataScience/main/4_data_wrangling/datasets/athletes.csv"))
@@ -139,11 +139,11 @@ athletes <- read_csv(url("https://raw.githubusercontent.com/bambooforest/IntroDa
 
 Note that GitHub displays well-formatted CSV files as tabular data:
 
-* https://github.com/bambooforest/IntroDataScience/blob/main/4_data_wrangling/datasets/athletes.csv
+* https://github.com/bambooforest/IntroDataScience/blob/main/4_data_wrangling/data sets/athletes.csv
 
 But if you want to load it from the web, you need to use the raw data (note the button on the GitHub page with the label "raw", which results in this URL:
 
-* https://raw.githubusercontent.com/bambooforest/IntroDataScience/main/4_data_wrangling/datasets/athletes.csv
+* https://raw.githubusercontent.com/bambooforest/IntroDataScience/main/4_data_wrangling/data sets/athletes.csv
 
 Now that you've loaded the `atheletes.csv` data, let's have a look at its structure with the `str()` function:
 
@@ -153,7 +153,7 @@ str(athletes)
 
 Recall our discussion about [data types for computer programming](https://github.com/bambooforest/IntroDataScience/tree/main/3_data#data-types-for-computer-programming) and [data types for statistics](https://github.com/bambooforest/IntroDataScience/tree/main/3_data#data-types-in-statistics).
 
-**What kind of variables do we have in our dataset?**
+**What kind of variables do we have in our data set?**
 
 Some variables should be converted from [character](https://stat.ethz.ch/R-manual/R-devel/library/base/html/character.html) to [factor](https://stat.ethz.ch/R-manual/R-devel/library/base/html/factor.html). You probably will want to use `gender`, and `sport`. Convert these two variables one by one:
 
@@ -187,9 +187,9 @@ Now some functions that we can select, filter, transform, extract, and summarize
 
 ### `select()`
 
-The dataset contains the details on age, birth date, gender, height, name, weight, medal counts, sport, and country and a few more variables. Not all of these variables are of interest for a specific research question and often one wants to have a "narrower" version of a dataset which contains only the variables of immediate interest. 
+The data set contains the details on age, birth date, gender, height, name, weight, medal counts, sport, and country and a few more variables. Not all of these variables are of interest for a specific research question and often one wants to have a "narrower" version of a data set which contains only the variables of immediate interest. 
 
-To prepare such a version of your dataset, use the function `select()` to select the variables (columns) you need.
+To prepare such a version of your data set, use the function `select()` to select the variables (columns) you need.
 
 - First, you can select the variables of interest just by naming them. Note that this way you can also modify the order of the variables:
 
@@ -208,16 +208,16 @@ select(athletes, age:weight)
 select(athletes, -birthdate, -age)
 ```
 
-Note that `dplyr` functions never modify their input dataframes. If you want to save the result e.g., of the `select()`function, you need to use the assignment operator ` <-` and either overwrite the original dataframe or create a new one. 
+Note that `dplyr` functions never modify their input data frames. If you want to save the result e.g., of the `select()`function, you need to use the assignment operator ` <-` and either overwrite the original data frame or create a new one. 
 
-For instance, here the original dataframe remains unchanged: 
+For instance, here the original data frame remains unchanged: 
 
 ```{r}
 select(athletes, birthdate, age)
 athletes
 ```
 
-And here we create a new dataframe with the selected columns only:
+And here we create a new data frame with the selected columns only:
 
 ```{r}
 athletes_age <- select(athletes, birthdate, age)
@@ -255,7 +255,7 @@ select(athletes, contains("eigh"))
 arrange(athletes, height, age)
 ```
 
-<!-- The dataset is first order in an ascending order by `height`. In case two or more athletes have the same height, `age` is used to break ties (also in ascending order), e.g. several athletes have the height of 1.50 cm, they are then order from youngest to oldest. -->
+<!-- The data set is first order in an ascending order by `height`. In case two or more athletes have the same height, `age` is used to break ties (also in ascending order), e.g. several athletes have the height of 1.50 cm, they are then order from youngest to oldest. -->
 
 2. Guess what the following code will do before executing it!
 
@@ -263,9 +263,9 @@ arrange(athletes, height, age)
 arrange(athletes, desc(height), age)
 ```
 
-<!-- The dataset is first order in a descending order by `height`. In case two or more athletes have the same height, `age` is used to break ties (but now in ascending order), e.g. among the tallest athletes are the four athletes with the height of 2.00 cm, they are then order from youngest to oldest. -->
+<!-- The data set is first order in a descending order by `height`. In case two or more athletes have the same height, `age` is used to break ties (but now in ascending order), e.g. among the tallest athletes are the four athletes with the height of 2.00 cm, they are then order from youngest to oldest. -->
 
-3. Use only the `arrange()` to display the oldest female athlete at the top of the sorted dataset. How old is she?
+3. Use only the `arrange()` to display the oldest female athlete at the top of the sorted data set. How old is she?
 
 ```{r, eval=FALSE}
 arrange(athletes, gender, desc(age))
@@ -276,11 +276,11 @@ arrange(athletes, gender, desc(age))
 
 ### `mutate()`
 
-Besides working with existing columns, it is sometimes necessary to add new columns that are functions of existing columns. That'''s what the `mutate()` function is for. 
+Besides working with existing columns, it is sometimes necessary to add new columns that are functions of existing columns. That's what the `mutate()` function is for. 
 
-`mutate()` always adds new columns at the end of your dataset so we'll start by creating a narrower dataset so we can see the new variables. (Remember that when you use in RStudio, an easy way to see all the columns is `View()`.)
+`mutate()` always adds new columns at the end of your data set so we'll start by creating a narrower data set so we can see the new variables. (Remember that when you use in RStudio, an easy way to see all the columns is `View()`.)
 
-First, create with `select()` a narrow dataset `athletes_narrow` which only contains the variables `name`, `gender`, `age`, `sport`, `height`, and `weight`. (Here, we add a few more columns than we need now, because we plan to use `athletes_narrow` later).
+First, create with `select()` a narrow data set `athletes_narrow` which only contains the variables `name`, `gender`, `age`, `sport`, `height`, and `weight`. (Here, we add a few more columns than we need now, because we plan to use `athletes_narrow` later).
 
 ```{r}
 athletes_narrow <- select(athletes, name, gender, age, sport, height, weight)
@@ -293,14 +293,14 @@ Next, add the column BMI (body mass index). The BMI is calculated as the body ma
 mutate(athletes_narrow, BMI = weight/height^2)
 ```
 
-Notice that `mutate` does not overwrite the existing dataframe.
+Notice that `mutate` does not overwrite the existing data frame.
 
 ```{r}
 mutate(athletes_narrow, BMI = weight/height^2)
 athletes_narrow
 ```
 
-To add the new column to it permanently, you have to overwrite the original dataframe:
+To add the new column to it permanently, you have to overwrite the original data frame:
 
 ```{r}
 athletes_narrow <- mutate(athletes_narrow, BMI = weight/height^2)
@@ -312,7 +312,7 @@ There are many functions for creating new variables that you can use with `mutat
 
 ### `filter()`
 
-Probably the most useful `dplyr` function is `filter()`. It allows you to subset observations based on their values. Or in other words, you can extract some rows from your dataset on the basis of certain conditions. The first argument of this function is the name of the data frame. The second and subsequent arguments are the expressions that filter the data frame. 
+Probably the most useful `dplyr` function is `filter()`. It allows you to subset observations based on their values. Or in other words, you can extract some rows from your data set on the basis of certain conditions. The first argument of this function is the name of the data frame. The second and subsequent arguments are the expressions that filter the data frame. 
 
 For example, we can select all athletes who are taller than 2.00 m. Here we continue to work with `athletes_narrow`:
 
@@ -334,7 +334,7 @@ When you’re starting out with R, the easiest mistake to make is to use = inste
 filter(athletes_narrow, age = 15)
 ```
 
-Another important function when filtering is to identify and potentially filter out `NA` cells. These are missing or unknown values in the dataset. R [provides a function](https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html) called `is.na()` that tests whether a value is missing or not. `NA` is a special value in R.
+Another important function when filtering is to identify and potentially filter out `NA` cells. These are missing or unknown values in the data set. R [provides a function](https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html) called `is.na()` that tests whether a value is missing or not. `NA` is a special value in R.
 
 ```{r}
 x <- NA # special value NA
@@ -377,7 +377,7 @@ Another useful function is called `table()`. What does it do?
 table(athletes$sport)
 ```
 
-Note you need to use the `exclude = FALSE` parameter, if you want the `table()` function to count `NA`s. How many athelete
+Note you need to use the `exclude = FALSE` parameter, if you want the `table()` function to count `NA`s. How many athlete
 
 ```{r}
 table(athletes$height)
@@ -388,7 +388,7 @@ table(athletes$height, exclude = FALSE)
 
 **Try these out!**
 
-Use the dataframe `athletes_narrow`.
+Use the data frame `athletes_narrow`.
 
 1. Filter all the athletes who are heavier than 110 kg.
 
@@ -442,7 +442,7 @@ by_color <- df %>% group_by(color) %>% summarize(total = sum(value))
 by_color
 ```
 
-We can also use `group_by` on the atheltes data. For example, how many gold medals per country?
+We can also use `group_by` on the athletes data. For example, how many gold medals per country?
 
 ```{r}
 athletes %>% group_by(country) %>% summarize(gold_medals = sum(gold_medals))
@@ -553,7 +553,7 @@ str(gapminder)
 str(sex_ratios)
 ```
 
-Which columns are shared between the two datasets? Notice again the [data types](https://github.com/bambooforest/IntroDataScience/tree/main/3_data#data-types-for-computer-programming).
+Which columns are shared between the two data sets? Notice again the [data types](https://github.com/bambooforest/IntroDataScience/tree/main/3_data#data-types-for-computer-programming).
 
 So how do we combine the tables / data frames? Dplyr has several functions for **joining** tables. Often [Venn diagrams](https://en.wikipedia.org/wiki/Venn_diagram) are used to show the logical relationships described by different join functions. The following image is taken from [here](https://en.wikipedia.org/wiki/Venn_diagram).
 
@@ -626,7 +626,7 @@ Note also that the join functions will identify which shared columns exist and t
 
 Let's make another example. Different programming languages have different style for naming variables, column names, etc. These styles go by various names, such as: [camelCase](https://en.wikipedia.org/wiki/Camel_case) (e.g., iPhone), PascalCase, and [snake_case](https://en.wikipedia.org/wiki/Snake_case).
 
-We will discuss below more about [code style](http://adv-r.had.co.nz/Style.html), but for example R style guides like [the one from Google](https://google.github.io/styleguide/Rguide.html) suggests using `BigCamelCase` (i.e., PascalCase) for naming functions. The [tidyverse style guide](http://adv-r.had.co.nz/Style.html) suggests using snake_case for function names and variables. So, as you can see, different developers different opinions. What is importat for your work is that you choose a style and try to stick with it.
+We will discuss below more about [code style](http://adv-r.had.co.nz/Style.html), but for example R style guides like [the one from Google](https://google.github.io/styleguide/Rguide.html) suggests using `BigCamelCase` (i.e., PascalCase) for naming functions. The [tidyverse style guide](http://adv-r.had.co.nz/Style.html) suggests using snake_case for function names and variables. So, as you can see, different developers different opinions. What is important for your work is that you choose a style and try to stick with it.
 
 Let's update our customers example to snake_case and then show how to combine it to the orders table.
 
@@ -734,7 +734,7 @@ To summarize, every programming language, and most groups of programmers, will h
 
 * declare you variables (e.g., should_it_be_with_underscores or shouldItBeCamelCase?)
 * are your file names in upper or lower case? (e.g. analysis.R vs. Analysis.R?)
-* depending on the language and its naming constratins are your variables, methods, etc., using punctiation? (e.g., my.fuction vs my_function vs myFunction vs MyFunction... and so on)
+* depending on the language and its naming constraints are your variables, methods, etc., using punctuation? (e.g., my.fiction vs my_function vs myFunction vs MyFunction... and so on)
 * where should you introduce (or should you introduce) [new lines](https://en.wikipedia.org/wiki/Newline) into your code, editor, etc.? 
 
 The [TL;DR](https://en.wikipedia.org/wiki/Wikipedia:Too_long;_didn%27t_read)? Follow a style guide! It makes your code easier to read. Or as [Hadley Wickham](https://en.wikipedia.org/wiki/Hadley_Wickham) apparently said:
@@ -782,9 +782,9 @@ In R, information about testing can be found here, e.g.:
 
 # Data practical
 
-For this week’s data practical, 
+For this weeks data practical, 
 
-<!-- load three datasets into an R Markdown notebook and describe some of their variables in terms of the data types used in R and data types in terms of statistical data types. -->
+<!-- load three data sets into an R Markdown notebook and describe some of their variables in terms of the data types used in R and data types in terms of statistical data types. -->
 
 
 

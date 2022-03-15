@@ -1,7 +1,7 @@
 Data
 ================
 Steven Moran
-(09 March, 2022)
+(15 March, 2022)
 
 -   [What is data?](#what-is-data)
 -   [Structured vs unstructured data](#structured-vs-unstructured-data)
@@ -97,7 +97,7 @@ Let’s look at some examples. Is it *data* or *information*?
 4.  2000 Neuchatel
 5.  $2000 monthly income
 6.  Satellite image data
-7.  Meterological data
+7.  Meteorological data
 8.  Weather forecasts
 9.  Average annual temperature in Neuchatel
 10. Daily temperature in Neuchatel
@@ -113,7 +113,7 @@ the data and tells us something about the data.
 
 [Raw data](https://en.wikipedia.org/wiki/Raw_data) (aka primary data)
 are data collected from some source. Raw data has not yet been processed
-for use. Human brains are very good at prcessing raw data and making
+for use. Human brains are very good at processing raw data and making
 decisions. Consider crossing a street – your brain processing the data
 around you, from your eyes and your ears, together with your working
 memory, to make an informed decision of whether crossing the street is
@@ -213,7 +213,7 @@ video files, etc. However, there is a difference between different file
 formats (see section below) and how those files are encoded.
 
 In this course we will be focused on \[plain text\] encodings and file
-formants (unless for example you read data directly from a program like
+formats (unless for example you read data directly from a program like
 Excel). Because all electronic (aka digital) text is encoded at the
 “lowest” level in binary, there are ways of turning binary into plain
 text:
@@ -284,7 +284,7 @@ And there’s apparently an R package for that!
 
 First you need to install the [devtools](https://devtools.r-lib.org)
 package (first line below) – commented out so that it does not run
-*everytime* I compile this R Markdown file. The devtools package allows
+*every time* I compile this R Markdown file. The devtools package allows
 you to install [R
 packages](https://en.wikipedia.org/wiki/R_(programming_language)#Packages)
 from third parties, e.g., from someones GitHub repository. That’s line
@@ -356,7 +356,7 @@ how else would we use computer programs to do statistics? For example:
 | [Enumerated type](https://en.wikipedia.org/wiki/Enumerated_type)                                                        | [Categorical variable](https://en.wikipedia.org/wiki/Categorical_variable)                                                                                          |
 | [List](https://en.wikipedia.org/wiki/List_(abstract_data_type)), [Array](https://en.wikipedia.org/wiki/Array_data_type) | [Random vector](https://en.wikipedia.org/wiki/Multivariate_random_variable)                                                                                         |
 
-Why is important to keep this in mind? How you can programatically
+Why is important to keep this in mind? How you can programmatically
 access, perform functions or statistics on these data types – whether in
 programming code or in statistical methods – depends on what **type** of
 data you are dealing with. For example:
@@ -402,7 +402,7 @@ x + y
 
 In contrast to variables in computer programming, variables in
 statistics are *properties* or *characteristics* used to measure a
-population of individuals. A varaible is thus a quantity whose value can
+population of individuals. A variable is thus a quantity whose value can
 change across a population.
 
 They include:
@@ -505,7 +505,7 @@ the function of the previous scale.
     temperature (e.g., Celsius or Fahrenheit) in which a different of 10
     degrees has the same meaning anywhere on the scale
 -   **Ratio** – a scale of measurement that includes rank (ordinal),
-    distancce between points on the scale (interval) and additionally
+    distance between points on the scale (interval) and additionally
     information about the value of true zero, where zero means the
     complete absence of the property under measurement, e.g., how many
     [cervelat](https://en.wikipedia.org/wiki/Cervelat) can you eat per
@@ -540,7 +540,7 @@ knitr::kable(df)
 | Multiplication and Division of variables      | No      | No      | No       | Yes   |
 | Absolute zero                                 | No      | No      | No       | Yes   |
 
-And here is a table that compares the levels of measurment.
+And here is a table that compares the levels of measurement.
 
 ``` r
 df <- readr::read_csv('comparison_of_levels.csv')
@@ -586,7 +586,7 @@ measurement will help you in two tasks:
 
 [Data structures](https://en.wikipedia.org/wiki/Data_structure) are
 collections of data values that are organized so that operations can be
-peformed on them. They include the primative data types (some mentioned
+performed on them. They include the primitive data types (some mentioned
 above) but also abstract data types, linear data structures, trees,
 hashes, graphs, and so on.
 
@@ -605,11 +605,11 @@ unstructured or structured). This is discussed under data wrangling.
 # File formants
 
 [File formants](https://en.wikipedia.org/wiki/File_format) are
-standardized ways of encoding digitial data for storage as computer
+standardized ways of encoding digital data for storage as computer
 files. You know these mainly from their appearance, e.g., text document,
 image, audio or video file. But also from their [filename
 extensions](https://en.wikipedia.org/wiki/Filename_extension), i.e., the
-suffix (typically) after “.” in the filename. For example, this file is
+suffix (typically) after “.” in the file name. For example, this file is
 a markdown file that ends in “.md” (or a R Markdown file “.Rmd” if you
 are looking at the source code).
 
@@ -770,7 +770,7 @@ row represents a set of related data, i.e., every row has the same
 structure and each cell in each row should adhere to the column’s
 specification (i.e., that data type of that column). For example if you
 run the `data()` command in R / RStudio, you will get a list of all of
-the pre-loaded datasets available in R.
+the pre-loaded data sets available in R.
 
 For example, want to know about [Swiss Fertility and Socioeconomic
 Indicators (1888)
@@ -878,7 +878,7 @@ freely available and also the idea that data should be freely available.
 (Recall what we’ve discussed about data and software licenses.) The idea
 is similar to [open source
 code](https://en.wikipedia.org/wiki/Open_source), i.e., the idea that
-source code is made openly and freely aailable. Both open data and open
+source code is made openly and freely available. Both open data and open
 source code are integral to [open data
 science](https://en.wikipedia.org/wiki/Open_science_data) and
 [reproducible science](https://en.wikipedia.org/wiki/Reproducibility).
@@ -890,9 +890,9 @@ There is a lot of open data out there, e.g.:
 
 # Data practical
 
-For this week’s data practical, load three datasets into an R Markdown
-notebook and describe some of their variables in terms of the data types
-used in R and data types in terms of statistical data types.
+For this week’s data practical, load three data sets into an R Markdown
+notebook and describe their variables in terms of the data types used in
+R and data types in terms of statistical data types.
 
 First, load one of [R’s pre-loaded
 data](http://www.sthda.com/english/wiki/r-built-in-data-sets) (hint use
@@ -900,21 +900,21 @@ the `data()` command in RStudio to have a look at what’s available).
 There’s a description of the data – summarize it. What kind of R data
 types are there?
 
-Second, load a dataset of an external source, e.g., from a CSV file or a
-spreadsheet. Recall, there’s lots of open data out there! One very
+Second, load a data set of an external source, e.g., from a CSV file or
+a spreadsheet. Recall, there’s lots of open data out there! One very
 interesting website that I recently came across from my colleague [Alena
 Witzlack](https://en.linguistics.huji.ac.il/people/alena-witzlack-makarevich)
 is [The Pudding](https://pudding.cool), which publishes stories on data
 journalism – and makes the data for those stories freely available.
 
-Again, for the dataset (whether you download it and put it in your
+Again, for the data set (whether you download it and put it in your
 GitHub repository and read it there locally – be sure to cite your
 source) even if you [read (load) it from your R Markdown data practical
 directly](https://stackoverflow.com/questions/6299220/access-a-url-and-read-data-with-r).
-Describe the data in terms of R data types (hint there’s a fuction to do
-that) and also describe it in terms of statistical variables. What data
-type is each column? Is it qualitative or quantitative in nature? What
-type of variables are there? Categorical or numeric? Why kind of
+Describe the data in terms of R data types (hint there’s a function to
+do that) and also describe it in terms of statistical variables. What
+data type is each column? Is it qualitative or quantitative in nature?
+What type of variables are there? Categorical or numeric? Why kind of
 categorical or numeric variable?
 
 # References
