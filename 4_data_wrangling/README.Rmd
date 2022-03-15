@@ -8,10 +8,12 @@ output:
 bibliography: '../2_writing_scientific_reports/references.bib'
 ---
 
+***
+
 This report uses the [R programming language](https://cran.r-project.org/doc/FAQ/R-FAQ.html) [@R] and the following [R libraries](https://r-pkgs.org/intro.html) [@tidyverse;@knitr].
 
 ```{r, message=FALSE, warning=FALSE}
-library(dplyr)
+library(tidyverse)
 library(knitr)
 ```
 
@@ -88,7 +90,7 @@ The [tidyverse](https://www.tidyverse.org/) is an opinionated collection of R pa
 * [stringr](https://stringr.tidyverse.org): functions for working with strings
 * [forcats](https://forcats.tidyverse.org): functions for dealing with [factors](https://stat.ethz.ch/R-manual/R-devel/library/base/html/factor.html) in R
 
-First, load the `tidyverse` package:
+To load the `tidyverse` package, which then includes all the libraries above, first install it and then load:
 
 ```{r message = FALSE, warning=FALSE}
 # install.packages("tidyverse") # run this first if you need to install tidyverse
@@ -96,7 +98,56 @@ library(tidyverse)
 ```
 
 
+## Loading data
+
+There are numerous ways to load data into R. The `readr` is the `tidyverse` library that lets us read in plain text data in various formats:
+
+| Function | Format | Filename typically ends with |
+|----------|--------|---| 
+| read_table | white space separated values | txt |
+| read_csv | comma separated values|  csv |
+| read_csv2 | semicolon separated values | csv |
+| read_tsv | tab delimited separated values | tsv |
+| read_delim | general text file format, must define delimiter | txt |
+
+Below we will load some csv data and have a look at it.
+
+As well as `readr`, the `tidyverse` package will install several packages for reading in other types of formats, such as Excel with `[readxl](https://readxl.tidyverse.org)`, e.g.:
+
+
+| Function | Format | Filename typically ends with |
+|----------|--------|---| 
+| read_excel | auto detect the format | xls, xlsx|
+| read_xls | original format |  xls |
+| read_xlsx | new format | xlsx |
+
+There are also load functions in "base" R. It contains similar functions to `tidyverse` functions, e.g., `read.csv`, `read.table`. They load data slightly differently and into different data types.
+
+```{r}
+df <- read_csv('datasets/athletes.csv')
+class(df)
+str(df)
+```
+
+
+```{r}
+df <- read.csv('datasets/athletes.csv')
+class(df)
+str(df)
+```
+
+One reason that people choose a library like `readr::read_csv` over base R's `read.csv` is because the latter automatically converts strings to factors. If you use base R's `read.csv` and want to keep strings as factors, you have to additionally set the parameter `stringsAsFactors` to FALSE, i.e.:
+
+```{r}
+df <- read.csv('datasets/athletes.csv', stringsAsFactors = FALSE)
+class(df)
+str(df)
+```
+
+
 ## dplyr
+
+Once you've loaded a data set into a data frame (or [tibble](https://tibble.tidyverse.org)), you can begin to work with it.
 
 `dplyr` was developed by [Hadley Wickham](https://en.wikipedia.org/wiki/Hadley_Wickham) (the author of `plyr`, `ggplot2, etc.`). He also co-wrote a great introduction on the topic, look at [R for Data Science](https://r4ds.had.co.nz/) [@WickhamGrolemund2016], specifically the section [dplyr basics](https://r4ds.had.co.nz/transform.html?q=dplyr#dplyr-basics). 
 
@@ -469,14 +520,31 @@ athletes %>%
 
 The table (or flat file) model is simple to read and easy to manipulate. It consists of a two-dimensional array of data elements. The placement of data in rows and columns provides the data with structure, and thus, meaning.
 
+<!-- 
 * https://glottolog.org
 * https://glottolog.org/glottolog/language
 * https://cdstar.eva.mpg.de/bitstreams/EAEA0-F8BB-0AB6-96FA-0/languages_and_dialects_geo.csv
+-->
+
+A table's columns and rows specify relationships among the cells in the table, some of which are implicit. Spreadsheets are a way to interactively work with the data. Consider this data set:
 
 ```{r}
 head(athletes)
 ```
-A table's columns and rows specify relationships among the cells in the table, some of which are implicit. Spreadsheets are a way to interactively work with the data.
+What kind of data is in this cell?
+
+```{r}
+athletes[1,2]
+```
+Or these ones?
+
+```{r}
+athletes[,2]
+```
+
+Table data can be cut and spliced in various ways. But most data is specific to some purposes. The real power comes when data sets are combined in various new ways to ask new questions. Traditionally, such data models of multiple, yet associated tables, comes from business (cf. [history of IBM](https://en.wikipedia.org/wiki/IBM)).
+
+***
 
 [Relational databases](https://en.wikipedia.org/wiki/Relational_database) are structures for storing data whose purpose is to make entering, searching, analyzing, and updating data as easy and efficient as possible.
 
@@ -664,7 +732,7 @@ left_join(gapminder, sex_ratios)
 ```
 
 
-# Code style
+# Code style `r emo::ji("poop")`
 
 Let's talk about (code) style. According to the [dictionary app](https://en.wikipedia.org/wiki/Dictionary_(software)) on my computer, style can be defined in various ways, including:
 
@@ -782,11 +850,30 @@ In R, information about testing can be found here, e.g.:
 
 # Data practical
 
-For this weeks data practical, 
+For this week's data practical, we will load some data and wrangle it a bit. I encourage you to do the following tasks on a data set of your choice -- ideally something you can use for your own research or something that interests you! There are lots of data sets out there, e.g.:
 
-<!-- load three data sets into an R Markdown notebook and describe some of their variables in terms of the data types used in R and data types in terms of statistical data types. -->
+* https://www.rdocumentation.org/packages/dslabs/versions/0.7.4
+* https://pudding.cool
 
+The learning objectives are to implement the following tasks on data sets, e.g., show that you can select, filter, and arrange data in various ways to turn it into more useful information for analysis.
+
+If you prefer, you can use the suggested data sets below. Please complete the tasks within an R Markdown report and push the report to your GitHub repository:
+
+* Load a data set of your choosing -- or use the `gapminder` data set from the dslabs R library as discussed in this report
+* Filter the data by two variables -- e.g., countries of your choice -- and save the results to a new data frame
+* Now select a subset of the columns (e.g., country, year, fertility) and save them to the data frame
+* Display the first few rows of the data frame
+* Display the law few rows of the data frame
+* Display the structure of the data frame
+* Display the data ordered (arranged) by columns, e.g., the country, highest-to-lowest fertility, then year
+* Describe any patterns or lack of patterns that you see in the data (note: you can also rearrange the data in other ways if that helps, but look at it and write up in a sentence or two your findings)
+* Summarize you results -- e.g., select the country and fertility rate and group by country and summarize the fertility rate -- and save the results to a new data frame
+* Display the results arranged by a column of interest, e.g., lowest-to-highest fertility rates -- write something about what you observe
+* Filter out the `NA`s in your data set and report how many rows are affected (i.e., removed)
+* Load two data sets and join them, e.g., the dslabs library has two data sets:
+    * [results_us_election_2016](https://www.rdocumentation.org/packages/dslabs/versions/0.7.4/topics/polls_us_election_2016)
+    * [murders](https://www.rdocumentation.org/packages/dslabs/versions/0.7.4/topics/murders)
+* Describe in words how you could explore the relationship between two variables in your combined data sets and what it can potentially tell us
 
 
 # References
-

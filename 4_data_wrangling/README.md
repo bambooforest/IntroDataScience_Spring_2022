@@ -1,11 +1,12 @@
 Data wrangling
 ================
 Steven Moran
-(14 March, 2022)
+(15 March, 2022)
 
 -   [Overview](#overview)
 -   [Data wrangling in R](#data-wrangling-in-r)
     -   [tidyverse](#tidyverse)
+    -   [Loading data](#loading-data)
     -   [dplyr](#dplyr)
         -   [`select()`](#select)
         -   [`arrange()`](#arrange)
@@ -15,12 +16,14 @@ Steven Moran
 -   [Databases](#databases)
     -   [Overview](#overview-1)
     -   [Joining tables](#joining-tables)
--   [Code style](#code-style)
+-   [Code style 💩](#code-style-)
     -   [Code style in R](#code-style-in-r)
     -   [stylr and lintr](#stylr-and-lintr)
     -   [Tests](#tests)
 -   [Data practical](#data-practical)
 -   [References](#references)
+
+------------------------------------------------------------------------
 
 This report uses the [R programming
 language](https://cran.r-project.org/doc/FAQ/R-FAQ.html) (R Core Team
@@ -28,7 +31,7 @@ language](https://cran.r-project.org/doc/FAQ/R-FAQ.html) (R Core Team
 (Wickham et al. 2019; Xie 2021).
 
 ``` r
-library(dplyr)
+library(tidyverse)
 library(knitr)
 ```
 
@@ -66,7 +69,7 @@ The steps in data wrangling, broadly, include:
     are spoken to plot them on a world map
 -   **Validate your data** – basically making sure that your structured
     and cleaned data is actually structured and clean – also commonly
-    refered to as [software
+    refereed to as [software
     testing](https://en.wikipedia.org/wiki/Software_testing)
 -   **Publish your data** – and publish your analysis, findings, etc.,
     for consumption, reproducibility, etc.
@@ -146,14 +149,164 @@ not use all of them in this class, but they currently include:
     [factors](https://stat.ethz.ch/R-manual/R-devel/library/base/html/factor.html)
     in R
 
-First, load the `tidyverse` package:
+To load the `tidyverse` package, which then includes all the libraries
+above, first install it and then load:
 
 ``` r
 # install.packages("tidyverse") # run this first if you need to install tidyverse
 library(tidyverse)
 ```
 
+## Loading data
+
+There are numerous ways to load data into R. The `readr` is the
+`tidyverse` library that lets us read in plain text data in various
+formats:
+
+| Function   | Format                                          | Filename typically ends with |
+|------------|-------------------------------------------------|------------------------------|
+| read_table | white space separated values                    | txt                          |
+| read_csv   | comma separated values                          | csv                          |
+| read_csv2  | semicolon separated values                      | csv                          |
+| read_tsv   | tab delimited separated values                  | tsv                          |
+| read_delim | general text file format, must define delimiter | txt                          |
+
+Below we will load some csv data and have a look at it.
+
+As well as `readr`, the `tidyverse` package will install several
+packages for reading in other types of formats, such as Excel with
+`[readxl](https://readxl.tidyverse.org)`, e.g.:
+
+| Function   | Format                 | Filename typically ends with |
+|------------|------------------------|------------------------------|
+| read_excel | auto detect the format | xls, xlsx                    |
+| read_xls   | original format        | xls                          |
+| read_xlsx  | new format             | xlsx                         |
+
+There are also load functions in “base” R. It contains similar functions
+to `tidyverse` functions, e.g., `read.csv`, `read.table`. They load data
+slightly differently and into different data types.
+
+``` r
+df <- read_csv('datasets/athletes.csv')
+```
+
+    ## 
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## cols(
+    ##   age = col_double(),
+    ##   birthdate = col_date(format = ""),
+    ##   gender = col_character(),
+    ##   height = col_double(),
+    ##   name = col_character(),
+    ##   weight = col_double(),
+    ##   gold_medals = col_double(),
+    ##   silver_medals = col_double(),
+    ##   bronze_medals = col_double(),
+    ##   total_medals = col_double(),
+    ##   sport = col_character(),
+    ##   country = col_character()
+    ## )
+
+``` r
+class(df)
+```
+
+    ## [1] "spec_tbl_df" "tbl_df"      "tbl"         "data.frame"
+
+``` r
+str(df)
+```
+
+    ## spec_tbl_df [2,859 × 12] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+    ##  $ age          : num [1:2859] 17 27 21 21 21 21 18 23 17 21 ...
+    ##  $ birthdate    : Date[1:2859], format: "1996-04-12" "1986-05-14" ...
+    ##  $ gender       : chr [1:2859] "Male" "Male" "Male" "Male" ...
+    ##  $ height       : num [1:2859] 1.72 1.85 1.78 1.68 1.86 1.75 1.7 1.78 1.63 1.62 ...
+    ##  $ name         : chr [1:2859] "Aaron Blunck" "Aaron March" "Abzal Azhgaliyev" "Abzal Rakimgaliev" ...
+    ##  $ weight       : num [1:2859] 68 85 68 NA 82 57 76 80 NA 56 ...
+    ##  $ gold_medals  : num [1:2859] 0 0 0 0 0 0 0 0 0 0 ...
+    ##  $ silver_medals: num [1:2859] 0 0 0 0 0 0 0 0 0 0 ...
+    ##  $ bronze_medals: num [1:2859] 0 0 0 0 0 0 0 0 0 0 ...
+    ##  $ total_medals : num [1:2859] 0 0 0 0 0 0 0 0 0 0 ...
+    ##  $ sport        : chr [1:2859] "Freestyle Skiing" "Snowboard" "Short Track" "Figure Skating" ...
+    ##  $ country      : chr [1:2859] "United States" "Italy" "Kazakhstan" "Kazakhstan" ...
+    ##  - attr(*, "spec")=
+    ##   .. cols(
+    ##   ..   age = col_double(),
+    ##   ..   birthdate = col_date(format = ""),
+    ##   ..   gender = col_character(),
+    ##   ..   height = col_double(),
+    ##   ..   name = col_character(),
+    ##   ..   weight = col_double(),
+    ##   ..   gold_medals = col_double(),
+    ##   ..   silver_medals = col_double(),
+    ##   ..   bronze_medals = col_double(),
+    ##   ..   total_medals = col_double(),
+    ##   ..   sport = col_character(),
+    ##   ..   country = col_character()
+    ##   .. )
+
+``` r
+df <- read.csv('datasets/athletes.csv')
+class(df)
+```
+
+    ## [1] "data.frame"
+
+``` r
+str(df)
+```
+
+    ## 'data.frame':    2859 obs. of  12 variables:
+    ##  $ age          : int  17 27 21 21 21 21 18 23 17 21 ...
+    ##  $ birthdate    : chr  "1996-04-12" "1986-05-14" "1992-06-30" "1992-05-25" ...
+    ##  $ gender       : chr  "Male" "Male" "Male" "Male" ...
+    ##  $ height       : num  1.72 1.85 1.78 1.68 1.86 1.75 1.7 1.78 1.63 1.62 ...
+    ##  $ name         : chr  "Aaron Blunck" "Aaron March" "Abzal Azhgaliyev" "Abzal Rakimgaliev" ...
+    ##  $ weight       : int  68 85 68 NA 82 57 76 80 NA 56 ...
+    ##  $ gold_medals  : int  0 0 0 0 0 0 0 0 0 0 ...
+    ##  $ silver_medals: int  0 0 0 0 0 0 0 0 0 0 ...
+    ##  $ bronze_medals: int  0 0 0 0 0 0 0 0 0 0 ...
+    ##  $ total_medals : int  0 0 0 0 0 0 0 0 0 0 ...
+    ##  $ sport        : chr  "Freestyle Skiing" "Snowboard" "Short Track" "Figure Skating" ...
+    ##  $ country      : chr  "United States" "Italy" "Kazakhstan" "Kazakhstan" ...
+
+One reason that people choose a library like `readr::read_csv` over base
+R’s `read.csv` is because the latter automatically converts strings to
+factors. If you use base R’s `read.csv` and want to keep strings as
+factors, you have to additionally set the parameter `stringsAsFactors`
+to FALSE, i.e.:
+
+``` r
+df <- read.csv('datasets/athletes.csv', stringsAsFactors = FALSE)
+class(df)
+```
+
+    ## [1] "data.frame"
+
+``` r
+str(df)
+```
+
+    ## 'data.frame':    2859 obs. of  12 variables:
+    ##  $ age          : int  17 27 21 21 21 21 18 23 17 21 ...
+    ##  $ birthdate    : chr  "1996-04-12" "1986-05-14" "1992-06-30" "1992-05-25" ...
+    ##  $ gender       : chr  "Male" "Male" "Male" "Male" ...
+    ##  $ height       : num  1.72 1.85 1.78 1.68 1.86 1.75 1.7 1.78 1.63 1.62 ...
+    ##  $ name         : chr  "Aaron Blunck" "Aaron March" "Abzal Azhgaliyev" "Abzal Rakimgaliev" ...
+    ##  $ weight       : int  68 85 68 NA 82 57 76 80 NA 56 ...
+    ##  $ gold_medals  : int  0 0 0 0 0 0 0 0 0 0 ...
+    ##  $ silver_medals: int  0 0 0 0 0 0 0 0 0 0 ...
+    ##  $ bronze_medals: int  0 0 0 0 0 0 0 0 0 0 ...
+    ##  $ total_medals : int  0 0 0 0 0 0 0 0 0 0 ...
+    ##  $ sport        : chr  "Freestyle Skiing" "Snowboard" "Short Track" "Figure Skating" ...
+    ##  $ country      : chr  "United States" "Italy" "Kazakhstan" "Kazakhstan" ...
+
 ## dplyr
+
+Once you’ve loaded a data set into a data frame (or
+[tibble](https://tibble.tidyverse.org)), you can begin to work with it.
 
 `dplyr` was developed by [Hadley
 Wickham](https://en.wikipedia.org/wiki/Hadley_Wickham) (the author of
@@ -177,13 +330,13 @@ Let’s try them out!
 
 ------------------------------------------------------------------------
 
-Let’s use the dataset `athletes.csv` for an example of working with some
-of `tidyverse` tools.
+Let’s use the data set `athletes.csv` for an example of working with
+some of `tidyverse` tools.
 
-The dataset `athletes.csv` contains various details about the athletes
+The data set `athletes.csv` contains various details about the athletes
 who participated in the [2014 Winter Olympics in
 Sochi](https://en.wikipedia.org/wiki/2014_Winter_Olympics). Here we use
-the version of this dataset converted by [Dana
+the version of this data set converted by [Dana
 Silver](https://www.danasilver.org/sochi/). The data was originally
 retrieved in [JSON format](https://en.wikipedia.org/wiki/JSON) from
 Kimono Lab’s Sochi API on February 18, 2014.
@@ -193,7 +346,7 @@ data frame. A data frame is a table in which columns contain values of
 one data type and each row contains a set of values of that data type.
 The data frame is the most common way of storing data in R. ([Under the
 hood](https://en.wiktionary.org/wiki/under_the_hood), data frames are a
-list of equal legnth vectors – each element of the list can be thought
+list of equal length vectors – each element of the list can be thought
 of as a column and the length of each element of the list is its number
 of rows.) Data frames have the following characteristics:
 
@@ -215,7 +368,7 @@ your local computer.
 
 Perhaps easiest, however, is to load it from the repository on the web
 directly. The `readr` package makes this easy by allowing you to wrap
-the `url` fucntion into the `read_csv` function:
+the `url` function into the `read_csv` function:
 
 ``` r
 athletes <- read_csv(url("https://raw.githubusercontent.com/bambooforest/IntroDataScience/main/4_data_wrangling/datasets/athletes.csv"))
@@ -223,13 +376,15 @@ athletes <- read_csv(url("https://raw.githubusercontent.com/bambooforest/IntroDa
 
 Note that GitHub displays well-formatted CSV files as tabular data:
 
--   <https://github.com/bambooforest/IntroDataScience/blob/main/4_data_wrangling/datasets/athletes.csv>
+-   <https://github.com/bambooforest/IntroDataScience/blob/main/4_data_wrangling/data>
+    sets/athletes.csv
 
 But if you want to load it from the web, you need to use the raw data
 (note the button on the GitHub page with the label “raw,” which results
 in this URL:
 
--   <https://raw.githubusercontent.com/bambooforest/IntroDataScience/main/4_data_wrangling/datasets/athletes.csv>
+-   <https://raw.githubusercontent.com/bambooforest/IntroDataScience/main/4_data_wrangling/data>
+    sets/athletes.csv
 
 Now that you’ve loaded the `atheletes.csv` data, let’s have a look at
 its structure with the `str()` function:
@@ -272,7 +427,7 @@ programming](https://github.com/bambooforest/IntroDataScience/tree/main/3_data#d
 and [data types for
 statistics](https://github.com/bambooforest/IntroDataScience/tree/main/3_data#data-types-in-statistics).
 
-**What kind of variables do we have in our dataset?**
+**What kind of variables do we have in our data set?**
 
 Some variables should be converted from
 [character](https://stat.ethz.ch/R-manual/R-devel/library/base/html/character.html)
@@ -368,13 +523,13 @@ summarize aspects of the data.
 
 ### `select()`
 
-The dataset contains the details on age, birth date, gender, height,
+The data set contains the details on age, birth date, gender, height,
 name, weight, medal counts, sport, and country and a few more variables.
 Not all of these variables are of interest for a specific research
-question and often one wants to have a “narrower” version of a dataset
+question and often one wants to have a “narrower” version of a data set
 which contains only the variables of immediate interest.
 
-To prepare such a version of your dataset, use the function `select()`
+To prepare such a version of your data set, use the function `select()`
 to select the variables (columns) you need.
 
 -   First, you can select the variables of interest just by naming them.
@@ -443,12 +598,12 @@ select(athletes, -birthdate, -age)
     ## # … with 2,849 more rows, and 3 more variables: total_medals <dbl>,
     ## #   sport <fct>, country <chr>
 
-Note that `dplyr` functions never modify their input dataframes. If you
+Note that `dplyr` functions never modify their input data frames. If you
 want to save the result e.g., of the `select()`function, you need to use
-the assignment operator `<-` and either overwrite the original dataframe
-or create a new one.
+the assignment operator `<-` and either overwrite the original data
+frame or create a new one.
 
-For instance, here the original dataframe remains unchanged:
+For instance, here the original data frame remains unchanged:
 
 ``` r
 select(athletes, birthdate, age)
@@ -489,7 +644,7 @@ athletes
     ## # … with 2,849 more rows, and 4 more variables: bronze_medals <dbl>,
     ## #   total_medals <dbl>, sport <fct>, country <chr>
 
-And here we create a new dataframe with the selected columns only:
+And here we create a new data frame with the selected columns only:
 
 ``` r
 athletes_age <- select(athletes, birthdate, age)
@@ -575,7 +730,7 @@ columns.
 arrange(athletes, height, age)
 ```
 
-<!-- The dataset is first order in an ascending order by `height`. In case two or more athletes have the same height, `age` is used to break ties (also in ascending order), e.g. several athletes have the height of 1.50 cm, they are then order from youngest to oldest. -->
+<!-- The data set is first order in an ascending order by `height`. In case two or more athletes have the same height, `age` is used to break ties (also in ascending order), e.g. several athletes have the height of 1.50 cm, they are then order from youngest to oldest. -->
 
 2.  Guess what the following code will do before executing it!
 
@@ -583,10 +738,10 @@ arrange(athletes, height, age)
 arrange(athletes, desc(height), age)
 ```
 
-<!-- The dataset is first order in a descending order by `height`. In case two or more athletes have the same height, `age` is used to break ties (but now in ascending order), e.g. among the tallest athletes are the four athletes with the height of 2.00 cm, they are then order from youngest to oldest. -->
+<!-- The data set is first order in a descending order by `height`. In case two or more athletes have the same height, `age` is used to break ties (but now in ascending order), e.g. among the tallest athletes are the four athletes with the height of 2.00 cm, they are then order from youngest to oldest. -->
 
 3.  Use only the `arrange()` to display the oldest female athlete at the
-    top of the sorted dataset. How old is she?
+    top of the sorted data set. How old is she?
 
 ``` r
 arrange(athletes, gender, desc(age))
@@ -597,15 +752,15 @@ arrange(athletes, gender, desc(age))
 ### `mutate()`
 
 Besides working with existing columns, it is sometimes necessary to add
-new columns that are functions of existing columns. That’’’s what the
+new columns that are functions of existing columns. That’s what the
 `mutate()` function is for.
 
-`mutate()` always adds new columns at the end of your dataset so we’ll
-start by creating a narrower dataset so we can see the new variables.
+`mutate()` always adds new columns at the end of your data set so we’ll
+start by creating a narrower data set so we can see the new variables.
 (Remember that when you use in RStudio, an easy way to see all the
 columns is `View()`.)
 
-First, create with `select()` a narrow dataset `athletes_narrow` which
+First, create with `select()` a narrow data set `athletes_narrow` which
 only contains the variables `name`, `gender`, `age`, `sport`, `height`,
 and `weight`. (Here, we add a few more columns than we need now, because
 we plan to use `athletes_narrow` later).
@@ -653,7 +808,7 @@ mutate(athletes_narrow, BMI = weight/height^2)
     ## 10 Adeline Baud      Female    21 Alpine Skiing      1.62     56  21.3
     ## # … with 2,849 more rows
 
-Notice that `mutate` does not overwrite the existing dataframe.
+Notice that `mutate` does not overwrite the existing data frame.
 
 ``` r
 mutate(athletes_narrow, BMI = weight/height^2)
@@ -694,7 +849,7 @@ athletes_narrow
     ## # … with 2,849 more rows
 
 To add the new column to it permanently, you have to overwrite the
-original dataframe:
+original data frame:
 
 ``` r
 athletes_narrow <- mutate(athletes_narrow, BMI = weight/height^2)
@@ -725,7 +880,7 @@ with `mutate()`. Think of a function and look up
 
 Probably the most useful `dplyr` function is `filter()`. It allows you
 to subset observations based on their values. Or in other words, you can
-extract some rows from your dataset on the basis of certain conditions.
+extract some rows from your data set on the basis of certain conditions.
 The first argument of this function is the name of the data frame. The
 second and subsequent arguments are the expressions that filter the data
 frame.
@@ -777,8 +932,8 @@ filter(athletes_narrow, age = 15)
 ```
 
 Another important function when filtering is to identify and potentially
-filter out `NA` cells. These are missing or unknown values in the
-dataset. R [provides a
+filter out `NA` cells. These are missing or unknown values in the data
+set. R [provides a
 function](https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html)
 called `is.na()` that tests whether a value is missing or not. `NA` is a
 special value in R.
@@ -907,7 +1062,7 @@ table(athletes$sport)
     ##              100              239              179
 
 Note you need to use the `exclude = FALSE` parameter, if you want the
-`table()` function to count `NA`s. How many athelete
+`table()` function to count `NA`s. How many athlete
 
 ``` r
 table(athletes$height)
@@ -941,7 +1096,7 @@ table(athletes$height, exclude = FALSE)
 
 **Try these out!**
 
-Use the dataframe `athletes_narrow`.
+Use the data frame `athletes_narrow`.
 
 1.  Filter all the athletes who are heavier than 110 kg.
 
@@ -1029,7 +1184,7 @@ by_color
     ## 1 black     7
     ## 2 blue      8
 
-We can also use `group_by` on the atheltes data. For example, how many
+We can also use `group_by` on the athletes data. For example, how many
 gold medals per country?
 
 ``` r
@@ -1110,9 +1265,15 @@ It consists of a two-dimensional array of data elements. The placement
 of data in rows and columns provides the data with structure, and thus,
 meaning.
 
--   <https://glottolog.org>
--   <https://glottolog.org/glottolog/language>
--   <https://cdstar.eva.mpg.de/bitstreams/EAEA0-F8BB-0AB6-96FA-0/languages_and_dialects_geo.csv>
+<!-- 
+* https://glottolog.org
+* https://glottolog.org/glottolog/language
+* https://cdstar.eva.mpg.de/bitstreams/EAEA0-F8BB-0AB6-96FA-0/languages_and_dialects_geo.csv
+-->
+
+A table’s columns and rows specify relationships among the cells in the
+table, some of which are implicit. Spreadsheets are a way to
+interactively work with the data. Consider this data set:
 
 ``` r
 head(athletes)
@@ -1130,9 +1291,45 @@ head(athletes)
     ## # … with 4 more variables: bronze_medals <dbl>, total_medals <dbl>,
     ## #   sport <fct>, country <chr>
 
-A table’s columns and rows specify relationships among the cells in the
-table, some of which are implicit. Spreadsheets are a way to
-interactively work with the data.
+What kind of data is in this cell?
+
+``` r
+athletes[1,2]
+```
+
+    ## # A tibble: 1 x 1
+    ##   birthdate 
+    ##   <date>    
+    ## 1 1996-04-12
+
+Or these ones?
+
+``` r
+athletes[,2]
+```
+
+    ## # A tibble: 2,859 x 1
+    ##    birthdate 
+    ##    <date>    
+    ##  1 1996-04-12
+    ##  2 1986-05-14
+    ##  3 1992-06-30
+    ##  4 1992-05-25
+    ##  5 1992-07-30
+    ##  6 1992-12-18
+    ##  7 1995-04-22
+    ##  8 1990-09-13
+    ##  9 1996-07-01
+    ## 10 1992-09-28
+    ## # … with 2,849 more rows
+
+Table data can be cut and spliced in various ways. But most data is
+specific to some purposes. The real power comes when data sets are
+combined in various new ways to ask new questions. Traditionally, such
+data models of multiple, yet associated tables, comes from business
+(cf. [history of IBM](https://en.wikipedia.org/wiki/IBM)).
+
+------------------------------------------------------------------------
 
 [Relational
 databases](https://en.wikipedia.org/wiki/Relational_database) are
@@ -1318,7 +1515,7 @@ str(sex_ratios)
     ##   ..   sex_ratio = col_double()
     ##   .. )
 
-Which columns are shared between the two datasets? Notice again the
+Which columns are shared between the two data sets? Notice again the
 [data
 types](https://github.com/bambooforest/IntroDataScience/tree/main/3_data#data-types-for-computer-programming).
 
@@ -1462,7 +1659,7 @@ Google](https://google.github.io/styleguide/Rguide.html) suggests using
 `BigCamelCase` (i.e., PascalCase) for naming functions. The [tidyverse
 style guide](http://adv-r.had.co.nz/Style.html) suggests using
 snake_case for function names and variables. So, as you can see,
-different developers different opinions. What is importat for your work
+different developers different opinions. What is important for your work
 is that you choose a style and try to stick with it.
 
 Let’s update our customers example to snake_case and then show how to
@@ -1533,7 +1730,7 @@ left_join(gapminder, sex_ratios)
     ## 10 Afghanistan Asia       1997    41.8 22227415      635.      107.
     ## # … with 1,694 more rows
 
-# Code style
+# Code style 💩
 
 Let’s talk about (code) style. According to the [dictionary
 app](https://en.wikipedia.org/wiki/Dictionary_(software)) on my
@@ -1636,8 +1833,8 @@ like:
     shouldItBeCamelCase?)
 -   are your file names in upper or lower case? (e.g. analysis.R
     vs. Analysis.R?)
--   depending on the language and its naming constratins are your
-    variables, methods, etc., using punctiation? (e.g., my.fuction vs
+-   depending on the language and its naming constraints are your
+    variables, methods, etc., using punctuation? (e.g., my.fiction vs
     my_function vs myFunction vs MyFunction… and so on)
 -   where should you introduce (or should you introduce) [new
     lines](https://en.wikipedia.org/wiki/Newline) into your code,
@@ -1708,6 +1905,53 @@ In R, information about testing can be found here, e.g.:
 -   <https://towardsdatascience.com/unit-testing-in-r-68ab9cc8d211>
 
 # Data practical
+
+For this week’s data practical, we will load some data and wrangle it a
+bit. I encourage you to do the following tasks on a data set of your
+choice – ideally something you can use for your own research or
+something that interests you! There are lots of data sets out there,
+e.g.:
+
+-   <https://www.rdocumentation.org/packages/dslabs/versions/0.7.4>
+-   <https://pudding.cool>
+
+The learning objectives are to implement the following tasks on data
+sets, e.g., show that you can select, filter, and arrange data in
+various ways to turn it into more useful information for analysis.
+
+If you prefer, you can use the suggested data sets below. Please
+complete the tasks within an R Markdown report and push the report to
+your GitHub repository:
+
+-   Load a data set of your choosing – or use the `gapminder` data set
+    from the dslabs R library as discussed in this report
+-   Filter the data by two variables – e.g., countries of your choice –
+    and save the results to a new data frame
+-   Now select a subset of the columns (e.g., country, year, fertility)
+    and save them to the data frame
+-   Display the first few rows of the data frame
+-   Display the law few rows of the data frame
+-   Display the structure of the data frame
+-   Display the data ordered (arranged) by columns, e.g., the country,
+    highest-to-lowest fertility, then year
+-   Describe any patterns or lack of patterns that you see in the data
+    (note: you can also rearrange the data in other ways if that helps,
+    but look at it and write up in a sentence or two your findings)
+-   Summarize you results – e.g., select the country and fertility rate
+    and group by country and summarize the fertility rate – and save the
+    results to a new data frame
+-   Display the results arranged by a column of interest, e.g.,
+    lowest-to-highest fertility rates – write something about what you
+    observe
+-   Filter out the `NA`s in your data set and report how many rows are
+    affected (i.e., removed)
+-   Load two data sets and join them, e.g., the dslabs library has two
+    data sets:
+    -   [results_us_election_2016](https://www.rdocumentation.org/packages/dslabs/versions/0.7.4/topics/polls_us_election_2016)
+    -   [murders](https://www.rdocumentation.org/packages/dslabs/versions/0.7.4/topics/murders)
+-   Describe in words how you could explore the relationship between two
+    variables in your combined data sets and what it can potentially
+    tell us
 
 # References
 
