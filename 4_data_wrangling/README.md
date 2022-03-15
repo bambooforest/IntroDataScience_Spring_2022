@@ -1,7 +1,8 @@
 Data wrangling
 ================
 Steven Moran
-(15 March, 2022)
+
+15 March, 2022
 
 -   [Overview](#overview)
 -   [Data wrangling in R](#data-wrangling-in-r)

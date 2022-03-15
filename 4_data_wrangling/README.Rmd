@@ -1,7 +1,7 @@
 ---
 title: "Data wrangling"
-author: "Steven Moran"
-date: "(`r format(Sys.time(), '%d %B, %Y')`)"
+author: "Steven Moran\n"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   github_document:
       toc: true
