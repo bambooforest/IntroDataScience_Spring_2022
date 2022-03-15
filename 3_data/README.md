@@ -898,7 +898,12 @@ First, load one of [R’s pre-loaded
 data](http://www.sthda.com/english/wiki/r-built-in-data-sets) (hint use
 the `data()` command in RStudio to have a look at what’s available).
 There’s a description of the data – summarize it. What kind of R data
-types are there?
+types are there? If you prefer, you can also use a data set from this R
+library (Irizarry and Gill 2021):
+
+-   <https://cran.r-project.org/web/packages/dslabs/index.html>
+
+Remember, you need to install the package and then load the library!
 
 Second, load a data set of an external source, e.g., from a CSV file or
 a spreadsheet. Recall, there’s lots of open data out there! One very
@@ -920,6 +925,13 @@ categorical or numeric variable?
 # References
 
 <div id="refs" class="references csl-bib-body hanging-indent">
+
+<div id="ref-IrizarryGill2021" class="csl-entry">
+
+Irizarry, Rafael A., and Amy Gill. 2021. *Dslabs: Data Science Labs*.
+<https://CRAN.R-project.org/package=dslabs>.
+
+</div>
 
 <div id="ref-Michell1986" class="csl-entry">
 
