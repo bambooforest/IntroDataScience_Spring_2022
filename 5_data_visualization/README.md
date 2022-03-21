@@ -2,10 +2,15 @@ Data visualization
 ================
 Steven Moran
 
-15 March, 2022
+21 March, 2022
 
 -   [Recap](#recap)
+    -   [Tabular data](#tabular-data)
+    -   [Wide vs long formats](#wide-vs-long-formats)
+    -   [tidy data](#tidy-data)
 -   [Reshaping data](#reshaping-data)
+    -   [`gather` / `pivot_longer`](#gather--pivot_longer)
+    -   [`spread` / `pivot_wider`](#spread--pivot_wider)
 -   [Visualizing data](#visualizing-data)
     -   [Layers of graphics in ggplot2](#layers-of-graphics-in-ggplot2)
     -   [First examples (1): diamonds](#first-examples-1-diamonds)
@@ -58,20 +63,24 @@ Steven Moran
             (2009))](#aesthetic-mappings-vs-setting-wickham-2009)
         -   [The aesthetic attributes and geom function: exercise
             2](#the-aesthetic-attributes-and-geom-function-exercise-2)
+-   [References](#references)
 
 ------------------------------------------------------------------------
 
 This report uses the [R programming
 language](https://cran.r-project.org/doc/FAQ/R-FAQ.html) (R Core Team
 2021) and the following [R libraries](https://r-pkgs.org/intro.html)
-(Wickham et al. 2019; Xie 2021).
+(Wickham et al. 2019; Xie 2021; Irizarry and Gill 2021).
 
 ``` r
 library(tidyverse)
 library(knitr)
+library(dslabs)
 ```
 
 # Recap
+
+## Tabular data
 
 Recall our discussion about [tabular
 data](https://github.com/bambooforest/IntroDataScience/tree/main/3_data#tabular-data)
@@ -82,9 +91,14 @@ row/record corresponds to a given member of the data set in question
 and cannot have “ragged rows.” If any row is lacking information for a
 particular column, a missing value (`NA`) is stored in that cell.
 
-Tabular data come in various formats and go by various names. Table.
-Data set (if rectangular). Data frame. Data matrix. CSV plain text file.
-Spreadsheet. Etc.
+Tabular data come in various formats and go by various names, e.g.:
+
+-   Table
+-   Data set (if rectangular)
+-   Data frame (e.g., a data type in R)
+-   Data matrix
+-   CSV plain text file
+-   Spreadsheet
 
 For most people working with small amounts of data, the data table is
 the fundamental unit of organization because it is both a way of
@@ -102,6 +116,8 @@ the data. [Data wrangling](../4_data_wrangling/README.md) include the
 steps to get the data that is needed for visualization purposes. You
 may, however, also have to reshape the tabular data into various
 formats, so that you can easily feed into the method.
+
+## Wide vs long formats
 
 There are two basic presentations of tabular data:
 
@@ -133,6 +149,8 @@ additional column denotes the context of those values, e.g.,:
 | Steve  | Age      | 64    |
 | Steve  | Weight   | 144   |
 | Steve  | Height   | 165   |
+
+## tidy data
 
 The `tidyverse` works on [tidy
 data](https://r4ds.had.co.nz/tidy-data.html), i.e., a consistent way to
@@ -200,7 +218,10 @@ str(death_prob)
     ##  $ prob: num  0.006383 0.000453 0.000282 0.00023 0.000169 ...
 
 Let’s plot it to compare the probability of death on the y axis and age
-on the x axis. We plot by the factor `sex`.
+on the x axis. We plot by the factor `sex` (recall that
+[factors](https://r4ds.had.co.nz/factors.html) are R data objects for
+working with [categorical
+variables](https://en.wikipedia.org/wiki/Categorical_variable)).
 
 ``` r
 library(ggplot2)
@@ -215,11 +236,330 @@ What does the plot tell us about the data?
 
 # Reshaping data
 
-Often the data you have access to will not be in tidy format.
+Recall the [data wrangling
+process](https://github.com/bambooforest/IntroDataScience/tree/main/4_data_wrangling#data-wrangling-in-r).
+The first step is to [load the
+data](https://github.com/bambooforest/IntroDataScience/tree/main/4_data_wrangling#loading-data).
+A common next step is to reshape the data into a format that facilities
+analysis. This is because often the data that you have loaded is
+organized in ways that are practical to the data gatherers, e.g., it’s
+in a format that makes data entry easy, or it’s in a format that
+facilitates some type of analysis, but not perhaps the one that you want
+to do.
 
-<https://github.com/datasciencelabs/2021/blob/master/03_wrangling/03_reshaping-data.Rmd>
+As a first step then, it is pertinent to figure out what the variables
+and observations are for your analysis. Often data will (Wickham and
+Grolemund 2016):
+
+1.  Contain a variable that is spread across multiple columns
+2.  Contain an observation spread across multiple rows
+
+And sometimes you will encounter both issues in the same data set!
+
+To resolve such issues, there are four very useful functions for tidying
+data:
+
+-   `gather()` – makes wide data longer
+-   `spread()` – males long data wider
+-   `separate()`– splits a column into multiple columns
+-   `unite()` – combines multiple columns into one column
+
+The first two are probably the most important for reshaping your data.
+Like many developments in programming languages and programming
+libraries, the first two functions (and although they still work) have
+been recently renamed:
+
+-   `pivot_longer()` – pivots data into a longer format
+-   `pivot_wider()` – pivots data into a wider format
+
+Let’s look at each in turn.
+
+### `gather` / `pivot_longer`
+
+The `gather` function in the `tidyverse` library lets you convert wide
+data into tidy data. Let’s consider an example from [this great
+course](https://datasciencelabs.github.io).
+
+The annual fertility rates data from `dslabs` and `gapminder` for
+Germany and South Korea in wide format:
+
+``` r
+fertility_wide <- read_csv(url('https://raw.githubusercontent.com/rafalab/dslabs/master/inst/extdata/life-expectancy-and-fertility-two-countries-example.csv'))
+```
+
+    ## 
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## cols(
+    ##   .default = col_double(),
+    ##   country = col_character()
+    ## )
+    ## ℹ Use `spec()` for the full column specifications.
+
+``` r
+fertility_wide
+```
+
+    ## # A tibble: 2 x 113
+    ##   country  `1960_fertility` `1960_life_expec… `1961_fertility` `1961_life_expec…
+    ##   <chr>               <dbl>             <dbl>            <dbl>             <dbl>
+    ## 1 Germany              2.41              69.3             2.44              69.8
+    ## 2 South K…             6.16              53.0             5.99              53.8
+    ## # … with 108 more variables: 1962_fertility <dbl>, 1962_life_expectancy <dbl>,
+    ## #   1963_fertility <dbl>, 1963_life_expectancy <dbl>, 1964_fertility <dbl>,
+    ## #   1964_life_expectancy <dbl>, 1965_fertility <dbl>,
+    ## #   1965_life_expectancy <dbl>, 1966_fertility <dbl>,
+    ## #   1966_life_expectancy <dbl>, 1967_fertility <dbl>,
+    ## #   1967_life_expectancy <dbl>, 1968_fertility <dbl>,
+    ## #   1968_life_expectancy <dbl>, 1969_fertility <dbl>,
+    ## #   1969_life_expectancy <dbl>, 1970_fertility <dbl>,
+    ## #   1970_life_expectancy <dbl>, 1971_fertility <dbl>,
+    ## #   1971_life_expectancy <dbl>, 1972_fertility <dbl>,
+    ## #   1972_life_expectancy <dbl>, 1973_fertility <dbl>,
+    ## #   1973_life_expectancy <dbl>, 1974_fertility <dbl>,
+    ## #   1974_life_expectancy <dbl>, 1975_fertility <dbl>,
+    ## #   1975_life_expectancy <dbl>, 1976_fertility <dbl>,
+    ## #   1976_life_expectancy <dbl>, 1977_fertility <dbl>,
+    ## #   1977_life_expectancy <dbl>, 1978_fertility <dbl>,
+    ## #   1978_life_expectancy <dbl>, 1979_fertility <dbl>,
+    ## #   1979_life_expectancy <dbl>, 1980_fertility <dbl>,
+    ## #   1980_life_expectancy <dbl>, 1981_fertility <dbl>,
+    ## #   1981_life_expectancy <dbl>, 1982_fertility <dbl>,
+    ## #   1982_life_expectancy <dbl>, 1983_fertility <dbl>,
+    ## #   1983_life_expectancy <dbl>, 1984_fertility <dbl>,
+    ## #   1984_life_expectancy <dbl>, 1985_fertility <dbl>,
+    ## #   1985_life_expectancy <dbl>, 1986_fertility <dbl>,
+    ## #   1986_life_expectancy <dbl>, 1987_fertility <dbl>,
+    ## #   1987_life_expectancy <dbl>, 1988_fertility <dbl>,
+    ## #   1988_life_expectancy <dbl>, 1989_fertility <dbl>,
+    ## #   1989_life_expectancy <dbl>, 1990_fertility <dbl>,
+    ## #   1990_life_expectancy <dbl>, 1991_fertility <dbl>,
+    ## #   1991_life_expectancy <dbl>, 1992_fertility <dbl>,
+    ## #   1992_life_expectancy <dbl>, 1993_fertility <dbl>,
+    ## #   1993_life_expectancy <dbl>, 1994_fertility <dbl>,
+    ## #   1994_life_expectancy <dbl>, 1995_fertility <dbl>,
+    ## #   1995_life_expectancy <dbl>, 1996_fertility <dbl>,
+    ## #   1996_life_expectancy <dbl>, 1997_fertility <dbl>,
+    ## #   1997_life_expectancy <dbl>, 1998_fertility <dbl>,
+    ## #   1998_life_expectancy <dbl>, 1999_fertility <dbl>,
+    ## #   1999_life_expectancy <dbl>, 2000_fertility <dbl>,
+    ## #   2000_life_expectancy <dbl>, 2001_fertility <dbl>,
+    ## #   2001_life_expectancy <dbl>, 2002_fertility <dbl>,
+    ## #   2002_life_expectancy <dbl>, 2003_fertility <dbl>,
+    ## #   2003_life_expectancy <dbl>, 2004_fertility <dbl>,
+    ## #   2004_life_expectancy <dbl>, 2005_fertility <dbl>,
+    ## #   2005_life_expectancy <dbl>, 2006_fertility <dbl>,
+    ## #   2006_life_expectancy <dbl>, 2007_fertility <dbl>,
+    ## #   2007_life_expectancy <dbl>, 2008_fertility <dbl>,
+    ## #   2008_life_expectancy <dbl>, 2009_fertility <dbl>,
+    ## #   2009_life_expectancy <dbl>, 2010_fertility <dbl>,
+    ## #   2010_life_expectancy <dbl>, 2011_fertility <dbl>,
+    ## #   2011_life_expectancy <dbl>, …
+
+What are the variables? What are the observations? How do we get the
+data into tidy format?
+
+``` r
+fertility_tidy <- fertility_wide %>% 
+  gather(year, fertility, -country, convert = TRUE)
+```
+
+Like above, we can transform the data from `wide` to `long` format by
+telling the function which columns we do *not* want.
+
+``` r
+fertility_tidy <- fertility_wide %>% 
+  pivot_longer(!country)
+fertility_tidy
+```
+
+    ## # A tibble: 224 x 3
+    ##    country name                 value
+    ##    <chr>   <chr>                <dbl>
+    ##  1 Germany 1960_fertility        2.41
+    ##  2 Germany 1960_life_expectancy 69.3 
+    ##  3 Germany 1961_fertility        2.44
+    ##  4 Germany 1961_life_expectancy 69.8 
+    ##  5 Germany 1962_fertility        2.47
+    ##  6 Germany 1962_life_expectancy 70.0 
+    ##  7 Germany 1963_fertility        2.49
+    ##  8 Germany 1963_life_expectancy 70.1 
+    ##  9 Germany 1964_fertility        2.49
+    ## 10 Germany 1964_life_expectancy 70.7 
+    ## # … with 214 more rows
+
+Note the default `name` and `value` column names. These can be changed
+in the parameter specification.
+
+``` r
+fertility_tidy <- fertility_wide %>% 
+  pivot_longer(!country, names_to = "year_variable", values_to = "fertility")
+fertility_tidy
+```
+
+    ## # A tibble: 224 x 3
+    ##    country year_variable        fertility
+    ##    <chr>   <chr>                    <dbl>
+    ##  1 Germany 1960_fertility            2.41
+    ##  2 Germany 1960_life_expectancy     69.3 
+    ##  3 Germany 1961_fertility            2.44
+    ##  4 Germany 1961_life_expectancy     69.8 
+    ##  5 Germany 1962_fertility            2.47
+    ##  6 Germany 1962_life_expectancy     70.0 
+    ##  7 Germany 1963_fertility            2.49
+    ##  8 Germany 1963_life_expectancy     70.1 
+    ##  9 Germany 1964_fertility            2.49
+    ## 10 Germany 1964_life_expectancy     70.7 
+    ## # … with 214 more rows
+
+**The data are still a bit not so user friendly. Why?**
+
+``` r
+fertility_tidy %>% separate(year_variable, into=c("year", "variable"), sep="_")
+```
+
+    ## Warning: Expected 2 pieces. Additional pieces discarded in 112 rows [2, 4, 6, 8,
+    ## 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, ...].
+
+    ## # A tibble: 224 x 4
+    ##    country year  variable  fertility
+    ##    <chr>   <chr> <chr>         <dbl>
+    ##  1 Germany 1960  fertility      2.41
+    ##  2 Germany 1960  life          69.3 
+    ##  3 Germany 1961  fertility      2.44
+    ##  4 Germany 1961  life          69.8 
+    ##  5 Germany 1962  fertility      2.47
+    ##  6 Germany 1962  life          70.0 
+    ##  7 Germany 1963  fertility      2.49
+    ##  8 Germany 1963  life          70.1 
+    ##  9 Germany 1964  fertility      2.49
+    ## 10 Germany 1964  life          70.7 
+    ## # … with 214 more rows
+
+What happened? What did we lose?
+
+``` r
+fertility_tidy <- fertility_tidy %>% 
+  separate(year_variable, into=c("year", "variable"), sep="_", extra = "merge")
+fertility_tidy
+```
+
+    ## # A tibble: 224 x 4
+    ##    country year  variable        fertility
+    ##    <chr>   <chr> <chr>               <dbl>
+    ##  1 Germany 1960  fertility            2.41
+    ##  2 Germany 1960  life_expectancy     69.3 
+    ##  3 Germany 1961  fertility            2.44
+    ##  4 Germany 1961  life_expectancy     69.8 
+    ##  5 Germany 1962  fertility            2.47
+    ##  6 Germany 1962  life_expectancy     70.0 
+    ##  7 Germany 1963  fertility            2.49
+    ##  8 Germany 1963  life_expectancy     70.1 
+    ##  9 Germany 1964  fertility            2.49
+    ## 10 Germany 1964  life_expectancy     70.7 
+    ## # … with 214 more rows
+
+### `spread` / `pivot_wider`
+
+To turn long data into wide data we can use the `spread` or
+`pivot_wider` functions. They are basically the inverse of `gather` and
+`pivot_longer`.
+
+``` r
+fertility_wide <- fertility_tidy %>% spread(year, fertility)
+fertility_wide
+```
+
+    ## # A tibble: 4 x 58
+    ##   country    variable    `1960` `1961` `1962` `1963` `1964` `1965` `1966` `1967`
+    ##   <chr>      <chr>        <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>
+    ## 1 Germany    fertility     2.41   2.44   2.47   2.49   2.49   2.48   2.44   2.37
+    ## 2 Germany    life_expec…  69.3   69.8   70.0   70.1   70.7   70.6   70.8   71.0 
+    ## 3 South Kor… fertility     6.16   5.99   5.79   5.57   5.36   5.16   4.99   4.85
+    ## 4 South Kor… life_expec…  53.0   53.8   54.5   55.3   56.0   56.8   57.7   58.5 
+    ## # … with 48 more variables: 1968 <dbl>, 1969 <dbl>, 1970 <dbl>, 1971 <dbl>,
+    ## #   1972 <dbl>, 1973 <dbl>, 1974 <dbl>, 1975 <dbl>, 1976 <dbl>, 1977 <dbl>,
+    ## #   1978 <dbl>, 1979 <dbl>, 1980 <dbl>, 1981 <dbl>, 1982 <dbl>, 1983 <dbl>,
+    ## #   1984 <dbl>, 1985 <dbl>, 1986 <dbl>, 1987 <dbl>, 1988 <dbl>, 1989 <dbl>,
+    ## #   1990 <dbl>, 1991 <dbl>, 1992 <dbl>, 1993 <dbl>, 1994 <dbl>, 1995 <dbl>,
+    ## #   1996 <dbl>, 1997 <dbl>, 1998 <dbl>, 1999 <dbl>, 2000 <dbl>, 2001 <dbl>,
+    ## #   2002 <dbl>, 2003 <dbl>, 2004 <dbl>, 2005 <dbl>, 2006 <dbl>, 2007 <dbl>,
+    ## #   2008 <dbl>, 2009 <dbl>, 2010 <dbl>, 2011 <dbl>, 2012 <dbl>, 2013 <dbl>,
+    ## #   2014 <dbl>, 2015 <dbl>
+
+And now with `pivot_wider`. You might use such a transformation to
+produce data that is easier to work with, e.g., you want to load it in a
+spreadsheet and make some corrections by hand, or perhaps you want to
+share the data with someone. Wide data is also sometimes useful as an
+intermediate format between your input and target output formats when
+trying to tidy up your data.
+
+``` r
+fertility_tidy %>% pivot_wider(names_from = year, values_from = fertility)
+```
+
+    ## # A tibble: 4 x 58
+    ##   country    variable    `1960` `1961` `1962` `1963` `1964` `1965` `1966` `1967`
+    ##   <chr>      <chr>        <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>
+    ## 1 Germany    fertility     2.41   2.44   2.47   2.49   2.49   2.48   2.44   2.37
+    ## 2 Germany    life_expec…  69.3   69.8   70.0   70.1   70.7   70.6   70.8   71.0 
+    ## 3 South Kor… fertility     6.16   5.99   5.79   5.57   5.36   5.16   4.99   4.85
+    ## 4 South Kor… life_expec…  53.0   53.8   54.5   55.3   56.0   56.8   57.7   58.5 
+    ## # … with 48 more variables: 1968 <dbl>, 1969 <dbl>, 1970 <dbl>, 1971 <dbl>,
+    ## #   1972 <dbl>, 1973 <dbl>, 1974 <dbl>, 1975 <dbl>, 1976 <dbl>, 1977 <dbl>,
+    ## #   1978 <dbl>, 1979 <dbl>, 1980 <dbl>, 1981 <dbl>, 1982 <dbl>, 1983 <dbl>,
+    ## #   1984 <dbl>, 1985 <dbl>, 1986 <dbl>, 1987 <dbl>, 1988 <dbl>, 1989 <dbl>,
+    ## #   1990 <dbl>, 1991 <dbl>, 1992 <dbl>, 1993 <dbl>, 1994 <dbl>, 1995 <dbl>,
+    ## #   1996 <dbl>, 1997 <dbl>, 1998 <dbl>, 1999 <dbl>, 2000 <dbl>, 2001 <dbl>,
+    ## #   2002 <dbl>, 2003 <dbl>, 2004 <dbl>, 2005 <dbl>, 2006 <dbl>, 2007 <dbl>,
+    ## #   2008 <dbl>, 2009 <dbl>, 2010 <dbl>, 2011 <dbl>, 2012 <dbl>, 2013 <dbl>,
+    ## #   2014 <dbl>, 2015 <dbl>
 
 # Visualizing data
+
+Tidy and long data is often used as an input format to visualization
+functions. For example:
+
+``` r
+head(fertility_tidy)
+```
+
+    ## # A tibble: 6 x 4
+    ##   country year  variable        fertility
+    ##   <chr>   <chr> <chr>               <dbl>
+    ## 1 Germany 1960  fertility            2.41
+    ## 2 Germany 1960  life_expectancy     69.3 
+    ## 3 Germany 1961  fertility            2.44
+    ## 4 Germany 1961  life_expectancy     69.8 
+    ## 5 Germany 1962  fertility            2.47
+    ## 6 Germany 1962  life_expectancy     70.0
+
+``` r
+fertility_tidy %>% ggplot(aes(year, fertility, color = country)) +
+  geom_point()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+
+This on the other hand will not work. Why?
+
+``` r
+fertility_wide %>% ggplot(aes(year, fertility, color = country)) +
+  geom_point()
+```
+
+Visualizing data can be time consuming for various reasons, but first
+and foremost it often requires that you first clean and wrangle your
+data into a format that the visualization library or functions can work
+with as input. Then of course, there can be lots of tweaking to get your
+visualizations to look nice. This can be for various reasons and there’s
+tons of literature on visualization types, best practices, etc. Consider
+for example what you are trying to visualize. What kind of (statistical)
+data types? Are you trying to visualize – or model – a [statistical
+distribution](https://en.wikipedia.org/wiki/Probability_distribution)?
+How many variables are there? What are your independent and dependent
+variables? Do you have any? Do you have a hypothesis?
+
+Then there are
 
 ### Layers of graphics in ggplot2
 
@@ -282,13 +622,13 @@ str(diamonds)
 hist(diamonds$price)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
 
 ``` r
 barplot(table(diamonds$cut))
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-4-2.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-14-2.png)<!-- -->
 
 -   What variables are unfamiliar to you?
 
@@ -336,7 +676,7 @@ ggplot(diamonds, aes(x = carat, y = price)) +
   geom_point()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
 
 Can you guess what the function ggplot() does?
 
@@ -347,7 +687,7 @@ ggplot(diamonds, aes(x = carat, y = price)) +
   geom_point()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
 
 The symbol + should always be at the end of each line if there is
 something to follow.
@@ -357,7 +697,7 @@ ggplot(diamonds, aes(x = carat, y = price)) +
   geom_point()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
 
 -   With ggplot2, you begin a plot with the function ggplot().
 -   ggplot() creates a coordinate system that you can add layers to.
@@ -386,7 +726,7 @@ ggplot(diamonds, aes(x = carat, y = price)) +
   geom_point()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
 
 -   Which aesthetic attributes are sued here?
 
@@ -410,7 +750,7 @@ ggplot(diamonds, aes(x = carat, y = price)) +
 
     ## `geom_smooth()` using formula 'y ~ x'
 
-![](README_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
 
 -   It can be hard to view trends with just points alone.
 
@@ -447,7 +787,7 @@ geom_smooth()
 
     ## `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
 
-![](README_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
 
 It can be hard to view trends with just points alone. Many times we wish
 to add a smoothing line (smoother) in order to see what the trends look
@@ -464,7 +804,7 @@ regressions.
 ggplot(diamonds, aes(x = carat, y = price)) + geom_point(col = "red", alpha = 0.3)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
 
 Can you guess what alpha = 0.3 does? Try out other alpha values.
 
@@ -480,7 +820,7 @@ geom_smooth()
 
     ## `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
 
-![](README_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
 
 ``` r
 ggplot(diamonds, aes(x = carat, y = price)) + geom_point() +
@@ -489,7 +829,7 @@ geom_smooth(se = FALSE)
 
     ## `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
 
-![](README_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->
 
 ``` r
 # only the smoother
@@ -499,7 +839,7 @@ ggplot(diamonds, aes(x = carat, y = price)) +
 
     ## `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
 
-![](README_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-27-1.png)<!-- -->
 
 ``` r
 # alpha-adjustment
@@ -507,7 +847,7 @@ ggplot(diamonds, aes(x = carat, y = price)) +
   geom_point(alpha = 0.3)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-28-1.png)<!-- -->
 
 ## The basics of the grammar of graphics
 
@@ -524,13 +864,13 @@ diamonds_plot <- ggplot(data = diamonds, aes(x = carat, y = price))
 diamonds_plot + geom_point()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-29-1.png)<!-- -->
 
 ``` r
 diamonds_plot + geom_point(aes(col = clarity))
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-19-2.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-29-2.png)<!-- -->
 
 ``` r
 diamonds_small <- diamonds %>% head(n=1000)
@@ -562,7 +902,7 @@ summary(diamonds_plot)
 diamonds_plot + geom_point(aes(col = clarity))
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-31-1.png)<!-- -->
 
 It’s convenient to work with the previously save basic plot.
 
@@ -573,31 +913,31 @@ dplot <- ggplot(diamonds, aes(x = carat, y = price))
 dplot + geom_point()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-32-1.png)<!-- -->
 
 ``` r
 dplot + geom_point(size = 0.5)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-22-2.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-32-2.png)<!-- -->
 
 ``` r
 dplot + geom_point(size = 0.3, alpha = 1/10)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-22-3.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-32-3.png)<!-- -->
 
 ``` r
 dplot + geom_point(size = 0.5, alpha = 1/50)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-22-4.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-32-4.png)<!-- -->
 
 ``` r
 dplot + geom_point(size = 0.5, alpha = 1/50, shape = 1)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-22-5.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-32-5.png)<!-- -->
 
 ### Overplotting: position adjustment
 
@@ -610,7 +950,7 @@ the case of discrete variables.
 ggplot(diamonds, aes(x = depth, y = carat, col = cut)) + geom_point(position = "identity")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-33-1.png)<!-- -->
 
 ``` r
 Adjustment <- c('identity', 'dodge', 'stack', 'fill', 'jitter', 'jitterdodge')
@@ -646,7 +986,7 @@ diamonds_plot + geom_point(alpha = 0.2) + geom_smooth(se = FALSE)
 
     ## `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
 
-![](README_files/figure-gfm/unnamed-chunk-27-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-37-1.png)<!-- -->
 
 ``` r
 diamonds_plot + geom_point(alpha = 0.2) + geom_smooth(aes(col = clarity), se = FALSE)
@@ -654,7 +994,7 @@ diamonds_plot + geom_point(alpha = 0.2) + geom_smooth(aes(col = clarity), se = F
 
     ## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
 
-![](README_files/figure-gfm/unnamed-chunk-28-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-38-1.png)<!-- -->
 
 ``` r
 diamonds_plot + geom_point(aes(col = clarity), alpha = 0.2) + geom_smooth(se = FALSE)
@@ -662,7 +1002,7 @@ diamonds_plot + geom_point(aes(col = clarity), alpha = 0.2) + geom_smooth(se = F
 
     ## `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
 
-![](README_files/figure-gfm/unnamed-chunk-29-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-39-1.png)<!-- -->
 
 Note: the new `aes` introduced in `geom_smooth()` applies only to the
 smoother and produces multiple local regression lines (one for each type
@@ -682,7 +1022,7 @@ ggplot(diamonds, aes(x = depth, y = table)) +
 
     ## `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
 
-![](README_files/figure-gfm/unnamed-chunk-30-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-40-1.png)<!-- -->
 
 ``` r
 ggplot(diamonds, aes(x = depth, y = table)) + geom_jitter(alpha = 0.2, size = 0.5, col = "red") + geom_smooth(col = "blue")
@@ -690,7 +1030,7 @@ ggplot(diamonds, aes(x = depth, y = table)) + geom_jitter(alpha = 0.2, size = 0.
 
     ## `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
 
-![](README_files/figure-gfm/unnamed-chunk-31-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-41-1.png)<!-- -->
 
 ### Aesthetics
 
@@ -762,7 +1102,7 @@ ggplot(diamonds_small, aes(x = carat, y = price)) +
 
     ## `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
 
-![](README_files/figure-gfm/unnamed-chunk-34-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-44-1.png)<!-- -->
 
 ``` r
 geom_functions <- c(
@@ -820,13 +1160,13 @@ ggplot(diamonds, aes(y = price, x = color)) +
         geom_boxplot()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-37-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-47-1.png)<!-- -->
 
 ``` r
 ggplot(diamonds, aes(y = price, fill = color)) + geom_boxplot()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-38-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-48-1.png)<!-- -->
 
 ``` r
 ggplot(diamonds, aes(x = clarity, y= price, fill = clarity)) +
@@ -834,7 +1174,7 @@ ggplot(diamonds, aes(x = clarity, y= price, fill = clarity)) +
   geom_jitter(alpha = .18, size = 1)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-39-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-49-1.png)<!-- -->
 
 todo: insert image / table from page 59 and 60
 
@@ -866,7 +1206,7 @@ athletes <- read_csv('../4_data_wrangling/datasets/athletes.csv')
 ggplot(athletes, aes(x = gender, y = sport)) + geom_tile(aes(fill = age))
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-41-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-51-1.png)<!-- -->
 
 ### Facetten / facets
 
@@ -891,13 +1231,13 @@ todo: insert image from page 64
 ggplot(diamonds, aes(x = carat, y = price)) + geom_point(alpha = 0.3, size = 0.5) + facet_grid(.~cut)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-42-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-52-1.png)<!-- -->
 
 ``` r
 ggplot(diamonds, aes(x = carat, y = price)) + geom_point(alpha = 0.3, size = 0.5) + facet_grid(cut~.)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-42-2.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-52-2.png)<!-- -->
 
 todo: insert table from page 66
 
@@ -935,7 +1275,7 @@ qplot(height, weight, data = athletes, facets = gender~sport)
 
     ## Warning: Removed 380 rows containing missing values (geom_point).
 
-![](README_files/figure-gfm/unnamed-chunk-44-1.png)<!-- --> Dataset
+![](README_files/figure-gfm/unnamed-chunk-54-1.png)<!-- --> Dataset
 without Figure Skating:
 
 ``` r
@@ -991,7 +1331,7 @@ qplot(age, data = athletes, geom = "histogram")
 
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
-![](README_files/figure-gfm/unnamed-chunk-48-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-58-1.png)<!-- -->
 
 -   Modify this basic histogram to produce two subplots for both genders
     and adjust the colors respectively
@@ -1004,7 +1344,7 @@ qplot(age, data = athletes, facets = .~gender, color = gender, geom = "histogram
 
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
-![](README_files/figure-gfm/unnamed-chunk-49-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-59-1.png)<!-- -->
 
 ``` r
 qplot(age, data = athletes, facets = .~gender, color = gender, fill = gender, geom = "histogram")
@@ -1012,7 +1352,7 @@ qplot(age, data = athletes, facets = .~gender, color = gender, fill = gender, ge
 
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
-![](README_files/figure-gfm/unnamed-chunk-50-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-60-1.png)<!-- -->
 
 -   We can also color the two genders differently within the same
     histogram, e.g.
@@ -1023,7 +1363,7 @@ qplot(age, data = athletes, geom = "histogram", color = gender)
 
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
-![](README_files/figure-gfm/unnamed-chunk-51-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-61-1.png)<!-- -->
 
 -   Modify this basic histogram to produce two subplots for both genders
     and adjust the colors respectively
@@ -1141,13 +1481,13 @@ head(ToothGrowth)
 qplot(dose, len, data=ToothGrowth, geom="point", col = supp)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-53-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-63-1.png)<!-- -->
 
 ``` r
 qplot(dose, len,data=ToothGrowth, geom="point", facets=.~supp, col = supp)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-54-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-64-1.png)<!-- -->
 
 It looks like the subgroup where orange juice was administered has
 higher teeth growth compared to the subgroup where ascorbic acid was
@@ -1204,7 +1544,7 @@ Try to call the object myPlot in an empty window!
 myPlot
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-57-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-67-1.png)<!-- -->
 
 -   `myPlot` contains the basic information of the plot, BUT it doesn’t
     produce any output because it does not yet contain any `geom`
@@ -1263,7 +1603,7 @@ myPlot <-ggplot(data=ToothGrowth, aes(x=dose, y=len, col=supp))
 myPlot + geom_point()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-60-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-70-1.png)<!-- -->
 
 ### How to separate code in multiple lines
 
@@ -1277,7 +1617,7 @@ You can also put all code together into one command:
 ggplot(data=ToothGrowth, aes(x=dose, y=len, col=supp)) + geom_point()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-62-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-72-1.png)<!-- -->
 
 -   With both options, you will obtain the same results
 
@@ -1300,7 +1640,7 @@ ggplot(data=ToothGrowth, aes(x=dose, y=len, col=supp)) + geom_point()
 myPlot + geom_point()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-63-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-73-1.png)<!-- -->
 
 A correct division:
 
@@ -1309,7 +1649,7 @@ myPlot +
   geom_point()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-64-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-74-1.png)<!-- -->
 
 An incorrect division:
 
@@ -1317,7 +1657,7 @@ An incorrect division:
 myPlot + geom_point()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-65-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-75-1.png)<!-- -->
 
 todo: link to section on lintr and best programming practices
 
@@ -1328,7 +1668,7 @@ finalPlot <- myPlot + geom_point()
 finalPlot
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-66-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-76-1.png)<!-- -->
 
 Use the summary() function to see the object’s content:
 
@@ -1431,13 +1771,13 @@ value
 ggplot(data=ToothGrowth, aes(x=dose, y=len, col=supp))
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-70-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-80-1.png)<!-- -->
 
 ``` r
 ggplot(data=ToothGrowth, aes(x=dose, y=len, col="red"))
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-71-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-81-1.png)<!-- -->
 
 -   With `qplot()`, you could do the same thing by putting the value
     inside of `I()`, e.g., `colour = I("darkblue")`
@@ -1464,7 +1804,7 @@ color = gender)
 
     ## Warning: Removed 3 rows containing missing values (geom_point).
 
-![](README_files/figure-gfm/unnamed-chunk-73-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-83-1.png)<!-- -->
 
 Other aesthetic attributes are alpha, color, fill, linetype, shape,
 size, weight
@@ -1486,7 +1826,9 @@ geom_point()
 
     ## Warning: Removed 3 rows containing missing values (geom_point).
 
-![](README_files/figure-gfm/unnamed-chunk-75-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-85-1.png)<!-- -->
+
+# References
 
 <div id="refs" class="references csl-bib-body hanging-indent">
 
