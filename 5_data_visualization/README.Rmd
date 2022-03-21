@@ -1,6 +1,6 @@
 ---
 title: "Data visualization"
-author: "Steven Moran\n"
+author: "Steven Moran & Alena Witzlack-Makarevich\n"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   github_document:
@@ -70,7 +70,7 @@ There are two basic presentations of tabular data:
 |Steve	| Height | 165 |
 
 
-## tidy data
+## Tidy data
 
 The `tidyverse` works on [tidy data](https://r4ds.had.co.nz/tidy-data.html), i.e., a consistent way to organize data in R. One of the goals of the `tidyverse` suite of tools is to make an interface between data input and data output -- that is, once you have data in the tidy data format, working with the tools in the tidyverse become much simpler. In other words, to play and have fun with the tools in tidyverse, you should first get your data into the tidy format.
 
@@ -109,6 +109,7 @@ ggplot(death_prob, aes(age, prob)) +
   geom_line(aes(group = sex), colour = "grey50") + 
   geom_point(aes(colour = sex))
 ```
+What is being plotted?
 
 What does the plot tell us about the data?
 
@@ -139,7 +140,7 @@ The first two are probably the most important for reshaping your data. Like many
 Let's look at each in turn.
 
 
-### `gather` / `pivot_longer`
+### `gather()` / `pivot_longer()`
 
 The `gather` function in the `tidyverse` library lets you convert wide data into tidy data. Let's consider an example from [this great course](https://datasciencelabs.github.io).
 
@@ -147,7 +148,7 @@ The annual fertility rates data from `dslabs` and `gapminder` for Germany and So
 
 ```{r}
 fertility_wide <- read_csv(url('https://raw.githubusercontent.com/rafalab/dslabs/master/inst/extdata/life-expectancy-and-fertility-two-countries-example.csv'))
-fertility_wide
+fertility_wide %>% kable() # cool trick to make the table show up nicely!
 ```
 
 What are the variables? What are the observations? How do we get the data into tidy format?
@@ -161,7 +162,7 @@ Like above, we can transform the data from `wide` to `long` format by telling th
 ```{r}
 fertility_tidy <- fertility_wide %>% 
   pivot_longer(!country)
-fertility_tidy
+fertility_tidy %>% head() %>% kable() # going to use that cool trick again -- check out the kable package!
 ```
 
 Note the default `name` and `value` column names. These can be changed in the parameter specification.
@@ -169,10 +170,12 @@ Note the default `name` and `value` column names. These can be changed in the pa
 ```{r}
 fertility_tidy <- fertility_wide %>% 
   pivot_longer(!country, names_to = "year_variable", values_to = "fertility")
-fertility_tidy
+fertility_tidy %>% head() %>% kable()
 ```
 
 **The data are still a bit not so user friendly. Why?**
+
+### `separate()`
 
 ```{r}
 fertility_tidy %>% separate(year_variable, into=c("year", "variable"), sep="_")
@@ -187,13 +190,13 @@ fertility_tidy
 ```
 
 
-### `spread` / `pivot_wider`
+### `spread()` / `pivot_wider()`
 
 To turn long data into wide data we can use the `spread` or `pivot_wider` functions. They are basically the inverse of `gather` and `pivot_longer`. 
 
 ```{r}
 fertility_wide <- fertility_tidy %>% spread(year, fertility)
-fertility_wide
+fertility_wide %>% kable() # one way to display nicely tables 
 ```
 
 And now with `pivot_wider`. You might use such a transformation to produce data that is easier to work with, e.g., you want to load it in a spreadsheet and make some corrections by hand, or perhaps you want to share the data with someone. Wide data is also sometimes useful as an intermediate format between your input and target output formats when trying to tidy up your data.
@@ -202,18 +205,31 @@ And now with `pivot_wider`. You might use such a transformation to produce data 
 fertility_tidy %>% pivot_wider(names_from = year, values_from = fertility)
 ```
 
+### `unite()`
+
+The function `unite()` is the opposite of `separate()`. Its job is to  combine multiple columns into a single column. It's less oftenly used than `separate()`, but nevertheless handy to know.
+
+Want to go back to our original data frame?
+
+```{r}
+fertility_tidy %>% unite(name, year, variable)
+```
+
 
 # Visualizing data
+
+## Overview
 
 Tidy and long data is often used as an input format to visualization functions. For example:
 
 ```{r}
 head(fertility_tidy)
-fertility_tidy %>% ggplot(aes(year, fertility, color = country)) +
-  geom_point()
+fertility_tidy %>% 
+  ggplot(aes(year, fertility, color = country)) +
+    geom_point()
 ```
 
-This on the other hand will not work. Why?
+This on the other hand will not work. Try it! Why does it not work?
 
 ```{r, eval=FALSE}
 fertility_wide %>% ggplot(aes(year, fertility, color = country)) +
@@ -221,123 +237,116 @@ fertility_wide %>% ggplot(aes(year, fertility, color = country)) +
 
 ```
 
-Visualizing data can be time consuming for various reasons, but first and foremost it often requires that you first clean and wrangle your data into a format that the visualization library or functions can work with as input. Then of course, there can be lots of tweaking to get your visualizations to look nice. This can be for various reasons and there's tons of literature on visualization types, best practices, etc. Consider for example what you are trying to visualize. What kind of (statistical) data types? Are you trying to visualize -- or model -- a [statistical distribution](https://en.wikipedia.org/wiki/Probability_distribution)? How many variables are there? What are your independent and dependent variables? Do you have any? Do you have a hypothesis?
+Visualizing data can be (very) time consuming for various reasons. But first and foremost it that it often requires that you first wrangle your data into a format that the visualization functions can work with as input.
 
-Then there are 
+A nice illustration of the data exploration process (or pipeline) is given here:
 
-### Layers of graphics in ggplot2
+* https://r4ds.had.co.nz/explore-intro.html
 
-* The layered Grammar of Graphics by Wickham (2009) adjusts Wilkinson's principles to R
+In the blue highlighted portion "Explore", you can seen a circle from "Transform" -> "Visualize" -> "Model" (then repeat).
 
-* Each layer/component of the Grammar of Graphics has a special name in ggplot2
+This is a typical approach to exploring data, thinking about hypotheses, then developing models and testing your hypotheses. Then of course you want to "Communicate" your results.
 
-TODO: get image 18
+When communicating your results, there is another often time consuming aspect of creating data visualzations -- lots of tweaking to get your visualizations to look nice. This can be for various reasons and there's lots of literature on data visualizations, best practices in data visualization, etc. Think about, for example, what you are trying to visualize with your data. What kind of (statistical) data types do you have? On which axes should they be plotted? Do you have axes?
 
+Or are you trying to visualize -- or model -- a [statistical distribution](https://en.wikipedia.org/wiki/Probability_distribution)? How many variables are there? What are your independent and dependent variables? Do you have any? Do you have a hypothesis?
 
-### First examples (1): diamonds
+A perhaps clearer picture of the workflow with `tidyverse` libraries is given below (for model it will depend on what type of *model(s)* you are using -- there are numerous libraries for statistical modeling in R!).
 
-* Create a new script diamonds.R and add to it the following command
+![Work flow annotated with Tidyverse libraries.](figures/workflow.png)
+## Background `ggplot2`
 
-* We will work with the integrated dataset diamonds
+The R visualization library `ggplot2` is based on the principles outlined in *The Grammar of Graphics* by Leland Wilkinson (1999). (Thus the "gg".) The layered Grammar of Graphics by Wickham (2009) adjusts Wilkinson's principles to R
 
-* Use the familiar functions to explore its structure
+Each layer/component of the Grammar of Graphics has a special name in `ggplot2`, visualized as:
 
-TODO: 
+![A layered grammar of graphics.](figures/layers.png)
 
-add https://en.wikipedia.org/wiki/Variadic_function
+<!-- ### First examples (1): diamonds -->
+### A first example: diamonds
 
-and explain the ...
-
-hist(diamonds$price, …)
-barplot(table(diamonds$cut), …)
-
-```{r}
-head(diamonds) # the data set is part of ggplot2
-str(diamonds)
-hist(diamonds$price)
-barplot(table(diamonds$cut))
-```
-
-* What variables are unfamiliar to you?
-
-We can load a description of the dataset with the `?` function.
+Let's look at the integrated dataset `diamonds`. Recall how you can explore the `diamonds` data structure.
 
 ```{r}
-?diamonds # the description of the dataset
-```
-
-```{r}
+head(diamonds)
 str(diamonds)
 ```
 
-* Which kinds of plots can we produce?
-
-* Which kind of research questions can be answered on the basis of this dataset?
-
-The original dataset is large
-
-Let make the processing easier for our computer and work with a random sample of 1000 diamonds:
+What variables are unfamiliar to you? 
 
 ```{r}
-diamonds <- diamonds[sample(nrow(diamonds), 1000), ] 
-# a random sample of 1000 objects
+?diamonds
 ```
 
-The basic ggplot2 function has the following form:
+Now, which kinds of [plots](https://en.wikipedia.org/wiki/Plot_(graphics)) can we produce? A plot is the outcome of a statistical graphical technique](https://en.wikipedia.org/wiki/Statistical_graphics) for visualizing a data set.
+
+Which kind of research questions can be answered on the basis of the `diamonds` dataset?
+
+First, let's as how big is the dataset?
 
 ```{r}
-ggplot(diamonds, aes(x = carat, y = price)) +
-  geom_point()
+dim(diamonds)
 ```
 
-Can you guess what the function ggplot() does?
-
-What about geom_point()?
+The original dataset is large. Let make the processing easier for our computer and work with a random sample of 1000 diamonds for quicker and easier processing:
 
 ```{r}
-ggplot(diamonds, aes(x = carat, y = price)) +
-  geom_point()
+diamonds <- diamonds[sample(nrow(diamonds), 1000), ] # a random sample of 1000 objects
 ```
 
-The symbol + should always be at the end of each line if there is something to follow.
-
+The basic `ggplot2` function has the following form:
 
 ```{r}
 ggplot(diamonds, aes(x = carat, y = price)) +
   geom_point()
 ```
 
-- With ggplot2, you begin a plot with the function ggplot().
-- ggplot() creates a coordinate system that you can add layers to. 
-- The first argument of ggplot() is the dataset to use in the graph. 
-- So ggplot(data = diamonds) creates an empty graph
-- It's not very interesting so I'm not going to show it here.
+Can you guess what the function `ggplot()` does?
 
-A simple plot with ggplot2 needs
+What about `geom_point()`?
 
-- data (a data frame or tibble!), 
-- aesthetic (mapping to variables), 
-- geometry (e.g. dots, lines, boxes)
+```{r}
+ggplot(diamonds, aes(x = carat, y = price)) +
+  geom_point()
+```
 
-TODO: insert image slide 26
+Note that the symbol `+` should always be at the end of each line if there is something to follow it!
+
+With ggplot2, you begin a plot with the function `ggplot()`. Then `ggplot()` creates a coordinate system that you can add layers to. 
+
+The first argument of `ggplot()` is the dataset to use in the graph. So `ggplot(data = diamonds)` creates an empty graph.
+
+However, a simple plot with `ggplot2` needs:
+
+* Data (a data frame or tibble!)
+* Aesthetics (mapping to variables)
+* Geometry (e.g., dots, lines, boxes)
+
+These essential ingredients are illustrated below.
+
+![Essentials.](figures/essential_ingredients.png)
+
+Let's look at them.
+
 
 ### Aesthetics
 
-- _aesthetic_ comes from Greek _aisthētikos_ < _aisthēta_ ‘perceptible things' < _aisthesthai_ ‘perceive'
-- In the `ggplot` sense this old usage is meant: 
-  - aesthetics stand for principles for **relating sensory attributes (color, shape, sound, etc.) to abstractions**
+The word _aesthetic_ comes from Greek _aisthētikos_ < _aisthēta_ 'perceptible things' < _aisthesthai_ 'perceive'.
+
+In the `ggplot` sense this old usage is meant that *aesthetics* stand for principles for **relating sensory attributes (color, shape, sound, etc.) to abstractions**.
+
+Which aesthetic attributes are used in the following plot? What perceivable part of the plot do they correspond to?
 
 ```{r}
 ggplot(diamonds, aes(x = carat, y = price)) +
   geom_point()
 ```
 
-- Which aesthetic attributes are sued here?
-- What perceivable part of the plot do they correspond to?
+Note that `geom_()` is short for **geometric** object. It describes the type of object that is used to display the data.
 
-- `geom_()`:  geom is short for **geometric** object
-- It describes the type of object that is used to display the data
-- `geom_point()` produces a _______
+So what do you think a `geom_point()` object produces?
+
+
 
 
 ### Combining geoms
@@ -1066,6 +1075,17 @@ ggplot(data = athletes[athletes$sport == "Luge", ],
 aes(x = height, y = weight, size = age, color = gender)) +
 geom_point()
 ```
+
+
+# Data practical
+
+For this week's data practical:
+
+* Load a data set
+* If the data set is not tabular, make it tabular
+* Transform the data set into long format
+* Transform the data set into wide format
+* Take a column in your data set and split the columns values with `separate()`
 
 
 # References

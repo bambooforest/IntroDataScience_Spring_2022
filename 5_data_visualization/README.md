@@ -1,21 +1,23 @@
 Data visualization
 ================
-Steven Moran
+Steven Moran & Alena Witzlack-Makarevich
 
 21 March, 2022
 
 -   [Recap](#recap)
     -   [Tabular data](#tabular-data)
     -   [Wide vs long formats](#wide-vs-long-formats)
-    -   [tidy data](#tidy-data)
+    -   [Tidy data](#tidy-data)
 -   [Reshaping data](#reshaping-data)
-    -   [`gather` / `pivot_longer`](#gather--pivot_longer)
-    -   [`spread` / `pivot_wider`](#spread--pivot_wider)
+    -   [`gather()` / `pivot_longer()`](#gather--pivot_longer)
+    -   [`separate()`](#separate)
+    -   [`spread()` / `pivot_wider()`](#spread--pivot_wider)
+    -   [`unite()`](#unite)
 -   [Visualizing data](#visualizing-data)
-    -   [Layers of graphics in ggplot2](#layers-of-graphics-in-ggplot2)
-    -   [First examples (1): diamonds](#first-examples-1-diamonds)
-    -   [Aesthetics](#aesthetics)
-    -   [Combining geoms](#combining-geoms)
+    -   [Overview](#overview)
+        -   [A first example: diamonds](#a-first-example-diamonds)
+        -   [Aesthetics](#aesthetics)
+        -   [Combining geoms](#combining-geoms)
     -   [The basics of the grammar of
         graphics](#the-basics-of-the-grammar-of-graphics)
         -   [Overplotting: position
@@ -63,6 +65,7 @@ Steven Moran
             (2009))](#aesthetic-mappings-vs-setting-wickham-2009)
         -   [The aesthetic attributes and geom function: exercise
             2](#the-aesthetic-attributes-and-geom-function-exercise-2)
+-   [Data practical](#data-practical)
 -   [References](#references)
 
 ------------------------------------------------------------------------
@@ -150,7 +153,7 @@ additional column denotes the context of those values, e.g.,:
 | Steve  | Weight   | 144   |
 | Steve  | Height   | 165   |
 
-## tidy data
+## Tidy data
 
 The `tidyverse` works on [tidy
 data](https://r4ds.had.co.nz/tidy-data.html), i.e., a consistent way to
@@ -230,7 +233,8 @@ ggplot(death_prob, aes(age, prob)) +
   geom_point(aes(colour = sex))
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- --> What is being
+plotted?
 
 What does the plot tell us about the data?
 
@@ -274,7 +278,7 @@ been recently renamed:
 
 Let’s look at each in turn.
 
-### `gather` / `pivot_longer`
+### `gather()` / `pivot_longer()`
 
 The `gather` function in the `tidyverse` library lets you convert wide
 data into tidy data. Let’s consider an example from [this great
@@ -296,64 +300,13 @@ fertility_wide <- read_csv(url('https://raw.githubusercontent.com/rafalab/dslabs
     ## ℹ Use `spec()` for the full column specifications.
 
 ``` r
-fertility_wide
+fertility_wide %>% kable() # cool trick to make the table show up nicely!
 ```
 
-    ## # A tibble: 2 x 113
-    ##   country  `1960_fertility` `1960_life_expec… `1961_fertility` `1961_life_expec…
-    ##   <chr>               <dbl>             <dbl>            <dbl>             <dbl>
-    ## 1 Germany              2.41              69.3             2.44              69.8
-    ## 2 South K…             6.16              53.0             5.99              53.8
-    ## # … with 108 more variables: 1962_fertility <dbl>, 1962_life_expectancy <dbl>,
-    ## #   1963_fertility <dbl>, 1963_life_expectancy <dbl>, 1964_fertility <dbl>,
-    ## #   1964_life_expectancy <dbl>, 1965_fertility <dbl>,
-    ## #   1965_life_expectancy <dbl>, 1966_fertility <dbl>,
-    ## #   1966_life_expectancy <dbl>, 1967_fertility <dbl>,
-    ## #   1967_life_expectancy <dbl>, 1968_fertility <dbl>,
-    ## #   1968_life_expectancy <dbl>, 1969_fertility <dbl>,
-    ## #   1969_life_expectancy <dbl>, 1970_fertility <dbl>,
-    ## #   1970_life_expectancy <dbl>, 1971_fertility <dbl>,
-    ## #   1971_life_expectancy <dbl>, 1972_fertility <dbl>,
-    ## #   1972_life_expectancy <dbl>, 1973_fertility <dbl>,
-    ## #   1973_life_expectancy <dbl>, 1974_fertility <dbl>,
-    ## #   1974_life_expectancy <dbl>, 1975_fertility <dbl>,
-    ## #   1975_life_expectancy <dbl>, 1976_fertility <dbl>,
-    ## #   1976_life_expectancy <dbl>, 1977_fertility <dbl>,
-    ## #   1977_life_expectancy <dbl>, 1978_fertility <dbl>,
-    ## #   1978_life_expectancy <dbl>, 1979_fertility <dbl>,
-    ## #   1979_life_expectancy <dbl>, 1980_fertility <dbl>,
-    ## #   1980_life_expectancy <dbl>, 1981_fertility <dbl>,
-    ## #   1981_life_expectancy <dbl>, 1982_fertility <dbl>,
-    ## #   1982_life_expectancy <dbl>, 1983_fertility <dbl>,
-    ## #   1983_life_expectancy <dbl>, 1984_fertility <dbl>,
-    ## #   1984_life_expectancy <dbl>, 1985_fertility <dbl>,
-    ## #   1985_life_expectancy <dbl>, 1986_fertility <dbl>,
-    ## #   1986_life_expectancy <dbl>, 1987_fertility <dbl>,
-    ## #   1987_life_expectancy <dbl>, 1988_fertility <dbl>,
-    ## #   1988_life_expectancy <dbl>, 1989_fertility <dbl>,
-    ## #   1989_life_expectancy <dbl>, 1990_fertility <dbl>,
-    ## #   1990_life_expectancy <dbl>, 1991_fertility <dbl>,
-    ## #   1991_life_expectancy <dbl>, 1992_fertility <dbl>,
-    ## #   1992_life_expectancy <dbl>, 1993_fertility <dbl>,
-    ## #   1993_life_expectancy <dbl>, 1994_fertility <dbl>,
-    ## #   1994_life_expectancy <dbl>, 1995_fertility <dbl>,
-    ## #   1995_life_expectancy <dbl>, 1996_fertility <dbl>,
-    ## #   1996_life_expectancy <dbl>, 1997_fertility <dbl>,
-    ## #   1997_life_expectancy <dbl>, 1998_fertility <dbl>,
-    ## #   1998_life_expectancy <dbl>, 1999_fertility <dbl>,
-    ## #   1999_life_expectancy <dbl>, 2000_fertility <dbl>,
-    ## #   2000_life_expectancy <dbl>, 2001_fertility <dbl>,
-    ## #   2001_life_expectancy <dbl>, 2002_fertility <dbl>,
-    ## #   2002_life_expectancy <dbl>, 2003_fertility <dbl>,
-    ## #   2003_life_expectancy <dbl>, 2004_fertility <dbl>,
-    ## #   2004_life_expectancy <dbl>, 2005_fertility <dbl>,
-    ## #   2005_life_expectancy <dbl>, 2006_fertility <dbl>,
-    ## #   2006_life_expectancy <dbl>, 2007_fertility <dbl>,
-    ## #   2007_life_expectancy <dbl>, 2008_fertility <dbl>,
-    ## #   2008_life_expectancy <dbl>, 2009_fertility <dbl>,
-    ## #   2009_life_expectancy <dbl>, 2010_fertility <dbl>,
-    ## #   2010_life_expectancy <dbl>, 2011_fertility <dbl>,
-    ## #   2011_life_expectancy <dbl>, …
+| country     | 1960_fertility | 1960_life_expectancy | 1961_fertility | 1961_life_expectancy | 1962_fertility | 1962_life_expectancy | 1963_fertility | 1963_life_expectancy | 1964_fertility | 1964_life_expectancy | 1965_fertility | 1965_life_expectancy | 1966_fertility | 1966_life_expectancy | 1967_fertility | 1967_life_expectancy | 1968_fertility | 1968_life_expectancy | 1969_fertility | 1969_life_expectancy | 1970_fertility | 1970_life_expectancy | 1971_fertility | 1971_life_expectancy | 1972_fertility | 1972_life_expectancy | 1973_fertility | 1973_life_expectancy | 1974_fertility | 1974_life_expectancy | 1975_fertility | 1975_life_expectancy | 1976_fertility | 1976_life_expectancy | 1977_fertility | 1977_life_expectancy | 1978_fertility | 1978_life_expectancy | 1979_fertility | 1979_life_expectancy | 1980_fertility | 1980_life_expectancy | 1981_fertility | 1981_life_expectancy | 1982_fertility | 1982_life_expectancy | 1983_fertility | 1983_life_expectancy | 1984_fertility | 1984_life_expectancy | 1985_fertility | 1985_life_expectancy | 1986_fertility | 1986_life_expectancy | 1987_fertility | 1987_life_expectancy | 1988_fertility | 1988_life_expectancy | 1989_fertility | 1989_life_expectancy | 1990_fertility | 1990_life_expectancy | 1991_fertility | 1991_life_expectancy | 1992_fertility | 1992_life_expectancy | 1993_fertility | 1993_life_expectancy | 1994_fertility | 1994_life_expectancy | 1995_fertility | 1995_life_expectancy | 1996_fertility | 1996_life_expectancy | 1997_fertility | 1997_life_expectancy | 1998_fertility | 1998_life_expectancy | 1999_fertility | 1999_life_expectancy | 2000_fertility | 2000_life_expectancy | 2001_fertility | 2001_life_expectancy | 2002_fertility | 2002_life_expectancy | 2003_fertility | 2003_life_expectancy | 2004_fertility | 2004_life_expectancy | 2005_fertility | 2005_life_expectancy | 2006_fertility | 2006_life_expectancy | 2007_fertility | 2007_life_expectancy | 2008_fertility | 2008_life_expectancy | 2009_fertility | 2009_life_expectancy | 2010_fertility | 2010_life_expectancy | 2011_fertility | 2011_life_expectancy | 2012_fertility | 2012_life_expectancy | 2013_fertility | 2013_life_expectancy | 2014_fertility | 2014_life_expectancy | 2015_fertility | 2015_life_expectancy |
+|:------------|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|---------------:|---------------------:|
+| Germany     |           2.41 |                69.26 |           2.44 |                69.85 |           2.47 |                70.01 |           2.49 |                70.10 |           2.49 |                70.66 |           2.48 |                70.65 |           2.44 |                70.77 |           2.37 |                70.99 |           2.28 |                70.64 |           2.17 |                70.48 |           2.04 |                70.72 |           1.92 |                70.94 |           1.80 |                71.16 |           1.70 |                71.41 |           1.62 |                71.71 |           1.56 |                71.56 |           1.53 |                72.02 |           1.50 |                72.63 |           1.49 |                72.60 |           1.48 |                72.96 |           1.47 |                73.14 |           1.47 |                73.37 |           1.46 |                73.69 |           1.46 |                73.97 |           1.46 |                74.44 |           1.45 |                74.55 |           1.44 |                74.75 |           1.43 |                75.15 |           1.41 |                75.33 |           1.38 |                75.51 |           1.36 |                 75.4 |           1.34 |                 75.6 |           1.32 |                 76.0 |           1.31 |                 76.1 |           1.31 |                 76.4 |           1.31 |                 76.6 |           1.32 |                 76.9 |           1.33 |                 77.3 |           1.34 |                 77.6 |           1.35 |                 77.8 |           1.35 |                 78.1 |           1.35 |                 78.4 |           1.35 |                 78.6 |           1.35 |                 78.8 |           1.35 |                 79.2 |           1.35 |                 79.4 |           1.36 |                 79.7 |           1.36 |                 79.9 |           1.37 |                 80.0 |           1.38 |                 80.1 |           1.39 |                 80.3 |           1.40 |                 80.5 |           1.41 |                 80.6 |           1.42 |                 80.7 |           1.43 |                 80.7 |           1.44 |                 80.8 |
+| South Korea |           6.16 |                53.02 |           5.99 |                53.75 |           5.79 |                54.51 |           5.57 |                55.27 |           5.36 |                56.04 |           5.16 |                56.84 |           4.99 |                57.67 |           4.85 |                58.54 |           4.73 |                59.44 |           4.62 |                60.35 |           4.53 |                61.22 |           4.41 |                62.02 |           4.27 |                62.73 |           4.09 |                63.34 |           3.87 |                63.84 |           3.62 |                64.26 |           3.36 |                64.62 |           3.11 |                64.95 |           2.88 |                65.31 |           2.69 |                65.70 |           2.52 |                66.15 |           2.38 |                66.66 |           2.24 |                67.21 |           2.11 |                67.78 |           1.98 |                68.37 |           1.86 |                68.98 |           1.75 |                69.58 |           1.67 |                70.18 |           1.63 |                70.75 |           1.61 |                71.29 |           1.61 |                 71.8 |           1.63 |                 72.2 |           1.65 |                 72.7 |           1.66 |                 73.1 |           1.65 |                 73.6 |           1.63 |                 74.0 |           1.59 |                 74.5 |           1.54 |                 74.9 |           1.48 |                 75.4 |           1.41 |                 75.8 |           1.35 |                 76.3 |           1.30 |                 76.7 |           1.25 |                 77.1 |           1.22 |                 77.7 |           1.20 |                 78.2 |           1.20 |                 78.7 |           1.20 |                 79.1 |           1.21 |                 79.4 |           1.23 |                 79.8 |           1.25 |                 80.1 |           1.27 |                 80.4 |           1.29 |                 80.6 |           1.30 |                 80.7 |           1.32 |                 80.9 |           1.34 |                 80.9 |           1.36 |                 81.0 |
 
 What are the variables? What are the observations? How do we get the
 data into tidy format?
@@ -369,23 +322,17 @@ telling the function which columns we do *not* want.
 ``` r
 fertility_tidy <- fertility_wide %>% 
   pivot_longer(!country)
-fertility_tidy
+fertility_tidy %>% head() %>% kable() # going to use that cool trick again -- check out the kable package!
 ```
 
-    ## # A tibble: 224 x 3
-    ##    country name                 value
-    ##    <chr>   <chr>                <dbl>
-    ##  1 Germany 1960_fertility        2.41
-    ##  2 Germany 1960_life_expectancy 69.3 
-    ##  3 Germany 1961_fertility        2.44
-    ##  4 Germany 1961_life_expectancy 69.8 
-    ##  5 Germany 1962_fertility        2.47
-    ##  6 Germany 1962_life_expectancy 70.0 
-    ##  7 Germany 1963_fertility        2.49
-    ##  8 Germany 1963_life_expectancy 70.1 
-    ##  9 Germany 1964_fertility        2.49
-    ## 10 Germany 1964_life_expectancy 70.7 
-    ## # … with 214 more rows
+| country | name                 | value |
+|:--------|:---------------------|------:|
+| Germany | 1960_fertility       |  2.41 |
+| Germany | 1960_life_expectancy | 69.26 |
+| Germany | 1961_fertility       |  2.44 |
+| Germany | 1961_life_expectancy | 69.85 |
+| Germany | 1962_fertility       |  2.47 |
+| Germany | 1962_life_expectancy | 70.01 |
 
 Note the default `name` and `value` column names. These can be changed
 in the parameter specification.
@@ -393,25 +340,21 @@ in the parameter specification.
 ``` r
 fertility_tidy <- fertility_wide %>% 
   pivot_longer(!country, names_to = "year_variable", values_to = "fertility")
-fertility_tidy
+fertility_tidy %>% head() %>% kable()
 ```
 
-    ## # A tibble: 224 x 3
-    ##    country year_variable        fertility
-    ##    <chr>   <chr>                    <dbl>
-    ##  1 Germany 1960_fertility            2.41
-    ##  2 Germany 1960_life_expectancy     69.3 
-    ##  3 Germany 1961_fertility            2.44
-    ##  4 Germany 1961_life_expectancy     69.8 
-    ##  5 Germany 1962_fertility            2.47
-    ##  6 Germany 1962_life_expectancy     70.0 
-    ##  7 Germany 1963_fertility            2.49
-    ##  8 Germany 1963_life_expectancy     70.1 
-    ##  9 Germany 1964_fertility            2.49
-    ## 10 Germany 1964_life_expectancy     70.7 
-    ## # … with 214 more rows
+| country | year_variable        | fertility |
+|:--------|:---------------------|----------:|
+| Germany | 1960_fertility       |      2.41 |
+| Germany | 1960_life_expectancy |     69.26 |
+| Germany | 1961_fertility       |      2.44 |
+| Germany | 1961_life_expectancy |     69.85 |
+| Germany | 1962_fertility       |      2.47 |
+| Germany | 1962_life_expectancy |     70.01 |
 
 **The data are still a bit not so user friendly. Why?**
+
+### `separate()`
 
 ``` r
 fertility_tidy %>% separate(year_variable, into=c("year", "variable"), sep="_")
@@ -458,7 +401,7 @@ fertility_tidy
     ## 10 Germany 1964  life_expectancy     70.7 
     ## # … with 214 more rows
 
-### `spread` / `pivot_wider`
+### `spread()` / `pivot_wider()`
 
 To turn long data into wide data we can use the `spread` or
 `pivot_wider` functions. They are basically the inverse of `gather` and
@@ -466,25 +409,15 @@ To turn long data into wide data we can use the `spread` or
 
 ``` r
 fertility_wide <- fertility_tidy %>% spread(year, fertility)
-fertility_wide
+fertility_wide %>% kable() # one way to display nicely tables 
 ```
 
-    ## # A tibble: 4 x 58
-    ##   country    variable    `1960` `1961` `1962` `1963` `1964` `1965` `1966` `1967`
-    ##   <chr>      <chr>        <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>
-    ## 1 Germany    fertility     2.41   2.44   2.47   2.49   2.49   2.48   2.44   2.37
-    ## 2 Germany    life_expec…  69.3   69.8   70.0   70.1   70.7   70.6   70.8   71.0 
-    ## 3 South Kor… fertility     6.16   5.99   5.79   5.57   5.36   5.16   4.99   4.85
-    ## 4 South Kor… life_expec…  53.0   53.8   54.5   55.3   56.0   56.8   57.7   58.5 
-    ## # … with 48 more variables: 1968 <dbl>, 1969 <dbl>, 1970 <dbl>, 1971 <dbl>,
-    ## #   1972 <dbl>, 1973 <dbl>, 1974 <dbl>, 1975 <dbl>, 1976 <dbl>, 1977 <dbl>,
-    ## #   1978 <dbl>, 1979 <dbl>, 1980 <dbl>, 1981 <dbl>, 1982 <dbl>, 1983 <dbl>,
-    ## #   1984 <dbl>, 1985 <dbl>, 1986 <dbl>, 1987 <dbl>, 1988 <dbl>, 1989 <dbl>,
-    ## #   1990 <dbl>, 1991 <dbl>, 1992 <dbl>, 1993 <dbl>, 1994 <dbl>, 1995 <dbl>,
-    ## #   1996 <dbl>, 1997 <dbl>, 1998 <dbl>, 1999 <dbl>, 2000 <dbl>, 2001 <dbl>,
-    ## #   2002 <dbl>, 2003 <dbl>, 2004 <dbl>, 2005 <dbl>, 2006 <dbl>, 2007 <dbl>,
-    ## #   2008 <dbl>, 2009 <dbl>, 2010 <dbl>, 2011 <dbl>, 2012 <dbl>, 2013 <dbl>,
-    ## #   2014 <dbl>, 2015 <dbl>
+| country     | variable        |  1960 |  1961 |  1962 |  1963 |  1964 |  1965 |  1966 |  1967 |  1968 |  1969 |  1970 |  1971 |  1972 |  1973 |  1974 |  1975 |  1976 |  1977 |  1978 |  1979 |  1980 |  1981 |  1982 |  1983 |  1984 |  1985 |  1986 |  1987 |  1988 |  1989 |  1990 |  1991 |  1992 |  1993 |  1994 |  1995 |  1996 |  1997 |  1998 |  1999 |  2000 |  2001 |  2002 |  2003 |  2004 |  2005 |  2006 |  2007 |  2008 |  2009 |  2010 |  2011 |  2012 |  2013 |  2014 |  2015 |
+|:------------|:----------------|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|
+| Germany     | fertility       |  2.41 |  2.44 |  2.47 |  2.49 |  2.49 |  2.48 |  2.44 |  2.37 |  2.28 |  2.17 |  2.04 |  1.92 |  1.80 |  1.70 |  1.62 |  1.56 |  1.53 |  1.50 |  1.49 |  1.48 |  1.47 |  1.47 |  1.46 |  1.46 |  1.46 |  1.45 |  1.44 |  1.43 |  1.41 |  1.38 |  1.36 |  1.34 |  1.32 |  1.31 |  1.31 |  1.31 |  1.32 |  1.33 |  1.34 |  1.35 |  1.35 |  1.35 |  1.35 |  1.35 |  1.35 |  1.35 |  1.36 |  1.36 |  1.37 |  1.38 |  1.39 |  1.40 |  1.41 |  1.42 |  1.43 |  1.44 |
+| Germany     | life_expectancy | 69.26 | 69.85 | 70.01 | 70.10 | 70.66 | 70.65 | 70.77 | 70.99 | 70.64 | 70.48 | 70.72 | 70.94 | 71.16 | 71.41 | 71.71 | 71.56 | 72.02 | 72.63 | 72.60 | 72.96 | 73.14 | 73.37 | 73.69 | 73.97 | 74.44 | 74.55 | 74.75 | 75.15 | 75.33 | 75.51 | 75.40 | 75.60 | 76.00 | 76.10 | 76.40 | 76.60 | 76.90 | 77.30 | 77.60 | 77.80 | 78.10 | 78.40 | 78.60 | 78.80 | 79.20 | 79.40 | 79.70 | 79.90 | 80.00 | 80.10 | 80.30 | 80.50 | 80.60 | 80.70 | 80.70 | 80.80 |
+| South Korea | fertility       |  6.16 |  5.99 |  5.79 |  5.57 |  5.36 |  5.16 |  4.99 |  4.85 |  4.73 |  4.62 |  4.53 |  4.41 |  4.27 |  4.09 |  3.87 |  3.62 |  3.36 |  3.11 |  2.88 |  2.69 |  2.52 |  2.38 |  2.24 |  2.11 |  1.98 |  1.86 |  1.75 |  1.67 |  1.63 |  1.61 |  1.61 |  1.63 |  1.65 |  1.66 |  1.65 |  1.63 |  1.59 |  1.54 |  1.48 |  1.41 |  1.35 |  1.30 |  1.25 |  1.22 |  1.20 |  1.20 |  1.20 |  1.21 |  1.23 |  1.25 |  1.27 |  1.29 |  1.30 |  1.32 |  1.34 |  1.36 |
+| South Korea | life_expectancy | 53.02 | 53.75 | 54.51 | 55.27 | 56.04 | 56.84 | 57.67 | 58.54 | 59.44 | 60.35 | 61.22 | 62.02 | 62.73 | 63.34 | 63.84 | 64.26 | 64.62 | 64.95 | 65.31 | 65.70 | 66.15 | 66.66 | 67.21 | 67.78 | 68.37 | 68.98 | 69.58 | 70.18 | 70.75 | 71.29 | 71.80 | 72.20 | 72.70 | 73.10 | 73.60 | 74.00 | 74.50 | 74.90 | 75.40 | 75.80 | 76.30 | 76.70 | 77.10 | 77.70 | 78.20 | 78.70 | 79.10 | 79.40 | 79.80 | 80.10 | 80.40 | 80.60 | 80.70 | 80.90 | 80.90 | 81.00 |
 
 And now with `pivot_wider`. You might use such a transformation to
 produce data that is easier to work with, e.g., you want to load it in a
@@ -514,7 +447,36 @@ fertility_tidy %>% pivot_wider(names_from = year, values_from = fertility)
     ## #   2008 <dbl>, 2009 <dbl>, 2010 <dbl>, 2011 <dbl>, 2012 <dbl>, 2013 <dbl>,
     ## #   2014 <dbl>, 2015 <dbl>
 
+### `unite()`
+
+The function `unite()` is the opposite of `separate()`. Its job is to
+combine multiple columns into a single column. It’s less oftenly used
+than `separate()`, but nevertheless handy to know.
+
+Want to go back to our original data frame?
+
+``` r
+fertility_tidy %>% unite(name, year, variable)
+```
+
+    ## # A tibble: 224 x 3
+    ##    country name                 fertility
+    ##    <chr>   <chr>                    <dbl>
+    ##  1 Germany 1960_fertility            2.41
+    ##  2 Germany 1960_life_expectancy     69.3 
+    ##  3 Germany 1961_fertility            2.44
+    ##  4 Germany 1961_life_expectancy     69.8 
+    ##  5 Germany 1962_fertility            2.47
+    ##  6 Germany 1962_life_expectancy     70.0 
+    ##  7 Germany 1963_fertility            2.49
+    ##  8 Germany 1963_life_expectancy     70.1 
+    ##  9 Germany 1964_fertility            2.49
+    ## 10 Germany 1964_life_expectancy     70.7 
+    ## # … with 214 more rows
+
 # Visualizing data
+
+## Overview
 
 Tidy and long data is often used as an input format to visualization
 functions. For example:
@@ -534,62 +496,76 @@ head(fertility_tidy)
     ## 6 Germany 1962  life_expectancy     70.0
 
 ``` r
-fertility_tidy %>% ggplot(aes(year, fertility, color = country)) +
-  geom_point()
+fertility_tidy %>% 
+  ggplot(aes(year, fertility, color = country)) +
+    geom_point()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
-This on the other hand will not work. Why?
+This on the other hand will not work. Try it! Why does it not work?
 
 ``` r
 fertility_wide %>% ggplot(aes(year, fertility, color = country)) +
   geom_point()
 ```
 
-Visualizing data can be time consuming for various reasons, but first
-and foremost it often requires that you first clean and wrangle your
-data into a format that the visualization library or functions can work
-with as input. Then of course, there can be lots of tweaking to get your
+Visualizing data can be (very) time consuming for various reasons. But
+first and foremost it that it often requires that you first wrangle your
+data into a format that the visualization functions can work with as
+input.
+
+A nice illustration of the data exploration process (or pipeline) is
+given here:
+
+-   <https://r4ds.had.co.nz/explore-intro.html>
+
+In the blue highlighted portion “Explore,” you can seen a circle from
+“Transform” -> “Visualize” -> “Model” (then repeat).
+
+This is a typical approach to exploring data, thinking about hypotheses,
+then developing models and testing your hypotheses. Then of course you
+want to “Communicate” your results.
+
+When communicating your results, there is another often time consuming
+aspect of creating data visualzations – lots of tweaking to get your
 visualizations to look nice. This can be for various reasons and there’s
-tons of literature on visualization types, best practices, etc. Consider
-for example what you are trying to visualize. What kind of (statistical)
-data types? Are you trying to visualize – or model – a [statistical
+lots of literature on data visualizations, best practices in data
+visualization, etc. Think about, for example, what you are trying to
+visualize with your data. What kind of (statistical) data types do you
+have? On which axes should they be plotted? Do you have axes?
+
+Or are you trying to visualize – or model – a [statistical
 distribution](https://en.wikipedia.org/wiki/Probability_distribution)?
 How many variables are there? What are your independent and dependent
 variables? Do you have any? Do you have a hypothesis?
 
-Then there are
+A perhaps clearer picture of the workflow with `tidyverse` libraries is
+given below (for model it will depend on what type of *model(s)* you are
+using – there are numerous libraries for statistical modeling in R!).
 
-### Layers of graphics in ggplot2
+![Work flow annotated with Tidyverse libraries.](figures/workflow.png)
+## Background `ggplot2`
 
--   The layered Grammar of Graphics by Wickham (2009) adjusts
-    Wilkinson’s principles to R
+The R visualization library `ggplot2` is based on the principles
+outlined in *The Grammar of Graphics* by Leland Wilkinson (1999). (Thus
+the “gg.”) The layered Grammar of Graphics by Wickham (2009) adjusts
+Wilkinson’s principles to R
 
--   Each layer/component of the Grammar of Graphics has a special name
-    in ggplot2
+Each layer/component of the Grammar of Graphics has a special name in
+`ggplot2`, visualized as:
 
-TODO: get image 18
+![A layered grammar of graphics.](figures/layers.png)
 
-### First examples (1): diamonds
+<!-- ### First examples (1): diamonds -->
 
--   Create a new script diamonds.R and add to it the following command
+### A first example: diamonds
 
--   We will work with the integrated dataset diamonds
-
--   Use the familiar functions to explore its structure
-
-TODO:
-
-add <https://en.wikipedia.org/wiki/Variadic_function>
-
-and explain the …
-
-hist(diamonds*p**r**i**c**e*, …)*b**a**r**p**l**o**t*(*t**a**b**l**e*(*d**i**a**m**o**n**d**s*cut),
-…)
+Let’s look at the integrated dataset `diamonds`. Recall how you can
+explore the `diamonds` data structure.
 
 ``` r
-head(diamonds) # the data set is part of ggplot2
+head(diamonds)
 ```
 
     ## # A tibble: 6 x 10
@@ -618,69 +594,38 @@ str(diamonds)
     ##  $ y      : num [1:53940] 3.98 3.84 4.07 4.23 4.35 3.96 3.98 4.11 3.78 4.05 ...
     ##  $ z      : num [1:53940] 2.43 2.31 2.31 2.63 2.75 2.48 2.47 2.53 2.49 2.39 ...
 
-``` r
-hist(diamonds$price)
-```
-
-![](README_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+What variables are unfamiliar to you?
 
 ``` r
-barplot(table(diamonds$cut))
+?diamonds
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-14-2.png)<!-- -->
+Now, which kinds of
+[plots](https://en.wikipedia.org/wiki/Plot_(graphics)) can we produce? A
+plot is the outcome of a statistical graphical
+technique\](<https://en.wikipedia.org/wiki/Statistical_graphics>) for
+visualizing a data set.
 
--   What variables are unfamiliar to you?
+Which kind of research questions can be answered on the basis of the
+`diamonds` dataset?
 
-We can load a description of the dataset with the `?` function.
+First, let’s as how big is the dataset?
 
 ``` r
-?diamonds # the description of the dataset
+dim(diamonds)
 ```
+
+    ## [1] 53940    10
+
+The original dataset is large. Let make the processing easier for our
+computer and work with a random sample of 1000 diamonds for quicker and
+easier processing:
 
 ``` r
-str(diamonds)
+diamonds <- diamonds[sample(nrow(diamonds), 1000), ] # a random sample of 1000 objects
 ```
 
-    ## tibble [53,940 × 10] (S3: tbl_df/tbl/data.frame)
-    ##  $ carat  : num [1:53940] 0.23 0.21 0.23 0.29 0.31 0.24 0.24 0.26 0.22 0.23 ...
-    ##  $ cut    : Ord.factor w/ 5 levels "Fair"<"Good"<..: 5 4 2 4 2 3 3 3 1 3 ...
-    ##  $ color  : Ord.factor w/ 7 levels "D"<"E"<"F"<"G"<..: 2 2 2 6 7 7 6 5 2 5 ...
-    ##  $ clarity: Ord.factor w/ 8 levels "I1"<"SI2"<"SI1"<..: 2 3 5 4 2 6 7 3 4 5 ...
-    ##  $ depth  : num [1:53940] 61.5 59.8 56.9 62.4 63.3 62.8 62.3 61.9 65.1 59.4 ...
-    ##  $ table  : num [1:53940] 55 61 65 58 58 57 57 55 61 61 ...
-    ##  $ price  : int [1:53940] 326 326 327 334 335 336 336 337 337 338 ...
-    ##  $ x      : num [1:53940] 3.95 3.89 4.05 4.2 4.34 3.94 3.95 4.07 3.87 4 ...
-    ##  $ y      : num [1:53940] 3.98 3.84 4.07 4.23 4.35 3.96 3.98 4.11 3.78 4.05 ...
-    ##  $ z      : num [1:53940] 2.43 2.31 2.31 2.63 2.75 2.48 2.47 2.53 2.49 2.39 ...
-
--   Which kinds of plots can we produce?
-
--   Which kind of research questions can be answered on the basis of
-    this dataset?
-
-The original dataset is large
-
-Let make the processing easier for our computer and work with a random
-sample of 1000 diamonds:
-
-``` r
-diamonds <- diamonds[sample(nrow(diamonds), 1000), ] 
-# a random sample of 1000 objects
-```
-
-The basic ggplot2 function has the following form:
-
-``` r
-ggplot(diamonds, aes(x = carat, y = price)) +
-  geom_point()
-```
-
-![](README_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
-
-Can you guess what the function ggplot() does?
-
-What about geom_point()?
+The basic `ggplot2` function has the following form:
 
 ``` r
 ggplot(diamonds, aes(x = carat, y = price)) +
@@ -689,8 +634,9 @@ ggplot(diamonds, aes(x = carat, y = price)) +
 
 ![](README_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
 
-The symbol + should always be at the end of each line if there is
-something to follow.
+Can you guess what the function `ggplot()` does?
+
+What about `geom_point()`?
 
 ``` r
 ggplot(diamonds, aes(x = carat, y = price)) +
@@ -699,27 +645,38 @@ ggplot(diamonds, aes(x = carat, y = price)) +
 
 ![](README_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
 
--   With ggplot2, you begin a plot with the function ggplot().
--   ggplot() creates a coordinate system that you can add layers to.
--   The first argument of ggplot() is the dataset to use in the graph.
--   So ggplot(data = diamonds) creates an empty graph
--   It’s not very interesting so I’m not going to show it here.
+Note that the symbol `+` should always be at the end of each line if
+there is something to follow it!
 
-A simple plot with ggplot2 needs
+With ggplot2, you begin a plot with the function `ggplot()`. Then
+`ggplot()` creates a coordinate system that you can add layers to.
 
--   data (a data frame or tibble!),
--   aesthetic (mapping to variables),
--   geometry (e.g. dots, lines, boxes)
+The first argument of `ggplot()` is the dataset to use in the graph. So
+`ggplot(data = diamonds)` creates an empty graph.
 
-TODO: insert image slide 26
+However, a simple plot with `ggplot2` needs:
+
+-   Data (a data frame or tibble!)
+-   Aesthetics (mapping to variables)
+-   Geometry (e.g., dots, lines, boxes)
+
+These essential ingredients are illustrated below.
+
+![Essentials.](figures/essential_ingredients.png)
+
+Let’s look at them.
 
 ### Aesthetics
 
--   *aesthetic* comes from Greek *aisthētikos* \< *aisthēta*
-    ‘perceptible things’ \< *aisthesthai* ‘perceive’
--   In the `ggplot` sense this old usage is meant:
-    -   aesthetics stand for principles for **relating sensory
-        attributes (color, shape, sound, etc.) to abstractions**
+The word *aesthetic* comes from Greek *aisthētikos* \< *aisthēta*
+‘perceptible things’ \< *aisthesthai* ‘perceive.’
+
+In the `ggplot` sense this old usage is meant that *aesthetics* stand
+for principles for **relating sensory attributes (color, shape, sound,
+etc.) to abstractions**.
+
+Which aesthetic attributes are used in the following plot? What
+perceivable part of the plot do they correspond to?
 
 ``` r
 ggplot(diamonds, aes(x = carat, y = price)) +
@@ -728,15 +685,10 @@ ggplot(diamonds, aes(x = carat, y = price)) +
 
 ![](README_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
 
--   Which aesthetic attributes are sued here?
+Note that `geom_()` is short for **geometric** object. It describes the
+type of object that is used to display the data.
 
--   What perceivable part of the plot do they correspond to?
-
--   `geom_()`: geom is short for **geometric** object
-
--   It describes the type of object that is used to display the data
-
--   `geom_point()` produces a \_\_\_\_\_\_\_
+So what do you think a `geom_point()` object produces?
 
 ### Combining geoms
 
@@ -1827,6 +1779,17 @@ geom_point()
     ## Warning: Removed 3 rows containing missing values (geom_point).
 
 ![](README_files/figure-gfm/unnamed-chunk-85-1.png)<!-- -->
+
+# Data practical
+
+For this week’s data practical:
+
+-   Load a data set
+-   If the data set is not tabular, make it tabular
+-   Transform the data set into long format
+-   Transform the data set into wide format
+-   Take a column in your data set and split the columns values with
+    `separate()`
 
 # References
 
