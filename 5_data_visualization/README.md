@@ -17,11 +17,10 @@ Steven Moran & Alena Witzlack-Makarevich
         -   [`spread()` / `pivot_wider()`](#spread--pivot_wider)
         -   [`unite()`](#unite)
 -   [Visualizing data](#visualizing-data)
-    -   [Overview](#overview)
-    -   [R tidyverse visualization library
-        (`tidyverse::ggplot2`)](#r-tidyverse-visualization-library-tidyverseggplot2)
+    -   [Workflow](#workflow)
+    -   [Layered graphics](#layered-graphics)
 -   [Data practical](#data-practical)
--   [References](#references)
+-   [References and footnotes](#references-and-footnotes)
 
 ------------------------------------------------------------------------
 
@@ -102,11 +101,15 @@ df_wide %>% kable()
 | Alice  |  24 |    150 |    175 |
 | Steve  |  64 |    144 |    165 |
 
-| Person | Age | Weight |
-|--------|-----|--------|
-| Bob    | 32  | 168    |
-| Alice  | 24  | 150    |
-| Steve  | 64  | 144    |
+<!-- if you want to do it by hand in .md insert this:
+
+| Person | Age | Weight | Height |
+|----------|--------|---| 
+| Bob | 32 | 168 | 180 |
+| Alice | 24 | 150 | 175 |
+| Steve | 64 | 144 | 165 |
+
+-->
 
 ### Long
 
@@ -478,8 +481,8 @@ fertility_tidy %>%
 ### `unite()`
 
 The function `unite()` is the opposite of `separate()`. Its job is to
-combine multiple columns into a single column. It’s less oftenly used
-than `separate()`, but nevertheless handy to know.
+combine multiple columns into a single column. It’s less often used than
+`separate()`, but nevertheless handy to know.
 
 Want to go back to our original data frame?
 
@@ -517,12 +520,159 @@ fertility_tidy %>% head() %>% kable() # one way to display nicely tables
 
 # Visualizing data
 
-## Overview
+## Workflow
 
-Visualizing data can be (very) time consuming for lots of reasons. But
-first and foremost it that it often requires that you first wrangle your
-data into a format that the visualization functions can work with as
-input.
+Visualizing data can be **very** time consuming for lots of reasons.
+First and foremost, it often requires that you first wrangle your data
+into a format that the visualization function(s) can work with as input.
+
+The point of [tidy data](https://r4ds.had.co.nz/tidy-data.html) is to
+create a consistent way to organize your data so that it plays well with
+the various libraries in the tidyverse – including but not limited to
+the visualization and analytics tools.
+
+For example, some tidy data as input to the `ggplot()` function, which
+is used to create various
+[plots](https://en.wikipedia.org/wiki/Plot_(graphics)). Tidy data:
+
+``` r
+head(fertility_tidy)
+```
+
+    ## # A tibble: 6 x 4
+    ##   country year  variable        fertility
+    ##   <chr>   <chr> <chr>               <dbl>
+    ## 1 Germany 1960  fertility            2.41
+    ## 2 Germany 1960  life_expectancy     69.3 
+    ## 3 Germany 1961  fertility            2.44
+    ## 4 Germany 1961  life_expectancy     69.8 
+    ## 5 Germany 1962  fertility            2.47
+    ## 6 Germany 1962  life_expectancy     70.0
+
+And that data passed to a visualization function:
+
+``` r
+fertility_tidy %>% 
+  ggplot(aes(x=year, y=fertility, color = country)) +
+  geom_point()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+
+Recall that the code above “pipes,” i.e., `%>%`, the `fertility_tidy`
+data frame (tabular data in R) into the `ggplot()` function. In the
+`ggplot()` function, we describe some
+“[aesthetics](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html)”
+– the function called `aes` in which we specify what we want plotted on
+the `x` and `y` axes.
+
+Then we tell the `ggplot` function that we want to create a [scatter
+plot](https://en.wikipedia.org/wiki/Scatter_plot) by piping the data and
+the `ggplot()` function call (which creates a coordinate system that you
+can add various layers to) the
+[`geom_point()`](https://ggplot2.tidyverse.org/reference/geom_point.html)
+function. Scatter plots are used to display the relationship between two
+variables. More on plot types below.
+
+A nice illustration of the data exploration process (or pipeline) is
+given [here](https://r4ds.had.co.nz/explore-intro.html) and in the
+screen shot:
+
+![Data exploration.](figures/data_exploration.png)
+
+In the blue highlighted portion “Explore,” you can seen a circle from
+“Transform” -> “Visualize” -> “Model” (then repeat).
+
+This is the typical approach to exploring data, i.e., thinking about
+questions and formulating hypotheses, then developing models and testing
+your hypotheses. Then of course you might want to “Communicate” your
+results.
+
+When communicating your results, there is another (often) time consuming
+aspect of creating data visualizations – lots of tweaking to get your
+visualizations to look just right.
+
+**What is ugly about the plot above?**
+
+This can be for various reasons. [Data
+visualization](https://en.wikipedia.org/wiki/Data_visualization) is an
+interdisciplinary field in itself and it is aimed at efficient (and
+beautiful) graphic representations of data. It has its roots in
+(descriptive) statistics, but is also increasingly a science and an art
+– as noted by the increase in areas like [data
+journalism](https://en.wikipedia.org/wiki/Data_journalism).
+
+Consider for example you have some data:
+
+-   What you are trying to visualize with your data?
+-   What kind of (statistical) data types do you have?
+-   How are the data types usually visualized (including if more than
+    one – in relation to each other)?
+-   On which axes should they be plotted?
+
+Or are you trying to visualize – or model – a [statistical
+distribution](https://en.wikipedia.org/wiki/Probability_distribution)?
+How many variables are there? What are your independent and dependent
+variables? Do you have any? Do you have a hypothesis?
+
+A picture of the workflow with `tidyverse` libraries (`readr`, `tidyr`,
+etc.) is given below. For “model” it will depend on what type of
+statistical *model(s)* you are using – there are numerous libraries for
+statistical modeling in R!
+
+![Work flow annotated with Tidyverse libraries.](figures/workflow.png)
+
+## Layered graphics
+
+The R tidyverse visualization library `ggplot2` is based on the
+principles outlined in *The Grammar of Graphics*, a classic text on data
+visualizations, by Leland Wilkinson (Leland 1999)[1]. The layered
+*Grammar of Graphics* is where (**Wickham2009?**) implements Wilkinson’s
+principles, and typology, of graphic design into R.
+
+Each layer/component of the *Grammar of Graphics* has a special name in
+`ggplot2`, visualized as:
+
+![A layered grammar of graphics.](figures/layers.png)
+
+A statistical graphic according to this layered grammar of graphics is a
+mapping from **data** to **aesthetic attributes** (e.g., color, shape,
+size) to geometric objects (e.g., points, lines, bars).
+
+The basic idea is that you can build data visualizations from the same
+components:
+
+-   The data
+-   A coordinate system
+-   Geoms (functions that represent data points in the coordinate
+    system)
+
+Here is a cheat sheet:
+
+-   <https://github.com/rstudio/cheatsheets/blob/main/data-visualization-2.1.pdf>
+
+------------------------------------------------------------------------
+
+Multiple layers from can be applied, such that a plot may contain, for
+example, statistical transformations of the data. These layers can be
+drawn on one or more coordinate systems.
+
+When on has multiple plots, it is
+[faceting](https://ggplot2.tidyverse.org/reference/facet_grid.html) (not
+to be confused with [faceting](https://en.wikipedia.org/wiki/Faceting)
+or [facet](https://en.wikipedia.org/wiki/Facet_(disambiguation))) that
+can be used to generate the same plot for different subsets of the data
+set and then combined into one graphic. More below.
+
+In sum, it is the combination of these independent components that make
+up a graphic, including layers, scales, the coordinate system, and
+faceting, that one needs to familiarize themself with.
+
+![Components.](figures/components.png)
+
+Let’s look at an example!
+
+------------------------------------------------------------------------
 
 [Tidy data](https://r4ds.had.co.nz/tidy-data.html) is a consistent way
 to organize your data so that it plays well with the visualization and
@@ -549,78 +699,219 @@ And that data passed to a visualization function:
 
 ``` r
 fertility_tidy %>% 
-  ggplot(aes(x=year, y=fertility, color = country)) +
+  ggplot(aes(year, fertility, color = country)) +
   geom_point()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
 
-Recall that the command above “pipes” `%>%` the `fertility_tidy` data
-frame into the `ggplot()` function. In the `ggplot()` function, we
-describe some
-“[aesthetics](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html)”
-– here the function called `aes` in which specify what we want plotted
-on the `x` and `y` axes.
-
-Then we tell the `ggplot` function that we want to create a [scatter
+The command above “pipes” the `fertility_tidy` data frame into the
+`ggplot()` function. In the `ggplot()` function, we describe some
+“aesthetics” – here in the function `aes` and then we tell the `ggplot`
+function that we want to create a [scatter
 plot](https://en.wikipedia.org/wiki/Scatter_plot) by using the
 [`geom_point()`](https://ggplot2.tidyverse.org/reference/geom_point.html)
 function. Scatter plots are used to display the relationship between two
-variables. More on plot types below.
+variables. More on this below.
 
-A nice illustration of the data exploration process (or pipeline) is
-given [here](https://r4ds.had.co.nz/explore-intro.html) and in the
-screen shot:
+Like most code, the code above can be written in various ways, but the
+output will be the same. For example, by passing the `fertility_tidy`
+data frame as the first argument of the function:
 
-![Data exploration.](figures/data_exploration.png)
+``` r
+ggplot(fertility_tidy, aes(year, fertility, color = country)) +
+geom_point()
+```
 
-In the blue highlighted portion “Explore,” you can seen a circle from
-“Transform” -> “Visualize” -> “Model” (then repeat).
+![](README_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
 
-This is a typical approach to exploring data, thinking about hypotheses,
-then developing models and testing your hypotheses. Then of course you
-want to “Communicate” your results.
+Or by passing it explicitly with `data=x`:
 
-When communicating your results, there is another often time consuming
-aspect of creating data visualizations – lots of tweaking to get your
-visualizations to look nice. This can be for various reasons and there’s
-lots of literature on data visualizations, best practices in data
-visualization, etc. Think about, for example:
+``` r
+ggplot(aes(year, fertility, color = country), data=fertility_tidy) +
+geom_point()
+```
 
--   What you are trying to visualize with your data?
--   What kind of (statistical) data types do you have?
--   How are the data types usually visualized (including if more than
-    one – in relation to each other)?
--   On which axes should they be plotted?
+![](README_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
 
-Or are you trying to visualize – or model – a [statistical
-distribution](https://en.wikipedia.org/wiki/Probability_distribution)?
-How many variables are there? What are your independent and dependent
-variables? Do you have any? Do you have a hypothesis?
+Or by assigning the output to a new variable `p` (or whatever else you
+want to call it within the constraints of [variable names in
+R](https://stackoverflow.com/questions/9195718/variable-name-restrictions-in-r)).
 
-A picture of the workflow with `tidyverse` libraries (`readr`, `tidyr`,
-etc.) is given below. For “model” it will depend on what type of
-statistical *model(s)* you are using – there are numerous libraries for
-statistical modeling in R!
+``` r
+p <- ggplot(fertility_tidy, aes(year, fertility, color = country))
+p + geom_point() + theme(axis.text.x = element_text(angle = 90)) # you can rotate text, but it's still not great visually
+```
 
-![Work flow annotated with Tidyverse libraries.](figures/workflow.png)
+![](README_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
 
-## R tidyverse visualization library (`tidyverse::ggplot2`)
+Given so many ways to do the same thing, it’s best to find a way that
+you are comfortable with and **be consistent**.
 
-The R tidyverse visualization library `ggplot2` is based on the
-principles outlined in *The Grammar of Graphics* by Leland Wilkinson
-(1999). (Thus the “gg.”) The layered Grammar of Graphics by Wickham
-(2009) adjusts Wilkinson’s principles to R.
+This code will not work. Try it! Why?
 
-Each layer/component of the Grammar of Graphics has a special name in
-`ggplot2`, visualized as:
+``` r
+fertility_wide %>% 
+  ggplot(aes(year, fertility, color = country)) +
+    geom_point()
+```
 
-![A layered grammar of graphics.](figures/layers.png)
+<!-- 
+*** 
+
+Let's look at the integrated in R dataset called `diamonds`. Recall how you can explore the `diamonds` data and find out its data types. (Because it's integrated you don't even need to load it with the `library()` function!)
+
+
+```r
+head(diamonds)
+```
+
+```
+## # A tibble: 6 x 10
+##   carat cut       color clarity depth table price     x     y     z
+##   <dbl> <ord>     <ord> <ord>   <dbl> <dbl> <int> <dbl> <dbl> <dbl>
+## 1  0.23 Ideal     E     SI2      61.5    55   326  3.95  3.98  2.43
+## 2  0.21 Premium   E     SI1      59.8    61   326  3.89  3.84  2.31
+## 3  0.23 Good      E     VS1      56.9    65   327  4.05  4.07  2.31
+## 4  0.29 Premium   I     VS2      62.4    58   334  4.2   4.23  2.63
+## 5  0.31 Good      J     SI2      63.3    58   335  4.34  4.35  2.75
+## 6  0.24 Very Good J     VVS2     62.8    57   336  3.94  3.96  2.48
+```
+
+```r
+str(diamonds)
+```
+
+```
+## tibble [53,940 × 10] (S3: tbl_df/tbl/data.frame)
+##  $ carat  : num [1:53940] 0.23 0.21 0.23 0.29 0.31 0.24 0.24 0.26 0.22 0.23 ...
+##  $ cut    : Ord.factor w/ 5 levels "Fair"<"Good"<..: 5 4 2 4 2 3 3 3 1 3 ...
+##  $ color  : Ord.factor w/ 7 levels "D"<"E"<"F"<"G"<..: 2 2 2 6 7 7 6 5 2 5 ...
+##  $ clarity: Ord.factor w/ 8 levels "I1"<"SI2"<"SI1"<..: 2 3 5 4 2 6 7 3 4 5 ...
+##  $ depth  : num [1:53940] 61.5 59.8 56.9 62.4 63.3 62.8 62.3 61.9 65.1 59.4 ...
+##  $ table  : num [1:53940] 55 61 65 58 58 57 57 55 61 61 ...
+##  $ price  : int [1:53940] 326 326 327 334 335 336 336 337 337 338 ...
+##  $ x      : num [1:53940] 3.95 3.89 4.05 4.2 4.34 3.94 3.95 4.07 3.87 4 ...
+##  $ y      : num [1:53940] 3.98 3.84 4.07 4.23 4.35 3.96 3.98 4.11 3.78 4.05 ...
+##  $ z      : num [1:53940] 2.43 2.31 2.31 2.63 2.75 2.48 2.47 2.53 2.49 2.39 ...
+```
+
+What variables are familiar to you? Which ones are not? 
+
+How do you find out what they are? In R(Studio):
+
+
+```r
+?diamonds
+```
+
+What is a quick way to figure out the dimensions of the data frame?
+  
+
+```r
+dim(diamonds)
+```
+
+```
+## [1] 53940    10
+```
+
+Now, which kinds of [plots](https://en.wikipedia.org/wiki/Plot_(graphics)) can we produce given this data? The more important question, however, is what are you interesting in **seeing** in the data.
+
+A plot is the outcome of a statistical graphical technique](https://en.wikipedia.org/wiki/Statistical_graphics) for visualizing a data set. As such, we might ask what kind of research questions can be answered, e.g., on the basis of the `diamonds` data set?
+
+The basic `ggplot2()` function has the following form:
+  
+
+```r
+ggplot(data=diamonds, aes(x = carat, y = price)) +
+  geom_point()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-30-1.png)<!-- -->
+
+With ggplot2, you begin a plot with the function `ggplot()`. Then
+`ggplot()` creates a coordinate system that you can add layers to.
+
+The first argument of `ggplot()` is the dataset to use in the graph. So
+`ggplot(data = diamonds)` creates an empty graph.
+
+However, a simple plot with `ggplot2()` needs:
+
+-   Data (a data frame or tibble!)
+-   Aesthetics (mapping to variables)
+-   Geometry (e.g., dots, lines, boxes)
+
+These essential ingredients are illustrated below.
+
+![Essentials.](figures/essential_ingredients.png)
+
+Let’s look at them.
+
+–>
+
+<!-- ### Aesthetics
+
+The word _aesthetic_ comes from Greek _aisthētikos_ < _aisthēta_ 'perceptible things' < _aisthesthai_ 'perceive'.
+
+In the `ggplot` sense this old usage is meant that *aesthetics* stand for principles for **relating sensory attributes (color, shape, sound, etc.)** to abstractions.
+
+Which aesthetic attributes are used in the following plot? What perceivable part of the plot do they correspond to?
+
+
+```r
+ggplot(diamonds, aes(x = carat, y = price)) +
+  geom_point()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-31-1.png)<!-- -->
+
+Note that `geom_()` is short for **geometric** object. It describes the
+type of object that is used to display the data.
+
+So what do you think a `geom_point()` object produces? –>
+
+<!-- ## Random sampling from large data sets
+
+The `diamonds` data set is big! Let's make the processing easier for our computers and work with a [random sample](https://en.wikipedia.org/wiki/Simple_random_sample) of 1000 diamonds for faster and easier processing exploration (say if you're working with really [big data](https://en.wikipedia.org/wiki/Big_data)):
+  
+
+```r
+df <- diamonds[sample(nrow(diamonds), 1000), ] # a random sample of 1000 objects
+ggplot(data=df, aes(x = carat, y = price)) +
+  geom_point()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-32-1.png)<!-- -->
+
+Notice how we assign the results of the function `sample()` of the
+`diamonds` data frame to a new data frame simply called `df`. Why? The
+data frame `df` is a [temporary
+variable](https://en.wikipedia.org/wiki/Temporary_variable) (aka [local
+variable](https://en.wikipedia.org/wiki/Local_variable) depending on
+[scope](https://en.wikipedia.org/wiki/Scope_(computer_science))). Thus,
+we can rerun the `sample()` function and overwrite the `df` data frame
+and reuse the output into the same visualization plot, i.e.:
+
+``` r
+df <- diamonds[sample(nrow(diamonds), 1000), ] # a random sample of 1000 objects
+ggplot(data=df, aes(x = carat, y = price)) +
+  geom_point()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-33-1.png)<!-- -->
+
+Do the data points in the plot look different? How different would they
+look if we repeated this random sampling 10, 100, 1000 times?
+
+------------------------------------------------------------------------
+
+–>
 
 # Data practical
 
 For this week’s data practical, follow these steps (in which ever order
-works best for your data):
+works best for you and your data):
 
 -   Find a data set of interest – if it is not tabular, make it tabular
 -   Load the data set and provide a description of its contents (what
@@ -632,8 +923,9 @@ works best for your data):
 -   Take a column in your data set and split the columns values into new
     columns with `separate()`
 -   Take data from two or more columns and `unite()`
+-   Create a plot using `ggplot()`
 
-# References
+# References and footnotes
 
 <div id="refs" class="references csl-bib-body hanging-indent">
 
@@ -641,6 +933,12 @@ works best for your data):
 
 Irizarry, Rafael A., and Amy Gill. 2021. *Dslabs: Data Science Labs*.
 <https://CRAN.R-project.org/package=dslabs>.
+
+</div>
+
+<div id="ref-Leland1999" class="csl-entry">
+
+Leland, Wilkinson. 1999. *The Grammar of Graphics*. Springer.
 
 </div>
 
@@ -677,3 +975,5 @@ Generation in r*. <https://yihui.org/knitr/>.
 </div>
 
 </div>
+
+[1] Thus, the “gg.”
