@@ -360,9 +360,24 @@ In sum, it is the combination of these independent components that make up a gra
 
 ![Components.](figures/components.png)
 
-Let's look at an example!
+With ggplot2, you begin a plot with the function `ggplot()`. Then `ggplot()` creates a coordinate system that you can add layers to. 
 
-***
+The first argument of `ggplot()` is the dataset to use in the graph. So `ggplot(data = diamonds)` creates an empty graph.
+
+However, a simple plot with `ggplot2()` needs:
+  
+* Data (a data frame or tibble!)
+* Aesthetics (mapping to variables)
+* Geometry (e.g., dots, lines, boxes)
+
+These essential ingredients are illustrated below.
+
+![Essentials.](figures/essential_ingredients.png)
+
+Let's look at some examples!
+
+
+### Example: fertility data
 
 [Tidy data](https://r4ds.had.co.nz/tidy-data.html) is a consistent way to organize your data so that it plays well with the visualization and analytical tools in the tidyverse. For example, as input to the `ggplot()` function.
 
@@ -414,8 +429,8 @@ fertility_wide %>%
 
 ```
 
-<!-- 
-*** 
+
+### Example: diamonds data
 
 Let's look at the integrated in R dataset called `diamonds`. Recall how you can explore the `diamonds` data and find out its data types. (Because it's integrated you don't even need to load it with the `library()` function!)
 
@@ -448,67 +463,6 @@ The basic `ggplot2()` function has the following form:
 ggplot(data=diamonds, aes(x = carat, y = price)) +
   geom_point()
 ```
-
-With ggplot2, you begin a plot with the function `ggplot()`. Then `ggplot()` creates a coordinate system that you can add layers to. 
-
-The first argument of `ggplot()` is the dataset to use in the graph. So `ggplot(data = diamonds)` creates an empty graph.
-
-However, a simple plot with `ggplot2()` needs:
-  
-* Data (a data frame or tibble!)
-* Aesthetics (mapping to variables)
-* Geometry (e.g., dots, lines, boxes)
-
-These essential ingredients are illustrated below.
-
-![Essentials.](figures/essential_ingredients.png)
-
-Let's look at them.
-
--->
-
-<!-- ### Aesthetics
-
-The word _aesthetic_ comes from Greek _aisthētikos_ < _aisthēta_ 'perceptible things' < _aisthesthai_ 'perceive'.
-
-In the `ggplot` sense this old usage is meant that *aesthetics* stand for principles for **relating sensory attributes (color, shape, sound, etc.)** to abstractions.
-
-Which aesthetic attributes are used in the following plot? What perceivable part of the plot do they correspond to?
-
-```{r}
-ggplot(diamonds, aes(x = carat, y = price)) +
-  geom_point()
-```
-
-Note that `geom_()` is short for **geometric** object. It describes the type of object that is used to display the data.
-
-So what do you think a `geom_point()` object produces?
--->
-
-
-<!-- ## Random sampling from large data sets
-
-The `diamonds` data set is big! Let's make the processing easier for our computers and work with a [random sample](https://en.wikipedia.org/wiki/Simple_random_sample) of 1000 diamonds for faster and easier processing exploration (say if you're working with really [big data](https://en.wikipedia.org/wiki/Big_data)):
-  
-```{r}
-df <- diamonds[sample(nrow(diamonds), 1000), ] # a random sample of 1000 objects
-ggplot(data=df, aes(x = carat, y = price)) +
-  geom_point()
-```
-
-Notice how we assign the results of the function `sample()` of the `diamonds` data frame to a new data frame simply called `df`. Why? The data frame `df` is a [temporary variable](https://en.wikipedia.org/wiki/Temporary_variable) (aka [local variable](https://en.wikipedia.org/wiki/Local_variable) depending on [scope](https://en.wikipedia.org/wiki/Scope_(computer_science))). Thus, we can rerun the `sample()` function and overwrite the `df` data frame and reuse the output into the same visualization plot, i.e.:
-
-```{r}
-df <- diamonds[sample(nrow(diamonds), 1000), ] # a random sample of 1000 objects
-ggplot(data=df, aes(x = carat, y = price)) +
-  geom_point()
-```
-
-Do the data points in the plot look different? How different would they look if we repeated this random sampling 10, 100, 1000 times?
-
-*** 
-
---> 
 
 
 # Data practical
