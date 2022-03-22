@@ -2,7 +2,7 @@ Data wrangling
 ================
 Steven Moran
 
-15 March, 2022
+16 March, 2022
 
 -   [Overview](#overview)
 -   [Data wrangling in R](#data-wrangling-in-r)
@@ -29,11 +29,12 @@ Steven Moran
 This report uses the [R programming
 language](https://cran.r-project.org/doc/FAQ/R-FAQ.html) (R Core Team
 2021) and the following [R libraries](https://r-pkgs.org/intro.html)
-(Wickham et al. 2019; Xie 2021).
+(Wickham et al. 2019; Xie 2021; Bryan 2017).
 
 ``` r
 library(tidyverse)
 library(knitr)
+library(gapminder)
 ```
 
 # Overview
@@ -377,15 +378,13 @@ athletes <- read_csv(url("https://raw.githubusercontent.com/bambooforest/IntroDa
 
 Note that GitHub displays well-formatted CSV files as tabular data:
 
--   <https://github.com/bambooforest/IntroDataScience/blob/main/4_data_wrangling/data>
-    sets/athletes.csv
+-   <https://github.com/bambooforest/IntroDataScience/blob/main/4_data_wrangling/datasets/athletes.csv>
 
 But if you want to load it from the web, you need to use the raw data
 (note the button on the GitHub page with the label “raw,” which results
 in this URL:
 
--   <https://raw.githubusercontent.com/bambooforest/IntroDataScience/main/4_data_wrangling/data>
-    sets/athletes.csv
+-   <https://raw.githubusercontent.com/bambooforest/IntroDataScience/main/4_data_wrangling/datasets/athletes.csv>
 
 Now that you’ve loaded the `atheletes.csv` data, let’s have a look at
 its structure with the `str()` function:
