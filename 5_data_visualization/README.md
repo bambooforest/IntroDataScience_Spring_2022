@@ -1,8 +1,8 @@
-Data visualization
+Data visualization I
 ================
 Steven Moran & Alena Witzlack-Makarevich
 
-22 March, 2022
+23 March, 2022
 
 -   [Recap and data wrangling
     continued](#recap-and-data-wrangling-continued)
@@ -832,8 +832,8 @@ Now, which kinds of
 given this data? The more important question, however, is what are you
 interesting in **seeing** in the data.
 
-A plot is the outcome of a statistical graphical
-technique\](<https://en.wikipedia.org/wiki/Statistical_graphics>) for
+A plot is the outcome of a [statistical graphical
+technique](https://en.wikipedia.org/wiki/Statistical_graphics) for
 visualizing a data set. As such, we might ask what kind of research
 questions can be answered, e.g., on the basis of the `diamonds` data
 set?

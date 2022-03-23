@@ -1,5 +1,5 @@
 ---
-title: "Data visualization"
+title: "Data visualization I"
 author: "Steven Moran & Alena Witzlack-Makarevich\n"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
@@ -455,7 +455,7 @@ dim(diamonds)
 
 Now, which kinds of [plots](https://en.wikipedia.org/wiki/Plot_(graphics)) can we produce given this data? The more important question, however, is what are you interesting in **seeing** in the data.
 
-A plot is the outcome of a statistical graphical technique](https://en.wikipedia.org/wiki/Statistical_graphics) for visualizing a data set. As such, we might ask what kind of research questions can be answered, e.g., on the basis of the `diamonds` data set?
+A plot is the outcome of a [statistical graphical technique](https://en.wikipedia.org/wiki/Statistical_graphics) for visualizing a data set. As such, we might ask what kind of research questions can be answered, e.g., on the basis of the `diamonds` data set?
 
 The basic `ggplot2()` function has the following form:
   
