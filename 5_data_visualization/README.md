@@ -29,7 +29,7 @@ Steven Moran & Alena Witzlack-Makarevich
 This report uses the [R programming
 language](https://cran.r-project.org/doc/FAQ/R-FAQ.html) (R Core Team
 2021) and the following [R libraries](https://r-pkgs.org/intro.html)
-(Wickham et al. 2019; Xie 2021; Irizarry and Gill 2021).
+(Hadley Wickham et al. 2019; Xie 2021; Irizarry and Gill 2021).
 
 ``` r
 library(tidyverse)
@@ -168,8 +168,8 @@ ways. (The picture is actually more complex because data can be
 represented in many different ways in tables, e.g., [see
 here](https://r4ds.had.co.nz/tidy-data.html).)
 
-To create tidy data, there are three rules you must follow (Wickham and
-Grolemund 2016):
+To create tidy data, there are three rules you must follow (Hadley
+Wickham and Grolemund 2016):
 
 1.  Each variable must have its own column.
 2.  Each observation must have its own row.
@@ -182,8 +182,8 @@ This boils down to: put your data in a table (or data frame or tibble in
 R) and put each variable in a column.
 
 What are the advantages of this approach to organizing your data? Well,
-other than easy access to methods in the tidyverse, your data (Wickham
-and Grolemund 2016):
+other than easy access to methods in the tidyverse, your data (Hadley
+Wickham and Grolemund 2016):
 
 1.  Is in a consistent format – and it’s easier to learn to work with
     one format before learning to deal with multiple formats
@@ -308,8 +308,8 @@ facilitates some type of analysis, but not perhaps the one that you want
 to do.
 
 As a first step then, it is pertinent to figure out what the variables
-and observations are for your analysis. Often data will (Wickham and
-Grolemund 2016):
+and observations are for your analysis. Often data will (Hadley Wickham
+and Grolemund 2016):
 
 1.  Contain a variable that is spread across multiple columns
 2.  Contain an observation spread across multiple rows
@@ -570,8 +570,9 @@ the `x` and `y` axes.
 
 Then we tell the `ggplot` function that we want to create a [scatter
 plot](https://en.wikipedia.org/wiki/Scatter_plot) by piping the data and
-the `ggplot()` function call (which creates a coordinate system that you
-can add various layers to) the
+the `ggplot()` function call (which creates a [coordinate
+system](https://en.wikipedia.org/wiki/Coordinate_system) that you can
+add various layers to) the
 [`geom_point()`](https://ggplot2.tidyverse.org/reference/geom_point.html)
 function. Scatter plots are used to display the relationship between two
 variables. More on plot types below.
@@ -629,7 +630,7 @@ statistical modeling in R!
 The R tidyverse visualization library `ggplot2` is based on the
 principles outlined in *The Grammar of Graphics*, a classic text on data
 visualizations, by Leland Wilkinson (Leland 1999)[1]. The layered
-*Grammar of Graphics* is where (**Wickham2009?**) implements Wilkinson’s
+*Grammar of Graphics* is where H. Wickham (2009) implements Wilkinson’s
 principles, and typology, of graphic design into R.
 
 Each layer/component of the *Grammar of Graphics* has a special name in
@@ -645,7 +646,8 @@ The basic idea is that you can build data visualizations from the same
 components:
 
 -   The data
--   A coordinate system
+-   A [coordinate
+    system](https://en.wikipedia.org/wiki/Coordinate_system)
 -   Geoms (functions that represent data points in the coordinate
     system)
 
@@ -838,7 +840,11 @@ visualizing a data set. As such, we might ask what kind of research
 questions can be answered, e.g., on the basis of the `diamonds` data
 set?
 
-The basic `ggplot2()` function has the following form:
+The basic `ggplot2()` function has the following form that declares the
+data set, the aesthetics (here what variables and their values should be
+plotted the the x and y axes), and the the geometric elements, e.g.,
+`geom_point()` produces a [scatter
+plot](https://en.wikipedia.org/wiki/Scatter_plot):
 
 ``` r
 ggplot(data=diamonds, aes(x = carat, y = price)) +
@@ -846,6 +852,39 @@ ggplot(data=diamonds, aes(x = carat, y = price)) +
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-30-1.png)<!-- -->
+
+The ordering of arguments within the function have default values, so
+you may often see shortened code (cf. [syntactic
+sugar](https://en.wikipedia.org/wiki/Syntactic_sugar))). Here for
+example is the minimal code to produce the same plot:
+
+``` r
+ggplot(diamonds, aes(carat, price)) +
+  geom_point()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-31-1.png)<!-- -->
+
+Remember that order is (sometimes) important, e.g.:
+
+``` r
+ggplot(diamonds, aes(price, carat)) +
+  geom_point()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-32-1.png)<!-- -->
+
+Fail! Why?
+
+``` r
+ggplot(aes(carat, price), diamonds) +
+  geom_point()
+```
+
+``` r
+geom_point() +
+  ggplot(aes(carat, price), diamonds)
+```
 
 # Data practical
 
@@ -886,6 +925,12 @@ Leland, Wilkinson. 1999. *The Grammar of Graphics*. Springer.
 R Core Team. 2021. *R: A Language and Environment for Statistical
 Computing*. Vienna, Austria: R Foundation for Statistical Computing.
 <https://www.R-project.org/>.
+
+</div>
+
+<div id="ref-Wickham2009" class="csl-entry">
+
+Wickham, H. 2009. *Ggplot: Using the Grammar of Graphics with r*.
 
 </div>
 

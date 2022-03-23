@@ -301,7 +301,7 @@ fertility_tidy %>%
 
 Recall that the code above "pipes", i.e., `%>%`, the `fertility_tidy` data frame (tabular data in R) into the `ggplot()` function. In the `ggplot()` function, we describe some "[aesthetics](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html)" -- the function called `aes` in which we specify what we want plotted on the `x` and `y` axes. 
 
-Then we tell the `ggplot` function that we want to create a [scatter plot](https://en.wikipedia.org/wiki/Scatter_plot) by piping the data and the `ggplot()` function call (which creates a coordinate system that you can add various layers to) the [`geom_point()`](https://ggplot2.tidyverse.org/reference/geom_point.html) function. Scatter plots are used to display the relationship between two variables. More on plot types below.
+Then we tell the `ggplot` function that we want to create a [scatter plot](https://en.wikipedia.org/wiki/Scatter_plot) by piping the data and the `ggplot()` function call (which creates a [coordinate system](https://en.wikipedia.org/wiki/Coordinate_system) that you can add various layers to) the [`geom_point()`](https://ggplot2.tidyverse.org/reference/geom_point.html) function. Scatter plots are used to display the relationship between two variables. More on plot types below.
 
 A nice illustration of the data exploration process (or pipeline) is given [here](https://r4ds.had.co.nz/explore-intro.html) and in the screen shot:
 
@@ -343,7 +343,7 @@ A statistical graphic according to this layered grammar of graphics is a mapping
 The basic idea is that you can build data visualizations from the same components:
 
 * The data
-* A coordinate system
+* A [coordinate system](https://en.wikipedia.org/wiki/Coordinate_system)
 * Geoms (functions that represent data points in the coordinate system)
 
 Here is a cheat sheet:
@@ -457,11 +457,37 @@ Now, which kinds of [plots](https://en.wikipedia.org/wiki/Plot_(graphics)) can w
 
 A plot is the outcome of a [statistical graphical technique](https://en.wikipedia.org/wiki/Statistical_graphics) for visualizing a data set. As such, we might ask what kind of research questions can be answered, e.g., on the basis of the `diamonds` data set?
 
-The basic `ggplot2()` function has the following form:
+The basic `ggplot2()` function has the following form that declares the data set, the aesthetics (here what variables and their values should be plotted the the x and y axes), and the the geometric elements, e.g., `geom_point()` produces a [scatter plot](https://en.wikipedia.org/wiki/Scatter_plot):
   
 ```{r}
 ggplot(data=diamonds, aes(x = carat, y = price)) +
   geom_point()
+```
+
+The ordering of arguments within the function have default values, so you may often see shortened code (cf. [syntactic sugar](https://en.wikipedia.org/wiki/Syntactic_sugar))). Here for example is the minimal code to produce the same plot:
+
+```{r}
+ggplot(diamonds, aes(carat, price)) +
+  geom_point()
+```
+
+Remember that order is (sometimes) important, e.g.:
+
+```{r}
+ggplot(diamonds, aes(price, carat)) +
+  geom_point()
+```
+
+Fail! Why?
+
+```{r, eval=FALSE}
+ggplot(aes(carat, price), diamonds) +
+  geom_point()
+```
+
+```{r, eval=FALSE}
+geom_point() +
+  ggplot(aes(carat, price), diamonds)
 ```
 
 
