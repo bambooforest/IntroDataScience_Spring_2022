@@ -1,0 +1,37 @@
+---
+title: "Data modeling"
+author: "Steven Moran\n"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  github_document:
+      toc: true
+bibliography: '../2_writing_scientific_reports/references.bib'
+---
+
+***
+
+This report uses the [R programming language](https://cran.r-project.org/doc/FAQ/R-FAQ.html) [@R] and the following [R libraries](https://r-pkgs.org/intro.html) [@tidyverse;@knitr].
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(knitr)
+```
+
+***
+
+- Describe collocations
+- Reference data (corpus)
+- Size of the ngram
+- Frequency
+- netspeak.org
+- Mean and variance
+- Plotting variance
+- Hypothesis testing
+- T test
+- Chi square
+- Likelihood ratios
+- Mutual information
+- ANOVAS
+
+
+# References
