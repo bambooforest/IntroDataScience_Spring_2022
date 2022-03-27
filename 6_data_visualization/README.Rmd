@@ -10,12 +10,14 @@ bibliography: '../2_writing_scientific_reports/references.bib'
 
 ***
 
-This report uses the [R programming language](https://cran.r-project.org/doc/FAQ/R-FAQ.html) [@R] and the following [R libraries](https://r-pkgs.org/intro.html) [@tidyverse;@knitr;@Wickham2016].
+This report uses the [R programming language](https://cran.r-project.org/doc/FAQ/R-FAQ.html) [@R] and the following [R libraries](https://r-pkgs.org/intro.html) [@tidyverse;@knitr;@IrizarryGill2021;@ggthemes;@ggrepel].
 
 ```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(knitr)
-library(ggplot2) # we do not actually need to load this because it comes with the tidyverse library
+library(dslabs)
+library(ggthemes)
+library(ggrepel)
 ```
 
 ***
@@ -50,7 +52,7 @@ These essential ingredients (bordered in red) for creating a plot with `ggplot()
 
 But let's go through each in detail -- but from bottom up.
 
-### Data
+## Data
 
 A plot is the information you wish to visualized from some source of data. Recall our discussion about the difference between [data and information](https://github.com/bambooforest/IntroDataScience/tree/main/3_data#what-is-data).
 
@@ -68,7 +70,7 @@ Now one way forward is to ask:
 * Which kind of research questions can be answered on the basis of this data set?
 
 
-### Geometries
+## Geometries
 
 Geometries -- or "geoms" for short -- are fundamental to building visualizations with `ggplot2`. Geoms determine the type of the plot and are labeled like There are [several basic plot types](https://ggplot2-book.org/individual-geoms.html), e.g., but definitely not limited to:
 
@@ -176,9 +178,9 @@ ggplot(diamonds, aes(x = carat, y = price)) +
 And as we've noted before, there are often many different ways to write code that it creates the same output. Keep this in mind when reading other people's code!
 
 
-### Facets
+## Facets
 
-A powerful tool for exploratory data analysis is [faceting](https://ggplot2-book.org/facet.html) with `ggplot`. 
+A powerful tool for exploratory data analysis is [faceting](https://ggplot2-book.org/facet.html) with `ggplot`. Additionally, **faceting** can be used to generate different subplots of a plot by some number of one or more discrete variables.
 
 What happens here?
 
@@ -197,11 +199,11 @@ ggplot(diamonds, aes(x=carat, y=price, color=cut)) +
 ```
 
 
-### Statistics
+## Statistics
 
 A visualization may also contain **statistical information**, e.g., a regression line, from the data, which is drawn on a specific coordinate system.
 
-We saw an example above.
+We saw an example above that illustrates how to layer multiple geoms together.
 
 ```{r}
 ggplot(diamonds, aes(x=carat, y=price)) + 
@@ -209,56 +211,197 @@ ggplot(diamonds, aes(x=carat, y=price)) +
   geom_smooth()
 ```
 
-### Coordinates
 
+## Coordinates
 
-### Theme
+[Coordinate systems](https://en.wikipedia.org/wiki/Coordinate_system) in `ggplot2` [have two purposes](https://ggplot2-book.org/coord.html) [@Wickham2016]:
 
-[Themes](https://ggplot2-book.org/polishing.html) are a way to finely tune your plots. They give you control of things like the background, fonts, text orientation.
+* "Combine the two position aesthetics to produce a 2d position on the plot."
+* "In coordination with the faceter, coordinate systems draw axes and panel backgrounds."
 
+Coordinate systems in `ggplot2` come in two types:
 
-## Which plot to use?
+* Linear -- they preserve the shape of geoms
+* Non-linear -- they can change their shapes
 
-It depends on your data.
+These are advanced techniques and when you think you need them, you should probably study them in detail. There's a free online book for that [@Wickham2016]:
+
+* https://ggplot2-book.org/
+* https://ggplot2-book.org/coord.html
+
+But note they also include functions for things like [map projection](https://en.wikipedia.org/wiki/Map_projection). Note also that in R, like most (or all) programming languages, there's lots of libraries to do the same things. 
+
+Remember to search for it and you'll find lots of results (as of writing 79 million plus hits):
+
+* https://www.google.com/search?client=safari&rls=en&q=how+to+make+geographic+maps+in+R&ie=UTF-8&oe=UTF-8
+
+Here's a simple example that plots the languages of the world on a simple map.
+
+Let's get the data from the [Glottolog]
+
+```{r, message=FALSE}
+df <- read_csv(url('https://cdstar.eva.mpg.de/bitstreams/EAEA0-F8BB-0AB6-96FA-0/languages_and_dialects_geo.csv'))
+```
+
+Let's have a look. What are the variables?
 
 ```{r}
+head(df)
+```
 
+What kind of levels are there?
+
+```{r}
+table(df$level)
+```
+
+
+Let's filter out just [languages](https://en.wikipedia.org/wiki/Language) and drop [dialects](https://en.wikipedia.org/wiki/Dialect).
+
+```{r}
+df <- df %>% filter(level == "language")
+```
+
+And here is some simple code to plot languages as dots on a world map in mercator projection.
+
+```{r}
+ggplot(data=df, aes(x=longitude,y=latitude)) + 
+  borders("world", colour="gray50", fill="gray50") + 
+  geom_point()
+```
+Want to add some color? You need a variable for that.
+
+```{r}
+ggplot(data=df, aes(x=longitude,y=latitude, color=macroarea)) + 
+  borders("world", colour="gray50", fill="gray50") + 
+  geom_point()
 ```
 
 
 
+## Theme
+
+[Themes](https://ggplot2-book.org/polishing.html) are a way to finely tune your plots. They give you control of things like the background, fonts, text orientation.
+
+Default theme in `ggplot2` looks like this. Learn how to read a [box plot](https://towardsdatascience.com/understanding-boxplots-5e2df7bcbd51)?
+
+```{r}
+atheletes <- read_csv('../4_data_wrangling/datasets/athletes.csv')
+ggplot(data=atheletes, aes(x = gender, y = weight)) +
+  geom_boxplot()
+```
+
+But you can change the theme with `theme_x`
+
+```{r}
+ggplot(data=atheletes, aes(x = gender, y = weight)) +
+  geom_boxplot() +
+  theme_minimal()
+```
+```{r}
+ggplot(data=atheletes, aes(x = gender, y = weight)) +
+  geom_boxplot() +
+  theme_dark()
+```
+
+```{r}
+ggplot(data=atheletes, aes(x = gender, y = weight)) +
+  geom_boxplot() +
+  theme_classic()
+```
+
+```{r}
+library(ggthemes)
+ggplot(data=atheletes, aes(x = gender, y = weight)) +
+  geom_boxplot() +
+  theme_tufte(ticks = FALSE)
+```
+
+But as we've said now multiple times, there's always different ways of producing the same things when coding. And there's usually libraries to help with that! For example, check out the [ggthemes](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/) library.
+
+***
+
+How about changing colors? Here is a [histogram](https://en.wikipedia.org/wiki/Histogram) with default colors in `ggplot2`.
+
+```{r}
+ggplot(atheletes, aes(x=weight, fill=gender)) + 
+  geom_histogram()
+```
+
+```{r}
+ggplot(atheletes, aes(x=weight)) + 
+  geom_histogram(aes(fill=gender), position = "identity") +
+  scale_fill_manual(values = c("#00AFBB", "#E7B800"))
+```
+
+And maybe instead of a histogram you want a [density plot](https://www.data-to-viz.com/graph/density.html) to check the distribution of some variable(s)?
+
+```{r}
+ggplot(diamonds, aes(x=price, fill=cut)) + geom_histogram()
+ggplot(diamonds, aes(x=price)) + geom_density()
+ggplot(diamonds, aes(x=price, color=cut)) + geom_density()
+```
 
 
+# Visualizations
+
+## Which plot(s) to use?
+
+It depends on your data and the data types in your data. Here is a great visualization and great site that gives you a [decision tree](https://en.wikipedia.org/wiki/Decision_tree) so that you can decide what kind of visualization best fits your data and which caveats you should avoid when creating those visualizations:
+
+* https://www.data-to-viz.com
+
+First you need to know your data type, e.g., are you working with numeric or categorical data? Then ask how many variables you are working with, e.g., one or two or more categorical variables. If you have one categorical variable, for example, your data set is very simple and you can use a bar plot. If you have two or more categorical values, are they independent, nested, etc.? If you have a numerical and categorical variable, in what relation do they stand to each other? Is there order?
+
+Note also the caveats!
+
+* https://www.data-to-viz.com/caveats.html
+
+Remember, you want your visualizations to tell a story. And there are a lot of visualization graphics out there!
+
+* https://www.data-to-viz.com/#story
 
 
+## Putting it all together: an example
 
+This data visualization below incorporates various libraries to produce a professional looking image. The plot comes from code from this [Introduction to Data Science Repository](https://github.com/datasciencelabs) in this awesome [class](https://datasciencelabs.github.io/pages/syllabus.html) from this [lecture](https://github.com/datasciencelabs/2021/blob/master/04_data_visualization/02_gapminder.Rmd). Lots of good materials in that course -- check it out! 
 
-
-
-
-Additionally, **faceting** can be used to generate different subplots of a plot by some number of one or more discrete variables.
-
-
-
-Let's look at some examples.
-
-*** 
-
+The R libraries that we will use [@R].
 
 ```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(dslabs)
-data(murders)
-head(murders)
-```
-
-```{r first-example, ggplot-example-plot-0, echo=FALSE}
 library(ggthemes)
 library(ggrepel)
+```
+
+Load the `murders` data from from the `dslabs` library [@IrizarryGill2021]. The data set includes reports the number of US gun murders by state for 2010 as reported by the [FBI](https://en.wikipedia.org/wiki/Federal_Bureau_of_Investigation). It also contains population counts for each state (2010).
+
+```{r}
+data(murders)
+head(murders)
+str(murders)
+```
+
+The data set contains variables for:
+
+* Character vector for US states
+* Character vector for abbreviations of each US state
+* The region in which the state (four categorical values including: Northeast, South, North Central, and West)
+* Numerical values for the US state's population
+* Numerical values for the total number of gun murders in each state
+
+The data manipulation. Here we calculate the [r correlation coefficient](https://en.wikipedia.org/wiki/Correlation_coefficient). 
+
+```{r}
 r <- murders %>% 
   summarize(pop = sum(population), tot = sum(total)) %>% 
   mutate(murder_rate = tot/pop*10^6) %>% .$murder_rate
+```
 
+And now the visualization.
+
+```{r}
 murders %>% ggplot(aes(x = population/10^6, y = total, label = abb)) +  
   geom_abline(intercept = log10(r), lty=2, col="darkgrey") +
   geom_point(aes(color=region), size = 3) +
@@ -271,4 +414,18 @@ murders %>% ggplot(aes(x = population/10^6, y = total, label = abb)) +
   scale_color_discrete(name = "Region") +
   theme_economist()
 ```
+
+We plot the relationship between total number of murders (in [logorathmic scale](https://en.wikipedia.org/wiki/Logarithmic_scale)) versus the population in [US states](https://en.wikipedia.org/wiki/U.S._state) (log scale) and color code each state for region. There is a trend that more populous states tend to have more murders.
+
+
+# Data practical
+
+* Load some data (sets) and describe your data and its variables
+* Formulate two questions about the data that you want to visualize
+* [Decide how to visualize your variables](https://www.data-to-viz.com)
+* Convert your data types if needed, e.g., [to factors](https://swcarpentry.github.io/r-novice-inflammation/12-supp-factors/index.html)
+* Create your plots and explain in prose what the data visualizes (see example above)
+
+
+# References
 
