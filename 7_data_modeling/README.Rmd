@@ -19,6 +19,10 @@ library(knitr)
 
 ***
 
+Here's an example that I was interested in regarding data models and all the topics that came before in this course.
+
+...
+
 - Describe collocations
 - Reference data (corpus)
 - Size of the ngram
@@ -32,6 +36,11 @@ library(knitr)
 - Likelihood ratios
 - Mutual information
 - ANOVAS
+
+Summary statistics only apply to unimodal distributions, i.e., distributions that have a single central peak. If this basic assumption is not met, the your conclusions may be wrong.
+
+
+
 
 
 # References
