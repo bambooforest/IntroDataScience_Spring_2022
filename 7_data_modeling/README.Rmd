@@ -1,6 +1,6 @@
 ---
 title: "Data modeling"
-author: "Steven Moran\n"
+author: "Steven Moran & Alena Witzlack-Makarevich\n"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   github_document:
@@ -459,6 +459,57 @@ And we can be begin to explore the data in various ways.
 ggplot(data = df, aes(vowel, F1, fill=sex)) +
   geom_boxplot()
 ```
+
+## ANOVA
+
+Analysis of variance ([ANOVA](https://en.wikipedia.org/wiki/Analysis_of_variance)) and Multivariate analysis of variance ([MANOVA](https://en.wikipedia.org/wiki/Multivariate_analysis_of_variance)) tests are used when comparing the means of more than two groups (e.g., the average heights of children, teenagers, and adults).
+
+ANOVA includes a family of statistical test that allow researchers to investigate the differences between any number of groups as specified by one or more categorical variables. ANOVA is used when you want to find out if there are differences between several groups.
+
+Assumptions of this test:
+  
+* Population distribution is normal
+* Samples are random and independent
+* Homogeneity of sample variance
+
+How would you go forward, for example, with the `athletes` data? Here is some example code to get you thinking.
+
+```{r}
+head(athletes) %>% kable()
+```
+
+```{r}
+m_sport_lm <- lm(weight ~ sport, data = athletes)
+summary(m_sport_lm)
+anova(m_sport_lm)
+names(m_sport_lm)
+```
+
+```{r}
+aov_athletes <- aov(weight ~ sport, data = athletes)
+summary(aov_athletes)
+```
+
+```{r}
+qplot(x = sport, y = weight, data = athletes, geom = "boxplot", fill = sport) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  theme(legend.position="none")
+```
+
+```{r}
+library(car)
+leveneTest(weight ~ sport, data = athletes)
+m_sport_aov <- aov(weight ~ sport, data = athletes)
+summary(m_sport_aov)
+TukeyHSD(m_sport_aov)
+
+plot(TukeyHSD(m_sport_aov))
+
+m_sport_aovlm <- anova(lm(weight ~ sport, data = athletes))
+m_sport_aovlm
+oneway.test(weight ~ sport, data = athletes)
+```
+
 
 # Data practical
 
