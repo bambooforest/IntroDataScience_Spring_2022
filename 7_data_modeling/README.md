@@ -10,6 +10,8 @@ Steven Moran
 -   [Statistical assumptions](#statistical-assumptions)
 -   [Descriptive statistics](#descriptive-statistics)
 -   [Choosing the right statistic](#choosing-the-right-statistic)
+-   [Some examples](#some-examples)
+    -   [Comparing two groups](#comparing-two-groups)
 -   [Data practical](#data-practical)
 -   [References](#references)
 
@@ -444,41 +446,6 @@ And in machine learning e.g., for a classifier spam vs. not spam:
 
 ![Conceptual steps.](figures/errors_3.png)
 
-<!-- 
-Type I and type II errors:
-
-* Type I error is that we incorrectly reject the null hypothesis
-
-* Type II error occurs when we incorrectly accept the null hypothesis
-
-Decision (y) / reality (x)  H0 is true  H0 is false
-accept H0   correct Type II error
-reject H0   Type I error    correct
-
-False positives and false negatives
-
-Airport Security: a "false positive" is when ordinary items such as keys or coins get mistaken for weapons (machine goes "beep")
-Quality Control: a "false positive" is when a good quality item gets rejected, and a "false negative" is when a poor quality item gets accepted
-Antivirus software: a "false positive" is when a normal file is thought to be a virus
-Medical screening: low-cost tests given to a large group can give many false positives (saying you have a disease when you don't), and then ask you to get more accurate tests.
-
-    They say you did    They say you didn't
-You really did  They are right! "False Negative"
-You really didn't   "False Positive"    They are right!
-
-    "actual class
-(observation)"  "actual class
-(observation)"
-predicted class (expectation)   "tp (true positive) 
-Correct result" fp (false positive) Unexpected result
-predicted class (expectation)   fn (false negative) Missing result  tn (true negative) Correct absence of result
-
-By accepting the null hypothesis we have made a type II error. Just as we can choose a criterion μ level for the acceptable type I error rate, we can also require that our statistics avoid type II errors
-The probability of making a type II error is called β, and the value we are usually interested in is 1-β, the power of our statistical test.
-To avoid type II errors you need to have statistical tests that are sensitive enough to catch small differences between the sample mean and the population mean - to detect that 95 really is different from 100
-With only 26 observations (n=26) and a standard deviation of 36.1, if we set the power of our test to 0.8 (that is, accept type II errors 20% of the time with p=0.2) the difference between the hypothesized mean and the true population mean would have to be 18 ms before we could detect the difference
--->
-
 # Statistical assumptions
 
 Statistical tests make assumptions about the data being tested. If the
@@ -504,12 +471,12 @@ not valid and the results may also not be valid.
 
 # Descriptive statistics
 
-The measure of central tendency is one way to make many data points
-comprehensible to humans by compressing them into one value.
-
-Central tendency is a descriptive statistic that best represents the
-center of a data set i.e. a particular value that all the data seem to
-be gathering around it’s the “typical” score.
+The measure of [central
+tendency](https://en.wikipedia.org/wiki/Central_tendency) is one way to
+make many data points comprehensible to humans by compressing them into
+one value. Central tendency is a descriptive statistic that best
+represents the center of a data set i.e. a particular value that all the
+data seem to be gathering around it’s the “typical” score.
 
 The most commonly reported measure of central tendency is the mean, the
 arithmetic average of a group of scores.
@@ -523,8 +490,8 @@ reveals its central tendency.
 In a histogram or a polygon of a normal distribution the central
 tendency is usually near the highest point
 
-The specific way that data cluster around a distribution’’’s central
-tendency can be measured three different ways: mean, median,
+The specific way that data cluster around a distribution’s central
+tendency can be measured three different ways: mean, median, mode.
 
 Summary statistics only apply to unimodal distributions, i.e.,
 distributions that have a single central peak. If this basic assumption
@@ -590,6 +557,8 @@ statistical test to use!
 
 -   <https://www.scribbr.com/statistics/statistical-tests/>
 
+-   <https://dacg.in/2018/11/17/statistical-test-cheat-sheet/>
+
 **Parametric versus nonparametric statistics**
 
 Parametric analyses are tests for which we have prior knowledge of the
@@ -605,6 +574,157 @@ distribution. This is why they are also called distribution-free tests.
 ![Hypothesis testing.](figures/hypothesis_testing.png)
 
 Ask: what are the assumptions of the statistical test?
+
+An excellent book on doing statistics with R on linguistic data is *How
+to do Linguistics with R* (Levshina 2015).
+
+# Some examples
+
+Comparison tests test for meaningful differences between group means.
+They are used to test whether there is a statistically significant
+difference between a categorical variable on the mean value of another
+variable.
+
+## Comparing two groups
+
+T-tests are for comparing the means of two groups (e.g., the average
+heights of men and women). It is a parametric test based on the
+[Student’s T
+distribution](https://en.wikipedia.org/wiki/Student%27s_t-distribution).
+Essentially, you test the significance of the difference of the mean
+values when the sample size is small (i.e, less than 30) and when the
+population standard deviation is not available.
+
+Assumptions of this test:
+
+-   Population distribution is normal
+-   Samples are random and independent
+-   The sample size is small
+-   Population standard deviation is not known
+
+And recall any hypothesis testing follows these steps:
+
+-   0.  Choose a significance level (α)
+
+-   1.  Formulate a null hypothesis, H0
+
+-   2.  Formulate an alternative hypothesis, H1
+
+-   3.  Gather data, calculate a test statistic, e.g. T or F
+
+-   4.  Determine the probability (p-value) of obtaining T or F “or a
+        more extreme value” under H0
+
+-   5.  If p ≤ α, reject H0
+
+And the basic process:
+
+-   Set up a hypothesis, and assume that it is true.
+-   Gather data from some real-world experiment that is relevant to the
+    hypothesis.
+-   Make a determination about the hypothesis, based on the idea of “how
+    likely is our data given the hypothesis?”
+
+Let’s go through an example.
+
+------------------------------------------------------------------------
+
+We have some data from Johnson (2008) called `F1_data.txt`. Let’s have a
+look:
+
+``` r
+f1 <- read_csv('data/F1_data.txt')
+```
+
+    ## Rows: 19 Columns: 4
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (2): vowel, language
+    ## dbl (2): female, male
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+``` r
+str(f1)
+```
+
+    ## spec_tbl_df [19 × 4] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+    ##  $ female  : num [1:19] 391 561 826 453 358 454 991 561 398 334 ...
+    ##  $ male    : num [1:19] 339 512 670 427 291 406 706 439 324 307 ...
+    ##  $ vowel   : chr [1:19] "i" "e" "a" "o" ...
+    ##  $ language: chr [1:19] "W.Apache" "W.Apache" "W.Apache" "W.Apache" ...
+    ##  - attr(*, "spec")=
+    ##   .. cols(
+    ##   ..   female = col_double(),
+    ##   ..   male = col_double(),
+    ##   ..   vowel = col_character(),
+    ##   ..   language = col_character()
+    ##   .. )
+    ##  - attr(*, "problems")=<externalptr>
+
+``` r
+head(f1) %>% kable()
+```
+
+| female | male | vowel | language   |
+|-------:|-----:|:------|:-----------|
+|    391 |  339 | i     | W.Apache   |
+|    561 |  512 | e     | W.Apache   |
+|    826 |  670 | a     | W.Apache   |
+|    453 |  427 | o     | W.Apache   |
+|    358 |  291 | i     | CA English |
+|    454 |  406 | e     | CA English |
+
+The data include 19 observations from male and female speakers from four
+different languages producing different cardinal vowels. For each
+observation (row) the variables for the columns (male and female) record
+the F1 [formant measures](https://en.wikipedia.org/wiki/Formant) values
+in frequency in Hz. Formants are the distinctive properties of vowels in
+the acoustic signal in speech. Formants F1-F3 allow us to identify
+different [vowels](https://en.wikipedia.org/wiki/Vowel).
+
+Now we want to ask if there is a statistically significant difference
+between the F1 values of females versus males. One way we can do this is
+by comparing the mean of the two groups.
+
+First we state our hypothesis:
+
+-   H0 (null hypothesis): there is no difference between the mean value
+    of F1 for females and males
+-   H1 (alternative hypothesis): there is a difference
+
+Next we identify which statistical test we can use. T-tests compare two
+groups. In this case, we have paired data, i.e., each row has an
+associated group (male and female), in which the speakers produced the
+same vowel. The [paired
+t-test](https://en.wikipedia.org/wiki/Student%27s_t-test#Paired_samples)
+allows us to test for significance between two paired groups.
+
+Now we [search for examples of how we can do a paired t-test in
+R](https://www.google.com/search?q=how+to+do+paired+t+test+in+r) and
+figure out what the function is called and which parameters it needs.
+
+``` r
+t.test(f1$female, f1$male, paired=T, alternative="greater")
+```
+
+    ## 
+    ##  Paired t-test
+    ## 
+    ## data:  f1$female and f1$male
+    ## t = 6.1061, df = 18, p-value = 4.538e-06
+    ## alternative hypothesis: true difference in means is greater than 0
+    ## 95 percent confidence interval:
+    ##  67.11652      Inf
+    ## sample estimates:
+    ## mean of the differences 
+    ##                93.73684
+
+And now we interpret the results and either accept or reject the null
+hypothesis.
+
+You may also want to visualize the data!
 
 # Data practical
 
@@ -624,6 +744,19 @@ Ask: what are the assumptions of the statistical test?
 
 Janert, Philipp K. 2010. *Data Analysis with Open Source Tools*.
 O’Reilly.
+
+</div>
+
+<div id="ref-Johnson2008" class="csl-entry">
+
+Johnson, Keith. 2008. *Quantitative Methods in Linguistics*. Blackwell
+Publishing.
+
+</div>
+
+<div id="ref-Levshina2015" class="csl-entry">
+
+Levshina, Natalia. 2015. *How to Do Linguistics with r*. John Benjamins.
 
 </div>
 
