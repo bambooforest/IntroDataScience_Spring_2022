@@ -604,18 +604,13 @@ Assumptions of this test:
 
 And recall any hypothesis testing follows these steps:
 
--   0.  Choose a significance level (α)
-
--   1.  Formulate a null hypothesis, H0
-
--   2.  Formulate an alternative hypothesis, H1
-
--   3.  Gather data, calculate a test statistic, e.g. T or F
-
--   4.  Determine the probability (p-value) of obtaining T or F “or a
-        more extreme value” under H0
-
--   5.  If p ≤ α, reject H0
+0.  Choose a significance level (α)
+1.  Formulate a null hypothesis, H0
+2.  Formulate an alternative hypothesis, H1
+3.  Gather data, calculate a test statistic, e.g. T or F
+4.  Determine the probability (p-value) of obtaining T or F “or a more
+    extreme value” under H0
+5.  If p ≤ α, reject H0
 
 And the basic process:
 
@@ -634,18 +629,6 @@ look:
 
 ``` r
 f1 <- read_csv('data/F1_data.txt')
-```
-
-    ## Rows: 19 Columns: 4
-    ## ── Column specification ────────────────────────────────────────────────────────
-    ## Delimiter: ","
-    ## chr (2): vowel, language
-    ## dbl (2): female, male
-    ## 
-    ## ℹ Use `spec()` to retrieve the full column specification for this data.
-    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-
-``` r
 str(f1)
 ```
 
@@ -725,6 +708,136 @@ And now we interpret the results and either accept or reject the null
 hypothesis.
 
 You may also want to visualize the data!
+
+But is this helpful if we are trying to compare males and females?
+
+``` r
+ggplot(data = f1, aes(female)) +
+  geom_boxplot()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+
+``` r
+ggplot(data = f1, aes(male)) +
+  geom_boxplot()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-14-2.png)<!-- -->
+
+Perhaps a bit more useful?
+
+``` r
+ggplot(data = f1, aes(x = vowel, y = female)) +
+  geom_boxplot()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+
+``` r
+ggplot(data = f1, aes(x = vowel, y = male)) +
+  geom_boxplot()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-15-2.png)<!-- --> The problem
+is the input data is not in a format that is particularly easy to plot
+as a box plot. So, what do we do? Transform it into a format that is
+easy to plot. (Remember, something like 80% of your time is getting the
+data in formats that are useful for particular purposes.)
+
+There are many ways to transform the data. Often it helps to first think
+about what format you need to get to – I often do this on scrap paper
+and then think about the code needed. (Remember with code there’s going
+to typically myriad ways of doing the same thing.)
+
+What do we want? We want to be able to group on the male and female
+variable – but right now they are in columns.
+
+Here’s a not particularly elegant, but arguably readable way, to
+transform the data.
+
+``` r
+males <- f1 %>% select(male, vowel, language)
+females <- f1 %>% select(female, vowel, language)
+
+males <- males %>% rename(F1 = male)
+males$sex <- 'male'
+males
+```
+
+    ## # A tibble: 19 × 4
+    ##       F1 vowel language   sex  
+    ##    <dbl> <chr> <chr>      <chr>
+    ##  1   339 i     W.Apache   male 
+    ##  2   512 e     W.Apache   male 
+    ##  3   670 a     W.Apache   male 
+    ##  4   427 o     W.Apache   male 
+    ##  5   291 i     CA English male 
+    ##  6   406 e     CA English male 
+    ##  7   706 a     CA English male 
+    ##  8   439 o     CA English male 
+    ##  9   324 u     CA English male 
+    ## 10   307 i     Ndumbea    male 
+    ## 11   361 e     Ndumbea    male 
+    ## 12   678 a     Ndumbea    male 
+    ## 13   474 o     Ndumbea    male 
+    ## 14   311 u     Ndumbea    male 
+    ## 15   293 i     Sele       male 
+    ## 16   363 e     Sele       male 
+    ## 17   809 a     Sele       male 
+    ## 18   367 o     Sele       male 
+    ## 19   300 u     Sele       male
+
+``` r
+females <- females %>% rename(F1 = female)
+females$sex <- 'female'
+females
+```
+
+    ## # A tibble: 19 × 4
+    ##       F1 vowel language   sex   
+    ##    <dbl> <chr> <chr>      <chr> 
+    ##  1   391 i     W.Apache   female
+    ##  2   561 e     W.Apache   female
+    ##  3   826 a     W.Apache   female
+    ##  4   453 o     W.Apache   female
+    ##  5   358 i     CA English female
+    ##  6   454 e     CA English female
+    ##  7   991 a     CA English female
+    ##  8   561 o     CA English female
+    ##  9   398 u     CA English female
+    ## 10   334 i     Ndumbea    female
+    ## 11   444 e     Ndumbea    female
+    ## 12   796 a     Ndumbea    female
+    ## 13   542 o     Ndumbea    female
+    ## 14   333 u     Ndumbea    female
+    ## 15   343 i     Sele       female
+    ## 16   520 e     Sele       female
+    ## 17   989 a     Sele       female
+    ## 18   507 o     Sele       female
+    ## 19   357 u     Sele       female
+
+``` r
+df <- rbind(females, males)
+```
+
+Now we have something a bit easier to work with.
+
+``` r
+ggplot(data = df, aes(sex, F1)) +
+  geom_boxplot()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
+
+And we can be begin to explore the data in various ways.
+
+``` r
+ggplot(data = df, aes(vowel, F1, fill=sex)) +
+  geom_boxplot()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
 
 # Data practical
 
