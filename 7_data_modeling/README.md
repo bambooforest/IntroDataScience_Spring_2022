@@ -77,6 +77,25 @@ infer something, about your data. This allows us to do things like fit
 statistical models and understand how they work and what they tell us
 about our data, so that we can test our hypotheses.
 
+Nolan and Heinzen (2011) define two main branches of modern statistics
+(not ot be confused with the defintions by Janert (2010) above):
+
+-   **Descriptive statistics** organize, summarize, and communicate a
+    group of numerical observations.
+    -   Descriptive statistics describe large amounts of data in a
+        single number or in just a few numbers.
+    -   A single number reporting e.g. the average is often far more
+        useful and easier to grasp than a long list of the numbers.
+-   **Inferential statistics** use sample data to make general estimates
+    about the larger population.
+    -   Inferential statistics infer, or make an intelligent guess
+        about, the whole population, i.e. also about the objects not
+        included into the study.
+
+<!-- Descriptive statistics involve quantitatively describing or summarizing features of a data set. They often include [non-parametric statistics](https://en.wikipedia.org/wiki/Nonparametric_statistics). Inferential statistics ... -->
+
+------------------------------------------------------------------------
+
 Here is the big picture.
 
 ![The big picture.](figures/big_picture.png)
@@ -209,25 +228,6 @@ undertaking statistical inference.
 -   9.  The political party of every U.S. president
 
 -   10. The soil contamination levels at 10 locations near a landfill
-
-------------------------------------------------------------------------
-
-Nolan and Heinzen (2011) define two main branches of modern statistics
-(not ot be confused with the defintions by Janert (2010) above):
-
--   **Descriptive statistics** organize, summarize, and communicate a
-    group of numerical observations.
-    -   Descriptive statistics describe large amounts of data in a
-        single number or in just a few numbers.
-    -   A single number reporting e.g. the average is often far more
-        useful and easier to grasp than a long list of the numbers.
--   **Inferential statistics** use sample data to make general estimates
-    about the larger population.
-    -   Inferential statistics infer, or make an intelligent guess
-        about, the whole population, i.e. also about the objects not
-        included into the study.
-
-<!-- Descriptive statistics involve quantitatively describing or summarizing features of a data set. They often include [non-parametric statistics](https://en.wikipedia.org/wiki/Nonparametric_statistics). Inferential statistics ... -->
 
 ------------------------------------------------------------------------
 
@@ -391,9 +391,9 @@ Hypothesis testing is a way to interpret and draw conclusions about the
 The logic of hypothesis testing is as follows. After we have identified
 the H0 and H1, we can do only one of two things:
 
--   1.  reject the H0 in favor of the H1
+-   1.  Reject the H0 in favor of the H1
 
--   2.  fail to reject H0 and thus keep it
+-   2.  Fail to reject H0 and thus keep it
 
 Null hypothesis testing corresponds to a *reductio ad absurdum* argument
 in logic, i.e., a claim is assumed valid if its counterclaim is
@@ -487,20 +487,20 @@ not valid and the results may also not be valid.
 
 -   <https://towardsdatascience.com/statistical-testing-understanding-how-to-select-the-best-test-for-your-data-52141c305168>
 
-1.  Independence of observations: the observations/variables you include
-    in your test should not be related(e.g. several tests from a same
-    test subject are not independent, while several tests from multiple
-    different test subjects are independent)
+1.  **Independence of observations**: the observations/variables you
+    include in your test should not be related(e.g. several tests from a
+    same test subject are not independent, while several tests from
+    multiple different test subjects are independent)
 
-2.  Homogeneity of variance: the “variance” within each group is being
-    compared should be similar to the rest of the group variance. If a
-    group has a bigger variance than the other(s) this will limit the
-    test’s effectiveness.
+2.  **Homogeneity of variance**: the “variance” within each group is
+    being compared should be similar to the rest of the group variance.
+    If a group has a bigger variance than the other(s) this will limit
+    the test’s effectiveness.
 
-3.  Normality of data: the data follows a normal distribution, normality
-    means that the distribution of the test is normally distributed (or
-    bell-shaped) with mean 0, with 1 standard deviation and a symmetric
-    bell-shaped curve.
+3.  **Normality of data**: the data follows a normal distribution,
+    normality means that the distribution of the test is normally
+    distributed (or bell-shaped) with mean 0, with 1 standard deviation
+    and a symmetric bell-shaped curve.
 
 # Descriptive statistics
 
