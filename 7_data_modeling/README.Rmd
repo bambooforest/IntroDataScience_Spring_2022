@@ -74,6 +74,9 @@ Statistical inference methods allow you to draw a conclusion, i.e., you infer so
 Here is the big picture.
 
 ![The big picture.](figures/big_picture.png)
+Here's also a useful tutorial:
+
+* http://varianceexplained.org/RData/
 
 ***
 

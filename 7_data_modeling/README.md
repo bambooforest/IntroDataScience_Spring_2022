@@ -2,7 +2,7 @@ Data modeling
 ================
 Steven Moran & Alena Witzlack-Makarevich
 
-06 April, 2022
+07 April, 2022
 
 -   [Recap](#recap)
 -   [Modeling](#modeling)
@@ -101,7 +101,10 @@ Nolan and Heinzen (2011) define two main branches of modern statistics
 
 Here is the big picture.
 
-![The big picture.](figures/big_picture.png)
+![The big picture.](figures/big_picture.png) Here’s also a useful
+tutorial:
+
+-   <http://varianceexplained.org/RData/>
 
 ------------------------------------------------------------------------
 
