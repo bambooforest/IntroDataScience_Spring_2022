@@ -1,0 +1,142 @@
+---
+title: "Dimensionality reduction and clustering I"
+author: "Tiena Danner"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+always_allow_html: true
+output:
+  github_document:
+      toc: true
+bibliography: '../2_writing_scientific_reports/references.bib'
+---
+
+***
+
+This report uses the [R programming language](https://cran.r-project.org/doc/FAQ/R-FAQ.html) [@R] and the following [R libraries](https://r-pkgs.org/intro.html) [@tidyverse;@knitr;@IrizarryGill2021;@ggthemes;@ggrepel].
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(knitr)
+library(dslabs)
+library(ggthemes)
+library(ggrepel)
+library(ggpubr)
+library(plot3D)
+library(plotly)
+```
+
+# Multivariate data 
+
+## Bivariate data -- a story too simple?
+
+Recall the materials on [Linear models I](https://github.com/bambooforest/IntroDataScience/tree/main/8_Linear_Models_I) and [Linear models II](https://github.com/bambooforest/IntroDataScience/tree/main/8_Linear_Models_II). As you probably remember, for applying linear models we mostly use bivariate relationships. This means that we are looking for relationships between only two variables such as the ![correlation between brain- and body size](figures/brainbodysize.png) in the animal kingdom. This is totally fine for answering a lot of scientific questions. 
+
+**But: what if we have to deal with many independent variables, potentially hundreds of them?**
+
+Not all scientific questions may be answered by simply looking at two variables. Here we can use [multivariate analysis and statistics](https://en.wikipedia.org/wiki/Multivariate_statistics). In this course we will mainly focus on **how to visualize multivariate data** for recognizing patterns in multivariate data sets and not so much on the mathematical and statistical details behind them. The most widely used technique for doing that is [**principal components analysis**](https://en.wikipedia.org/wiki/Principal_component_analysis) (PCA). 
+
+The main aim of multivariate analysis is **pattern extraction**. This means, we aim to find a scientifically relevant pattern in potentially hundreds (or sometimes thousands) of numerical variables. We may summarize the aims of multivariate analysis followingly: 
+
+* Find trends (covariation) 
+* Reduce number of variables to a few significant ones 
+* discriminate between groups
+
+The basic idea of this chapter is that you can implement a PCA, a very fine instrument to do patterns extraction, and interpret the results. Finally you will apply this to other data sets and hopefully your own data. 
+
+Now let's go through a PCA in detail -- from bottom up. 
+
+## Data
+
+Let's use a large data set with many independent measurements. For that we may use the [Howells Data](https://web.utk.edu/~auerbach/HOWL.htm). The data consists of hundreds of standard [craniometric measurements](https://en.wikipedia.org/wiki/Craniometry) of the [human skull](figures/craniometry.pdf) of different populations all around the globe. Here is an overview of the different populations ![](figures/howells_populations_map.png) that were analyzed for this data set. If you want to know more about the details of the analyses e.g. especially the abbreviations of the different measurements, please consult [this sheet](data/howells_info.pdf).
+
+Now let's dive into this fantastic data set! 
+
+What does a data scientist do? First have a look at the data!
+
+```{r, message=FALSE}
+howells <- read_csv("data/howells_data.csv")
+head(howells) %>% kable()
+glimpse(howells)
+```
+
+OK, this is quite some data. 2524 rows (subjects) and 54 measurement variables (columns). How can we visualize the entirety of these variables in a simple x/y coordinate system? Seems impossible, right? We'll see.....
+
+## Plotting multivariate data 
+
+First, let's produce a simple bivariate plot 
+
+```{r}
+ggplot(howells, aes(x = GOL, y = BNL)) +
+  geom_point() + 
+  coord_equal() + 
+  theme_pubr(border = TRUE, margin = TRUE)
+```
+
+What did I do here? I simply plotted two variables (BNL ~ GOL) which gives us a bivariate plot. You can already see, that these two measurements appear to be correlated. This is probably due to the fact, that both of these measurements (basion-nasion length and glabella-occipital length) are related to overall body size e.g. the larger a person is, the larger also GOL and BNL will be. 
+
+You might wonder why I used the statements `cord_equal()` and `theme_pubr(border = TRUE, margin = TRUE)`. 
+
+* `cord_equal()` produces isometrically scaled axes. This is very important when plotting data that have similar scale on both axes (e.g. mm here). A distance in X should always be equal to a distance in Y. 
+* `theme_pubr(border = TRUE, margin = TRUE)` produces a nice "publication ready" theme from the [ggpubr](https://cran.r-project.org/web/packages/ggpubr/index.html) package. Maybe you like it, maybe not. It's toally up to you if you want to use this or not. 
+
+**Ok, but how to plot more than two variables in one plot?**
+
+If the third variable you aim to visualize is a categorical variable (such as `SEX`) it is easy. You may simply add a grouping variable. 
+
+```{r}
+ggplot(howells, aes(x = GOL, y = BNL, color = SEX)) +
+  geom_point() + 
+  coord_equal() + 
+  theme_pubr(border = TRUE, margin = TRUE)
+```
+
+Even if it is a numerical variable, it is possible to visualize this to some extent. 
+
+```{r}
+ggplot(howells, aes(x = GOL, y = BNL, color = NOL)) +
+  geom_point() + 
+  coord_equal() + 
+  theme_pubr(border = TRUE, margin = TRUE)
+```
+
+Our last resort of visualizing more than two variables are 3D plots. The package [plot3D](http://www.sthda.com/english/wiki/impressive-package-for-3d-and-4d-graph-r-software-and-data-visualization) allows you to plot 3D data with the function `scatter3d()`
+
+```{r}
+scatter3D(howells$GOL, howells$BBH, howells$BNL, col = c("#1B9E77"), bty = "g", pch = 18)
+```
+
+Static 3D plots are often not a good choice, due to the following reasons: 
+
+* Hard to define the exact X,Y & Z position of a specific data point
+* Data points often obscure each other
+* The plot cannot be rotated
+
+Interactive 3D plots may be created with the package [plotly](https://plotly.com/r/).
+
+**Note that this is an hmtl widget and it will not render in the markdown output.** If you want to take a look, run your code in the .Rmd file.
+
+```{r}
+plot_ly(y = howells$GOL, z = howells$BBH, x = howells$XCB, type = "scatter3d", mode = "markers", text = howells$POPULATION, color = howells$SEX)
+```
+
+Note that this plot may be rotated and the variation is visible much better! 
+In general, we would suggest to use 3D graphs only for **exploratory** reasons, and not to communicate your results. There are several reasons why to avoid plotting your data in 3D. Consult this web page if you want to know more about [why not to go 3D](https://clauswilke.com/dataviz/no-3d.html). 
+
+## How PCA works
+
+Enough with the 3D graphs. We actually might not need them if we can apply a nice PCA! 
+But how does a PCA work and what are the statistical procedures behind it. We won't go into all the technicalities and mathematics behind PCA, but to get an overview of how it works, watch [this video](figures/PCA_main_ideas.mp4). If you want the youtube link, [here](https://www.youtube.com/watch?v=HMOI_lkzW08) you go. 
+
+
+
+
+# Data practical
+
+* Load some data (sets) and describe your data and its variables
+* Formulate two questions about the data that you want to visualize
+* [Decide how to visualize your variables](https://www.data-to-viz.com)
+* Convert your data types if needed, e.g., [to factors](https://swcarpentry.github.io/r-novice-inflammation/12-supp-factors/index.html)
+* Create your plots and explain in prose what the data visualizes (see example above)
+
+
+# References
+
