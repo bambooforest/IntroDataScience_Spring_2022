@@ -55,7 +55,8 @@ What does a data scientist do? First have a look at the data!
 ```{r, message=FALSE}
 howells <- read_csv("data/howells_data.csv")
 head(howells) %>% kable()
-glimpse(howells)
+nrow(howells)
+ncol(howells)
 ```
 
 OK, this is quite some data. 2524 rows (subjects) and 54 measurement variables (columns). How can we visualize the entirety of these variables in a simple x/y coordinate system? Seems impossible, right? We'll see.....
