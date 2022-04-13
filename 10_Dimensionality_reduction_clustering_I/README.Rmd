@@ -128,7 +128,7 @@ Interactive 3D plots may be created with the package [plotly](https://plotly.com
 
 **Note that this is an hmtl widget and it will not render in the markdown output.** If you want to take a look, run your code in the .Rmd file.
 
-```{r}
+```{r, eval=FALSE}
 plot_ly(y = howells$GOL, z = howells$BBH, x = howells$XCB, type = "scatter3d", mode = "markers", text = howells$POPULATION, color = howells$SEX)
 ```
 
