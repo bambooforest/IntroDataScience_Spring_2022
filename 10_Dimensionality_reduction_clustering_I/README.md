@@ -599,6 +599,9 @@ ggplot(howells_PCA_mean, aes(x = latitude, y = PC2)) +
 
 # Data practical
 
+-   As always, write a nicely structured **scientific report** in R
+    Markdown, which you will eventually upload on github (you hopefully
+    know how to do this until now :grin:)
 -   Look at the data sets that are available from the `datasets` package
     or from the `mlbench` package. For example the iris data from the
     `datasets` package or the BreastCancer data from the `mlbench`
