@@ -11,42 +11,53 @@ bibliography: '../2_writing_scientific_reports/references.bib'
 
 ***
 
-This report uses the [R programming language](https://cran.r-project.org/doc/FAQ/R-FAQ.html) [@R] and the following [R libraries](https://r-pkgs.org/intro.html) [@tidyverse;@knitr;@IrizarryGill2021;@ggthemes;@ggrepel].
+This report uses the [R programming language](https://cran.r-project.org/doc/FAQ/R-FAQ.html) [@R] and the following [R libraries](https://r-pkgs.org/intro.html) [@tidyverse;@knitr;@IrizarryGill2021;@ggthemes;@ggrepel;@ggpubr;@plot3D;@plotly;@devtools;@ggbiplot;@performanceanalytics;@mlbench].
 
 ```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(knitr)
-library(dslabs)
-library(ggthemes)
-library(ggrepel)
 library(ggpubr)
 library(plot3D)
 library(plotly)
+library(devtools)
+install_github("vqv/ggbiplot")
+library(ggbiplot)
+library(PerformanceAnalytics)
+library(mlbench)
+library(datasets)
 ```
 
-# Multivariate data 
+# Bivariate data -- a story all too simple?
 
-## Bivariate data -- a story too simple?
+Recall the materials on [Linear models I](https://github.com/bambooforest/IntroDataScience/tree/main/8_Linear_Models_I) and [Linear models II](https://github.com/bambooforest/IntroDataScience/tree/main/8_Linear_Models_II). As you remember, for applying linear models we mostly use **bivariate relationships**. This means that we are looking for relationships between only two variables, such as the relationship between brain- and body size in the animal kingdom. This is totally fine for answering a lot of scientific questions. 
 
-Recall the materials on [Linear models I](https://github.com/bambooforest/IntroDataScience/tree/main/8_Linear_Models_I) and [Linear models II](https://github.com/bambooforest/IntroDataScience/tree/main/8_Linear_Models_II). As you probably remember, for applying linear models we mostly use bivariate relationships. This means that we are looking for relationships between only two variables such as the ![correlation between brain- and body size](figures/brainbodysize.png) in the animal kingdom. This is totally fine for answering a lot of scientific questions. 
+![correlation between brain- and body size](figures/brainbodysize.png)
 
-**But: what if we have to deal with many independent variables, potentially hundreds of them?**
+**But: what if we have to deal with many more independent variables, potentially hundreds of them?**
 
-Not all scientific questions may be answered by simply looking at two variables. Here we can use [multivariate analysis and statistics](https://en.wikipedia.org/wiki/Multivariate_statistics). In this course we will mainly focus on **how to visualize multivariate data** for recognizing patterns in multivariate data sets and not so much on the mathematical and statistical details behind them. The most widely used technique for doing that is [**principal components analysis**](https://en.wikipedia.org/wiki/Principal_component_analysis) (PCA). 
+Not all scientific questions may be answered by simply looking at the relationship between two variables. Possibly, we will have to look at the influence of many different independent variables on a specific question. In these cases we can use [multivariate analysis and statistics](https://en.wikipedia.org/wiki/Multivariate_statistics). 
 
-The main aim of multivariate analysis is **pattern extraction**. This means, we aim to find a scientifically relevant pattern in potentially hundreds (or sometimes thousands) of numerical variables. We may summarize the aims of multivariate analysis followingly: 
+In this chapter we will mainly focus on "**how to visualize multivariate data**" for recognizing patterns in multivariate data sets and not so much on the mathematical and statistical details behind them. The most widely used technique for doing that is [**Principal Components Analysis**](https://en.wikipedia.org/wiki/Principal_component_analysis) (PCA). 
 
-* Find trends (covariation) 
-* Reduce number of variables to a few significant ones 
-* discriminate between groups
+The main aim of multivariate analysis, and also of PCA, is **pattern extraction**. This means, we aim to find a scientifically relevant pattern in potentially hundreds (or sometimes thousands) of numerical variables. We may summarize the aims of multivariate analysis as follows: 
 
-The basic idea of this chapter is that you can implement a PCA, a very fine instrument to do patterns extraction, and interpret the results. Finally you will apply this to other data sets and hopefully your own data. 
+* Find trends (covariation) in large data sets and big data
+* Reduce number of variables to a few significant ones (that is where PCA comes into play)
+* Discriminate between groups (like different populations, sexes etc.)
 
-Now let's go through a PCA in detail -- from bottom up. 
+The basic idea of this chapter is that you can implement a PCA, a very fine instrument to do patterns extraction, and interpret the results. Finally you will apply this to other data sets and hopefully to your own data. 
+
+Now let's go through a **PCA** in detail -- from bottom up. 
 
 ## Data
 
-Let's use a large data set with many independent measurements. For that we may use the [Howells Data](https://web.utk.edu/~auerbach/HOWL.htm). The data consists of hundreds of standard [craniometric measurements](https://en.wikipedia.org/wiki/Craniometry) of the [human skull](figures/craniometry.pdf) of different populations all around the globe. Here is an overview of the different populations ![](figures/howells_populations_map.png) that were analyzed for this data set. If you want to know more about the details of the analyses e.g. especially the abbreviations of the different measurements, please consult [this sheet](data/howells_info.pdf).
+Let's use a large data set with many independent measurements. We will utilize the [Howells Data](https://web.utk.edu/~auerbach/HOWL.htm). This data consists of hundreds of standard [craniometric measurements](https://en.wikipedia.org/wiki/Craniometry) of the [human skull](figures/craniometry.pdf) of different populations all around the globe. 
+
+Here is an overview of the different populations that were analyzed for this data set:
+
+![](figures/howells_populations_map.png)
+
+If you want to know more details on how the Howells Data was collected and how it is structured, e.g. especially the abbreviations of the different measurements, please consult [this PDF](data/howells_info.pdf).
 
 Now let's dive into this fantastic data set! 
 
@@ -59,7 +70,7 @@ nrow(howells)
 ncol(howells)
 ```
 
-OK, this is quite some data. 2524 rows (subjects) and 54 measurement variables (columns). How can we visualize the entirety of these variables in a simple x/y coordinate system? Seems impossible, right? We'll see.....
+OK, this is quite some data. 2524 rows (subjects) and 54 measurement variables (columns). How can we visualize the entirety of these variables in a simple x/y coordinate system? **Seems impossible, right? We'll see.....**
 
 ## Plotting multivariate data 
 
@@ -67,39 +78,41 @@ First, let's produce a simple bivariate plot
 
 ```{r}
 ggplot(howells, aes(x = GOL, y = BNL)) +
-  geom_point() + 
-  coord_equal() + 
+  geom_point() +
+  coord_equal() +
   theme_pubr(border = TRUE, margin = TRUE)
 ```
 
-What did I do here? I simply plotted two variables (BNL ~ GOL) which gives us a bivariate plot. You can already see, that these two measurements appear to be correlated. This is probably due to the fact, that both of these measurements (basion-nasion length and glabella-occipital length) are related to overall body size e.g. the larger a person is, the larger also GOL and BNL will be. 
+What did I do here? I simply plotted two variables (BNL ~ GOL), which gives us a bivariate plot. You can already see, that these two measurements appear to be **correlated**. This is probably due to the fact, that both these measurements (*basion-nasion length* and *glabella-occipital length*) are related to overall body size e.g. the larger a person is, the larger also GOL and BNL will be. 
 
-You might wonder why I used the statements `cord_equal()` and `theme_pubr(border = TRUE, margin = TRUE)`. 
+You might wonder why I used the statements `cord_equal()` and `theme_pubr(border = TRUE, margin = TRUE)` in my `ggplot()` statement. Here's why:
 
-* `cord_equal()` produces isometrically scaled axes. This is very important when plotting data that have similar scale on both axes (e.g. mm here). A distance in X should always be equal to a distance in Y. 
-* `theme_pubr(border = TRUE, margin = TRUE)` produces a nice "publication ready" theme from the [ggpubr](https://cran.r-project.org/web/packages/ggpubr/index.html) package. Maybe you like it, maybe not. It's toally up to you if you want to use this or not. 
+* `cord_equal()` produces isometrically scaled axes. This is very important when plotting data that have similar scale on both axes (e.g. mm here). A distance in X should always be equal to a distance in Y! (always do this for PCA!)
+* `theme_pubr(border = TRUE, margin = TRUE)` produces a nice "publication ready" theme from the [ggpubr](https://cran.r-project.org/web/packages/ggpubr/index.html) package. Maybe you like it, maybe not. It's totally up to you if you want to use this theme or not. 
 
-**Ok, but how to plot more than two variables in one plot?**
+### Ok, but how to plot more than two variables in one plot?
 
-If the third variable you aim to visualize is a categorical variable (such as `SEX`) it is easy. You may simply add a grouping variable. 
+If the third variable you aim to visualize is a categorical variable (such as `SEX`), it is easy. You may simply add a grouping variable. But you probably alread know how this works...
 
 ```{r}
 ggplot(howells, aes(x = GOL, y = BNL, color = SEX)) +
-  geom_point() + 
-  coord_equal() + 
+  geom_point() +
+  coord_equal() +
   theme_pubr(border = TRUE, margin = TRUE)
 ```
 
-Even if it is a numerical variable, it is possible to visualize this to some extent. 
+Even if it is a numerical variable, it is possible to visualize the "third" variable. 
 
 ```{r}
 ggplot(howells, aes(x = GOL, y = BNL, color = NOL)) +
-  geom_point() + 
-  coord_equal() + 
+  geom_point() +
+  coord_equal() +
   theme_pubr(border = TRUE, margin = TRUE)
 ```
 
-Our last resort of visualizing more than two variables are 3D plots. The package [plot3D](http://www.sthda.com/english/wiki/impressive-package-for-3d-and-4d-graph-r-software-and-data-visualization) allows you to plot 3D data with the function `scatter3d()`
+### The last resort: 3D plots
+
+Our last resort of visualizing more than two variables are 3D plots. The package [plot3D](http://www.sthda.com/english/wiki/impressive-package-for-3d-and-4d-graph-r-software-and-data-visualization) allows you to plot 3D data with the function `scatter3D()`
 
 ```{r}
 scatter3D(howells$GOL, howells$BBH, howells$BNL, col = c("#1B9E77"), bty = "g", pch = 18)
@@ -119,25 +132,206 @@ Interactive 3D plots may be created with the package [plotly](https://plotly.com
 plot_ly(y = howells$GOL, z = howells$BBH, x = howells$XCB, type = "scatter3d", mode = "markers", text = howells$POPULATION, color = howells$SEX)
 ```
 
-Note that this plot may be rotated and the variation is visible much better! 
-In general, we would suggest to use 3D graphs only for **exploratory** reasons, and not to communicate your results. There are several reasons why to avoid plotting your data in 3D. Consult this web page if you want to know more about [why not to go 3D](https://clauswilke.com/dataviz/no-3d.html). 
+Note that this plot may be rotated and the variation is much better visible! 
 
-## How PCA works
+In general, we would suggest to use 3D graphs only for **exploratory** reasons, and almost never to communicate your results. There are several reasons why to avoid plotting your data in 3D. Consult this web page if you want to know more about [why not to go 3D](https://clauswilke.com/dataviz/no-3d.html). 
 
-Enough with the 3D graphs. We actually might not need them if we can apply a nice PCA! 
-But how does a PCA work and what are the statistical procedures behind it. We won't go into all the technicalities and mathematics behind PCA, but to get an overview of how it works, watch [this video](figures/PCA_main_ideas.mp4). If you want the youtube link, [here](https://www.youtube.com/watch?v=HMOI_lkzW08) you go. 
+## What is a PCA?
 
+Enough with the 3D graphs (as said -- we do not really fancy 3D scatter plots). **We actually might not need them if we can apply a nice PCA!** 
+But how does a PCA work and what are the statistical procedures behind it? We won't go into all the technicalities and mathematics behind a PCA, but to get an overview of how it works, watch [this video](figures/PCA_main_ideas.mp4). If you want the Youtube link, [here](https://www.youtube.com/watch?v=HMOI_lkzW08) you go. 
 
+For a detailed tutorial of a PCA in R, see [here](https://www.datacamp.com/community/tutorials/pca-analysis-r). 
 
+*Note: for running a PCA we will utilize the package `ggbiplot`. To install it, make sure that you did run this command: `install_github("vqv/ggbiplot")`, to install it directly from github. For that, you will need to load the package `devtools` --> see first code chunk of this script.* 
+
+### What is a PCA worth?
+
+Here are some **important points**, why a PCA is very often a good choice to analyse your multivariate data set [@Zelditch2012]:
+
+* Principal components analysis is a commonly used **dimensionality reduction technique**. 
+* The purpose of PCA is to **simplify patterns** where we have multivariate data sets, and to make them easily visible by **replacing** the original variables with a few **new ones** (so called principal components, PCs). 
+* These resulting PCs are linear combinations of the original variables and are **statistically independent** of each other.
+* Only with a **few variables** (e.g. the PCs), **most of the variation** in a given sample can be explained. This means, that only by plotting PC1 & PC2 (a bivariate plot!) we may have over 50 % of variation in a sample visualized in a simple graph. 
+* PCA simplifies the description of **differences between individuals**. In PC plots, we will often see patterns of **clustering of different groups**. Finding these groups is very valuable, even if they do not represent statistically different entities. 
+
+### How does PCA work? 
+
+As mentioned before, we do not want to go into the technical details of how a PCA work. You may have already seen most of the important steps in the video above. However, let's quickly summarize how PCA works, at least from a geometric (visual) point of view. 
+
+For that take a look at the following **graphic**:
+
+![image](figures/PC.png)
+
+What you can see here is a simple **3D plot** of three observed traits (let's call them X1, X2 and X3). These traits may be simple distance measurements, as we find them in the howells data set. Each point in the **scatter plot** represents the three measurement values observed for each individual in the sample. The distribution of values in this graph may be summarized by an **ellipse** (black dashed ellipse) that is tilted along the X1 / X3 plane. **PCA** now solves for the axes of this ellipse and uses these new axes to describe the positions of individuals within that ellipse e.g. the newly acquired "space". The ultimate **goal of PCA** is to find the **directions** within that scatter that describes the **largest proportions of variance (PC1)**, the second largest proportion of variance (PC2) (these directions are indicated by the orange arrows in the graphic)... and so on. In this example we get three PCs in the end, since we only have 3 original variables. 
+
+**In summary, the resulting PCs describe the major directions of largest proportions of variance in each direction within this data scatter ellipse. Each new direction will be orthogonal to the latter directions. This explains why all PCs are totally independent of each other, e.g. they describe each a different pattern of variation in the sample.** 
+
+PCA in essence: 
+
+***
+
+* PCA is a statistical procedure that converts a set of observations of possibly correlated variables into a set of values of linearly uncorrelated variables called principal components ([Wikipedia](https://en.wikipedia.org/wiki/Principal_component_analysis))
+* PCA will help us to find a reduced number of features that will represent our original data set in a compressed way, capturing up to a certain portion of its variance depending on the number of new features we end up selecting ([Towardsdatascience](https://towardsdatascience.com/the-most-gentle-introduction-to-principal-component-analysis-9ffae371e93b))
+
+***
+
+**BUT** (there is always a but): Keep in mind that PCA (and other dimensionality reduction techniques) are statistical procedures and that the resulting PCs do not necessarily correspond to biologically relevant patterns of variation. Therefore, **always be careful how you interpret your PCA** and be cautious of faulty conclusions. PCA merely extracts patterns of variation in a sample and helps you to visualize  these patterns! 
+
+## Computing a PCA in R
+
+**Now let's get our hands dirty and do that PCA in R.**
+
+For computing the PCA in R, we will use the function `prcomp`, which is in the basic package `stats`. Note that PCA will only work with **numerical input**. So make sure not to include categorical variables! The argument `scale = FALSE` means that the PCA is performed on the variance-covariance matrix. This is advisable when all variables have the same measurement dimensions (here: millimeters). The argument `scale=TRUE` means that the PCA is performed on the correlation matrix, i.e. all variances are scaled to 1. This is advisable when variables have different dimensions (such as length, temperature, mass, etc.).
+
+```{r}
+data.pca <- prcomp(data.frame(howells[, 8:54]), scale = FALSE)
+```
+
+The output of `prcomp()` gives us a list of data, of which mostly `x` will be important, which are the resulting PC scores. 
+
+### PCA statistics
+
+Let's print some basic statistics of this PCA: 
+
+```{r}
+summary(data.pca)
+```
+
+In this output you can see the **"Importance of components"**, e.g. how much of the **total variance** in the sample the PCs explain. You can see that PC1 and PC2 together already explain 54.15 % of the full variance in the sample! 
+
+You may visualize the explained variances by each PCs easily with a [screeplot](https://en.wikipedia.org/wiki/Scree_plot). 
+
+```{r}
+ggscreeplot(data.pca)
+```
+
+Further, we can visualize to what extent each characteristic (your original variables) **influence** a specific PC. For that we may use a `biplot`, which can be produced automatically with `ggbiplot()`. 
+
+```{r}
+ggbiplot(data.pca, choices = 1:2, alpha = 0.1)
+ggbiplot(data.pca, choices = 2:3, alpha = 0.1)
+```
+
+On a biplot, you can see the data scatter of the PCs, depending on which PCs you want to visualize. Additionally to the observations, the biplot shows the original variables (input variables) as vectors (red arrows). These vectors may be interpreted as follows [@Rossiter2014]: 
+
+* The orientation (direction) of the vector, with respect to the principal component space, in particular, its angle with the principal component axes: the more parallel to a principal component axis is a vector, the more it contributes only to that PC.
+* The length in the space; the longer the vector, the more variability of this variable is represented by the two displayed principal components; short vectors are thus better represented in other dimension.
+* The angles between vectors of different variables show their correlation in this space: small angles represent high positive correlation, right angles represent lack of correlation, opposite angles represent high negative correlation.
+
+#### Which PCs are relevant for further investigation?
+
+A good rule of thumb is to use PCs that explain **more than 5 % of total variance** for visualization. The rest of the PCs may be ignored, since they explain only *"small amounts"* of variation. In our case, we would focus on PCs 1-4. Another option is to take a look at the **screeplot** and deem all the PCs as relevant which occur before the *"edge"* in the screeplot curve (around PC4 or PC5). Note that these are more **rules of thumb**, and not absolute truths! They simply have become *"statistical practice"*, just like setting the significance threshold of the p-value at 0.05.... but that is another story.
+
+### Plotting a PCA
+
+Now **let's plot** the actual PCs to look for actual patterns in the data. For that we must first store the relevant PC scores (PCs 1-4) in an accessible data format, such as a data frame. We can simply add PCs 1-4 to the original data using `cbind()`. 
+
+```{r}
+howells_PCA <- cbind(howells, data.pca$x[, 1:4])
+```
+
+Now we can plot the PCs using `ggplot`. 
+
+```{r}
+ggplot(howells_PCA, aes(x = PC1, y = PC2)) +
+  geom_point() +
+  coord_equal() +
+  theme_pubr(border = TRUE, margin = TRUE)
+```
+
+The actual **values** of the PC scores are **arbitrary** and cannot be interpreted in any sense. They are resulting from the statistical procedures we described above. 
+
+Let's use grouping variables. 
+
+```{r}
+ggplot(howells_PCA, aes(x = PC1, y = PC2, color = SEX)) +
+  geom_point() +
+  coord_equal() +
+  theme_pubr(border = TRUE, margin = TRUE)
+```
+
+```{r}
+ggplot(howells_PCA, aes(x = PC1, y = PC2, color = POPULATION)) +
+  geom_point(alpha = 0.5) +
+  coord_equal() +
+  theme_pubr(border = TRUE, margin = TRUE)
+
+ggplot(howells_PCA, aes(x = PC2, y = PC3, color = POPULATION)) +
+  geom_point(alpha = 0.5) +
+  coord_equal() +
+  theme_pubr(border = TRUE, margin = TRUE)
+```
+
+You can also use statistical ellipses to find patterns, e.g. to look for group differences. 
+
+```{r}
+ggplot(howells_PCA, aes(x = PC1, y = PC2, color = SEX)) +
+  geom_point(alpha = 0.5) +
+  coord_equal() +
+  stat_ellipse() +
+  theme_pubr(border = TRUE, margin = TRUE)
+
+ggplot(howells_PCA, aes(x = PC2, y = PC3, color = SEX)) +
+  geom_point(alpha = 0.5) +
+  coord_equal() +
+  stat_ellipse() +
+  theme_pubr(border = TRUE, margin = TRUE)
+
+ggplot(howells_PCA, aes(x = PC2, y = PC3, color = POPULATION)) +
+  geom_point(alpha = 0.5) +
+  coord_equal() +
+  stat_ellipse() +
+  theme_pubr(border = TRUE, margin = TRUE)
+```
+
+## Correlation between PCs and other variables 
+
+For looking at **correlations**, it is easier to get fewer data points for each population. So first, we `summarize()` the data. You already know how to do that from chapter 4: [data wrangling](../4_data_wrangling/). Note that we also calculate the **cosine of latitude**, which is an approximation of mean annual temperature. So here we go: 
+
+```{r}
+cos.latitude <- cos(howells_PCA$latitude * pi / 180.0)
+howells_PCA[, "cosine.latitude"] <- cos.latitude
+howells_PCA_mean <- howells_PCA[, -1] %>%
+  group_by(POPULATION, SEX) %>%
+  summarise_if(is.numeric, mean, na.rm = TRUE)
+```
+
+Sometimes it might be interesting to test if PCs (patterns of variation) are related to certain other variables, just like temperature, longitude, latitude etc. 
+We can look for these correlations with a [correlation matrix](http://www.sthda.com/english/wiki/correlation-matrix-a-quick-start-guide-to-analyze-format-and-visualize-a-correlation-matrix-using-r-software).
+
+```{r}
+chart.Correlation(howells_PCA_mean[c("PC1", "PC2", "PC3", "PC4", "cosine.latitude", "longitude", "latitude")])
+```
+
+PC2 shows a significant correlation with latitude. 
+
+```{r}
+ggplot(howells_PCA_mean, aes(x = latitude, y = PC2)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  theme_pubr(border = TRUE, margin = TRUE)
+```
 
 # Data practical
 
-* Load some data (sets) and describe your data and its variables
-* Formulate two questions about the data that you want to visualize
-* [Decide how to visualize your variables](https://www.data-to-viz.com)
-* Convert your data types if needed, e.g., [to factors](https://swcarpentry.github.io/r-novice-inflammation/12-supp-factors/index.html)
-* Create your plots and explain in prose what the data visualizes (see example above)
+* Look at the data sets that are available from the `datasets` package or from the `mlbench` package. For example the iris data from the `datasets` package or the BreastCancer data from the `mlbench` package. For an overview of the different data sets that are available you can consult this [webpage](https://machinelearningmastery.com/machine-learning-datasets-in-r/). 
+* Here are two examples, that are nicely fit to compute a PCA:
 
+```{r}
+## iris data set
+data(iris)
+
+## BreastCancer data set
+data(BreastCancer)
+```
+
+* When you run the command `data("datasetname")`, the data will load in your global environment in R-Studio
+* Load some data (sets) from the packages above and run a PCA (you can of course also use your own data!)
+* Formulate two questions or hypotheses on the data, that you want to answer by using a PCA
+* Visualize the PCA and utilize grouping procedures (coloring, density ellipses etc.) to find **patterns** in your data 
+* Clearly communicate the explained variances with a screeplot 
+* Investigate potential correlations of your PCs (you can also use a biplot for that)
+* Produce some final plots and comment what you can see on them and how you interpret the results
 
 # References
-
