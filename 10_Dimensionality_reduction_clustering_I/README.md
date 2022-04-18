@@ -100,7 +100,7 @@ utilize the [Howells Data](https://web.utk.edu/~auerbach/HOWL.htm). This
 data consists of hundreds of standard [craniometric
 measurements](https://en.wikipedia.org/wiki/Craniometry) of the [human
 skull](figures/craniometry.pdf) of different populations all around the
-globe.
+globe (Howells 1973, 1989, 1995).
 
 Here is an overview of the different populations that were analyzed for
 this data set:
@@ -640,6 +640,31 @@ data(BreastCancer)
 
 Arnold, Jeffrey B. 2021. *Ggthemes: Extra Themes, Scales and Geoms for
 ’Ggplot2’*. <https://CRAN.R-project.org/package=ggthemes>.
+
+</div>
+
+<div id="ref-Howells1973" class="csl-entry">
+
+Howells, William W. 1973. “Cranial Variation in Man. A Study by
+Multivariate Analysis of Patterns of Differences Among Recent Human
+Populations.” *Papers of the Peabody Museum of Archeology and Ethnology*
+67: 259.
+
+</div>
+
+<div id="ref-Howells1989" class="csl-entry">
+
+———. 1989. “Skull Shapes and the Map. Craniometric Analyses in the
+Dispersion of Modern Homo.” *Papers of the Peabody Museum of Archeology
+and Ethnology* 79: 189.
+
+</div>
+
+<div id="ref-Howells1995" class="csl-entry">
+
+———. 1995. “Who’s Who in Skulls. Ethnic Identification of Crania from
+Measurements.” *Papers of the Peabody Museum of Archeology and
+Ethnology* 82: 108.
 
 </div>
 

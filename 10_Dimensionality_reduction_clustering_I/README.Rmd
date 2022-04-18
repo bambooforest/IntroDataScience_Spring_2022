@@ -51,7 +51,7 @@ Now let's go through a **PCA** in detail -- from bottom up.
 
 ## Data
 
-Let's use a large data set with many independent measurements. We will utilize the [Howells Data](https://web.utk.edu/~auerbach/HOWL.htm). This data consists of hundreds of standard [craniometric measurements](https://en.wikipedia.org/wiki/Craniometry) of the [human skull](figures/craniometry.pdf) of different populations all around the globe. 
+Let's use a large data set with many independent measurements. We will utilize the [Howells Data](https://web.utk.edu/~auerbach/HOWL.htm). This data consists of hundreds of standard [craniometric measurements](https://en.wikipedia.org/wiki/Craniometry) of the [human skull](figures/craniometry.pdf) of different populations all around the globe [@Howells1973;@Howells1989;@Howells1995]. 
 
 Here is an overview of the different populations that were analyzed for this data set:
 
