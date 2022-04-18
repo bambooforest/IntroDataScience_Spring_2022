@@ -1,7 +1,7 @@
 Dimensionality reduction and clustering I
 ================
 Tiena Danner
-13 April, 2022
+18 April, 2022
 
 -   [Bivariate data – a story all too
     simple?](#bivariate-data--a-story-all-too-simple)
@@ -50,7 +50,7 @@ library(datasets)
 Recall the materials on [Linear models
 I](https://github.com/bambooforest/IntroDataScience/tree/main/8_Linear_Models_I)
 and [Linear models
-II](https://github.com/bambooforest/IntroDataScience/tree/main/8_Linear_Models_II).
+II](https://github.com/bambooforest/IntroDataScience/tree/main/9_Linear_Models_II).
 As you remember, for applying linear models we mostly use **bivariate
 relationships**. This means that we are looking for relationships
 between only two variables, such as the relationship between brain- and
