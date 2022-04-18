@@ -255,11 +255,16 @@ plots). **We actually might not need them if we can apply a nice PCA!**
 But how does a PCA work and what are the statistical procedures behind
 it? We won’t go into all the technicalities and mathematics behind a
 PCA, but to get an overview of how it works, watch [this
-video](figures/PCA_main_ideas.mp4). If you want the Youtube link,
+video](figures/PCA_main_ideas.mp4) (**attention**: if you click this
+link you will forwarded to a github page which will say: *(Sorry about
+that, but we can’t show files that are this big right now.)*, just click
+*View Raw* and you will be able to watch the video directly on github).
+If you want the Youtube link,
 [here](https://www.youtube.com/watch?v=HMOI_lkzW08) you go.
 
 For a detailed tutorial of a PCA in R, see
-[here](https://www.datacamp.com/community/tutorials/pca-analysis-r).
+[here](https://www.datacamp.com/community/tutorials/pca-analysis-r). But
+we will go through the most important steps ourselves in this script.
 
 *Note: for running a PCA we will utilize the package `ggbiplot`. To
 install it, make sure that you did run this command:
@@ -357,17 +362,22 @@ in the basic package `stats`. Note that PCA will only work with
 **numerical input**. So make sure not to include categorical variables!
 The argument `scale = FALSE` means that the PCA is performed on the
 variance-covariance matrix. This is advisable when all variables have
-the same measurement dimensions (here: millimeters). The argument
-`scale=TRUE` means that the PCA is performed on the correlation matrix,
-i.e. all variances are scaled to 1. This is advisable when variables
-have different dimensions (such as length, temperature, mass, etc.).
+the same measurement dimensions (in the Howells data: millimeters). The
+argument `scale=TRUE` means that the PCA is performed on the correlation
+matrix, i.e. all variances are scaled to 1. This is advisable when
+variables have different dimensions (such as length, temperature, mass,
+etc.).
 
 ``` r
 data.pca <- prcomp(data.frame(howells[, 8:54]), scale = FALSE)
 ```
 
 The output of `prcomp()` gives us a list of data, of which mostly `x`
-will be important, which are the resulting PC scores.
+will be important, which are the resulting PC scores. You can access the
+PC scores, or any other of the data entries by using the `$` operator.
+E.g. if you want to access the PC scores, you may use `data.pca$x`, or
+if you want the standard deviations of the PCs you prompt
+`pca.data$sdev` and so on…
 
 ### PCA statistics
 
@@ -437,23 +447,25 @@ ggbiplot(data.pca, choices = 2:3, alpha = 0.1)
 
 ![](README_files/figure-gfm/unnamed-chunk-11-2.png)<!-- -->
 
-On a biplot, you can see the data scatter of the PCs, depending on which
-PCs you want to visualize. Additionally to the observations, the biplot
-shows the original variables (input variables) as vectors (red arrows).
-These vectors may be interpreted as follows (Rossiter 2014):
+On a **biplot**, you can see the data scatter of the PCs, depending on
+which PCs you want to visualize (e.g. PC scores 1-2: `choices:1:2`).
+Additionally to the observations, the biplot shows the **original
+variables** (input variables) as vectors (red arrows). These vectors may
+be interpreted as follows (Rossiter 2014):
 
--   The orientation (direction) of the vector, with respect to the
+-   The **orientation** (direction) of the vector, with respect to the
     principal component space, in particular, its angle with the
-    principal component axes: the more parallel to a principal component
-    axis is a vector, the more it contributes only to that PC.
--   The length in the space; the longer the vector, the more variability
-    of this variable is represented by the two displayed principal
-    components; short vectors are thus better represented in other
-    dimension.
--   The angles between vectors of different variables show their
-    correlation in this space: small angles represent high positive
+    principal component axes: *the more parallel to a principal
+    component axis a vector is, the more it contributes only to that
+    PC.*
+-   The **length** in the space: *the longer the vector, the more
+    variability of this variable is represented by the two displayed
+    principal components; short vectors are thus better represented in
+    other dimensions.*
+-   The **angles** between vectors of different variables show their
+    correlation in this space: *small angles represent high positive
     correlation, right angles represent lack of correlation, opposite
-    angles represent high negative correlation.
+    angles represent high negative correlation.*
 
 #### Which PCs are relevant for further investigation?
 
@@ -606,7 +618,7 @@ ggplot(howells_PCA_mean, aes(x = latitude, y = PC2)) +
     or from the `mlbench` package. For example the iris data from the
     `datasets` package or the BreastCancer data from the `mlbench`
     package. For an overview of the different data sets that are
-    available you can consult this
+    available, you can consult this
     [webpage](https://machinelearningmastery.com/machine-learning-datasets-in-r/).
 -   Here are two examples, that are nicely fit to compute a PCA:
 
