@@ -1,7 +1,8 @@
 ---
-title: "Data visualization II"
-author: "Steven Moran & Alena Witzlack-Makarevich\n"
+title: "Dimensionality reduction and clustering I"
+author: "Tiena Danner"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
+always_allow_html: true
 output:
   github_document:
       toc: true
@@ -10,422 +11,328 @@ bibliography: '../2_writing_scientific_reports/references.bib'
 
 ***
 
-This report uses the [R programming language](https://cran.r-project.org/doc/FAQ/R-FAQ.html) [@R] and the following [R libraries](https://r-pkgs.org/intro.html) [@tidyverse;@knitr;@IrizarryGill2021;@ggthemes;@ggrepel].
+This report uses the [R programming language](https://cran.r-project.org/doc/FAQ/R-FAQ.html) [@R] and the following [R libraries](https://r-pkgs.org/intro.html) [@tidyverse;@knitr;@IrizarryGill2021;@ggthemes;@ggrepel;@ggpubr;@plot3D;@plotly;@devtools;@ggbiplot;@performanceanalytics;@mlbench].
 
 ```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(knitr)
-library(dslabs)
-library(ggthemes)
-library(ggrepel)
+library(ggpubr)
+library(plot3D)
+library(plotly)
+library(devtools)
+install_github("vqv/ggbiplot")
+library(ggbiplot)
+library(PerformanceAnalytics)
+library(mlbench)
+library(datasets)
 ```
 
-***
+# Bivariate data -- a story all too simple?
 
-# Visualizing data
+Recall the materials on [Linear models I](https://github.com/bambooforest/IntroDataScience/tree/main/8_Linear_Models_I) and [Linear models II](https://github.com/bambooforest/IntroDataScience/tree/main/9_Linear_Models_II). As you remember, for applying linear models we mostly use **bivariate relationships**. This means that we are looking for relationships between only two variables, such as the relationship between brain- and body size in the animal kingdom. This is totally fine for answering a lot of scientific questions. 
 
-## Recap
+![correlation between brain- and body size](figures/brainbodysize.png)
 
-Recall the discussions on [visualizing data](https://github.com/bambooforest/IntroDataScience/tree/main/5_data_visualization#visualizing-data) and the [layered graphics principles](https://github.com/bambooforest/IntroDataScience/tree/main/5_data_visualization#layered-graphics) of [data visualization](https://en.wikipedia.org/wiki/Data_visualization).
+**But: what if we have to deal with many more independent variables, potentially hundreds of them?**
 
-The basic idea is that you can build data visualizations from data and mappings between the data's variables and aesthetic attributes by plotting them on a [coordinate system](https://en.wikipedia.org/wiki/Coordinate_system).
+Not all scientific questions may be answered by simply looking at the relationship between two variables. Possibly, we will have to look at the influence of many different independent variables on a specific question. In these cases we can use [multivariate analysis and statistics](https://en.wikipedia.org/wiki/Multivariate_statistics). 
 
-Here is a cheat sheet describing the process:
+In this chapter we will mainly focus on "**how to visualize multivariate data**" for recognizing patterns in multivariate data sets and not so much on the mathematical and statistical details behind them. The most widely used technique for doing that is [**Principal Components Analysis**](https://en.wikipedia.org/wiki/Principal_component_analysis) (PCA). 
 
-* https://github.com/rstudio/cheatsheets/blob/main/data-visualization-2.1.pdf
+The main aim of multivariate analysis, and also of PCA, is **pattern extraction**. This means, we aim to find a scientifically relevant pattern in potentially hundreds (or sometimes thousands) of numerical variables. We may summarize the aims of multivariate analysis as follows: 
 
-***
+* Find trends (covariation) in large data sets and big data
+* Reduce number of variables to a few significant ones (that is where PCA comes into play)
+* Discriminate between groups (like different populations, sexes etc.)
 
-In this course we are using the tidyverse visualization library `ggplot2` [@Wickham2016]. 
+The basic idea of this chapter is that you can implement a PCA, a very fine instrument to do patterns extraction, and interpret the results. Finally you will apply this to other data sets and hopefully to your own data. 
 
-The book on using the `ggplot2` library is [*ggplot2: Elegant Graphics for Data Analysis*](https://ggplot2-book.org/index.html).
-
-A simple plot with `ggplot()` needs minimally:
-
-* Data to visualize -- a data frame or tibble!
-* Aesthetics -- mappings from aesthetic attributes (e.g., color, shape, size) to geometric objects (e.g., points, lines, bars)
-* Geometries -- e.g., dots, lines, boxes
-
-These essential ingredients (bordered in red) for creating a plot with `ggplot()` are illustrated below in a visualization within the layered grammar of graphics [@Wickham2009].
-
-![Essentials.](../5_data_visualization/figures/essential_ingredients.png)
-
-But let's go through each in detail -- but from bottom up.
+Now let's go through a **PCA** in detail -- from bottom up. 
 
 ## Data
 
-A plot is the information you wish to visualized from some source of data. Recall our discussion about the difference between [data and information](https://github.com/bambooforest/IntroDataScience/tree/main/3_data#what-is-data).
+Let's use a large data set with many independent measurements. We will utilize the [Howells Data](https://web.utk.edu/~auerbach/HOWL.htm). This data consists of hundreds of standard [craniometric measurements](https://en.wikipedia.org/wiki/Craniometry) of the [human skull](figures/craniometry.pdf) of different populations all around the globe [@Howells1973;@Howells1989;@Howells1995]. 
 
-Let's use the integrated `diamonds` data set in R. What does a data scientist do? First have a look at the data!
+Here is an overview of the different populations that were analyzed for this data set:
 
-```{r}
-?diamonds
-str(diamonds)
-head(diamonds) %>% kable()
-```
+![](figures/howells_populations_map.png)
 
-Now one way forward is to ask:
+If you want to know more details on how the Howells Data was collected and how it is structured, e.g. especially the abbreviations of the different measurements, please consult [this PDF](data/howells_info.pdf).
 
-* Which kinds of visualizations can we produce?
-* Which kind of research questions can be answered on the basis of this data set?
+Now let's dive into this fantastic data set! 
 
-
-## Geometries
-
-Geometries -- or "geoms" for short -- are fundamental to building visualizations with `ggplot2`. Geoms determine the type of the plot and are labeled like There are [several basic plot types](https://ggplot2-book.org/individual-geoms.html), e.g., but definitely not limited to:
-
-* geom_point() -- produces a scatterplot
-* geom_line() -- makes a line plot
-* geom_bar(stat = "identity") -- makes a bar chart
-
-<!--
-Here is a more comprehensive list:
-geom functions	Description
-geom_bar	bars with bases on the x axis
-geom_boxplot	a box-and-whiskers plot
-geom_density	a smooth density estimate calculated by stat_density
-geom_histogram	a histogram
-geom_line	connects observations ordered by the x value
-geom_point	represents observations as points, as in a scatterplot
-geom_jitter	points jittered (usually to reduce overplotting)
-geom_smooth	adds a smoothed conditional mean
-geom_text	adds textual annotations
-geom_tile	a tile plane with rectangles
--->
-
-Let's have a look. What are we plotting?
-
-```{r}
-ggplot(diamonds, aes(x = carat, y = price)) +
-  geom_point()
-```
-
-Now, each geom function has mandatory and optional aesthetics. This reference table is taken from @Teutonico2015:
-
-![Geoms and their aesthetics.](figures/geoms.png)
-
-It is important to note that function names may change in programming languages -- so always reference the latest version of the programming language or library that you are using!
-
-The `geom_point()` function requires the `x` and `y` aesthetic, but can additionally take the optional aethestics: `alpha`, `color`, `fill`, `shape`, and `size`. You can use these aesthetics to visualize your data in other ways.
-
-Color? What does it do?
-
-```{r}
-ggplot(diamonds, aes(x=carat, y=price, color=clarity)) + 
-  geom_point()
-```
-
-Each point is colored according to values in the variable `clarity`. Change the variable, change the color's attribute.
-
-```{r}
-ggplot(diamonds, aes(x=carat, y=price, color=color)) + 
-  geom_point()
-```
-
-```{r}
-ggplot(diamonds, aes(x=carat, y=price, color=cut)) + 
-  geom_point()
-```
-
-Some aesthetics can be combined. What's happening here?
-
-```{r}
-ggplot(diamonds, aes(x=carat, y=price, color=clarity, size=cut)) + 
-  geom_point()
-```
-What's happening here?
-
-```{r}
-ggplot(diamonds, aes(x=carat, y=price, color=clarity, shape=cut)) + 
-  geom_point()
-```
-
-Geoms can be stacked on top of each other -- one reason they are so powerful. What if you want to visualize a general trend in the data? How about the default [smoothed conditional means](https://ggplot2.tidyverse.org/reference/geom_smooth.html) of the response values of the explanatory variables (aka predictors) (see also [linear regression](https://en.wikipedia.org/wiki/Linear_regression)?
-
-What trend do we see?
-
-```{r}
-ggplot(diamonds, aes(x=carat, y=price)) + 
-  geom_point() + 
-  geom_smooth()
-```
-Geoms in `ggplot2` have sensible defaults. Above the gray area encompassing the curve is the [confidence interval](https://en.wikipedia.org/wiki/Confidence_interval), which visualized how much uncertainty is in smoothed curve.
-
-Again, we can begin to explore the data from various angles by using combinations of geoms and their aesthetics. For example, so that we can compare multiple trends within the same data set.
-
-```{r}
-ggplot(diamonds, aes(x=carat, y=price, color=clarity)) + 
-  geom_point() + 
-  geom_smooth(se=FALSE)
-```
-Sometimes the combinations of geoms and their aesthetics can make the picture more or less clear. Data visualization is about achieving clarity (and style) in how you communicate information gleaned from data. Sometimes less is more.
-
-```{r}
-ggplot(diamonds, aes(x=carat, y=price, color=clarity)) + 
-  geom_smooth(se=FALSE)
-```
-
-An important way of making your visualizations clear to your audience is to annotate (aka label) them!
-
-```{r}
-ggplot(diamonds, aes(x = carat, y = price)) +
-  geom_point() + 
-  ggtitle("Number of carets vsrsus their price") +
-  xlab("Weight of the dimaon (carats)") +
-  ylab("Price in US dollars")
-```
-
-And as we've noted before, there are often many different ways to write code that it creates the same output. Keep this in mind when reading other people's code!
-
-
-## Facets
-
-A powerful tool for exploratory data analysis is [faceting](https://ggplot2-book.org/facet.html) with `ggplot`. Additionally, **faceting** can be used to generate different subplots of a plot by some number of one or more discrete variables.
-
-What happens here?
-
-```{r}
-ggplot(diamonds, aes(x=carat, y=price, color=cut)) + 
-  geom_point() + 
-  facet_wrap(~ clarity)
-```
-
-And here? Note the tilde `~` basically means "explained by".
-
-```{r}
-ggplot(diamonds, aes(x=carat, y=price, color=cut)) + 
-  geom_point() + 
-  facet_grid(color ~ clarity)
-```
-
-
-## Statistics
-
-A visualization may also contain **statistical information**, e.g., a regression line, from the data, which is drawn on a specific coordinate system.
-
-We saw an example above that illustrates how to layer multiple geoms together.
-
-```{r}
-ggplot(diamonds, aes(x=carat, y=price)) + 
-  geom_point() + 
-  geom_smooth()
-```
-
-
-## Coordinates
-
-[Coordinate systems](https://en.wikipedia.org/wiki/Coordinate_system) in `ggplot2` [have two purposes](https://ggplot2-book.org/coord.html) [@Wickham2016]:
-
-* "Combine the two position aesthetics to produce a 2d position on the plot."
-* "In coordination with the faceter, coordinate systems draw axes and panel backgrounds."
-
-Coordinate systems in `ggplot2` come in two types:
-
-* Linear -- they preserve the shape of geoms
-* Non-linear -- they can change their shapes
-
-These are advanced techniques and when you think you need them, you should probably study them in detail. There's a free online book for that [@Wickham2016]:
-
-* https://ggplot2-book.org/
-* https://ggplot2-book.org/coord.html
-
-But note they also include functions for things like [map projection](https://en.wikipedia.org/wiki/Map_projection). Note also that in R, like most (or all) programming languages, there's lots of libraries to do the same things. 
-
-Remember to search for it and you'll find lots of results (as of writing 79 million plus hits):
-
-* https://www.google.com/search?client=safari&rls=en&q=how+to+make+geographic+maps+in+R&ie=UTF-8&oe=UTF-8
-
-Here's a simple example that plots the languages of the world on a simple map.
-
-Let's get the data from the [Glottolog]
+What does a data scientist do? First have a look at the data!
 
 ```{r, message=FALSE}
-df <- read_csv(url('https://cdstar.eva.mpg.de/bitstreams/EAEA0-F8BB-0AB6-96FA-0/languages_and_dialects_geo.csv'))
+howells <- read_csv("data/howells_data.csv")
+head(howells) %>% kable()
+nrow(howells)
+ncol(howells)
 ```
 
-Let's have a look. What are the variables?
+OK, this is quite some data. 2524 rows (subjects) and 54 measurement variables (columns). How can we visualize the entirety of these variables in a simple x/y coordinate system? **Seems impossible, right? We'll see.....**
+
+## Plotting multivariate data 
+
+First, let's produce a simple bivariate plot 
 
 ```{r}
-head(df)
+ggplot(howells, aes(x = GOL, y = BNL)) +
+  geom_point() +
+  coord_equal() +
+  theme_pubr(border = TRUE, margin = TRUE)
 ```
 
-What kind of levels are there?
+What did I do here? I simply plotted two variables (BNL ~ GOL), which gives us a bivariate plot. You can already see, that these two measurements appear to be **correlated**. This is probably due to the fact, that both these measurements (*basion-nasion length* and *glabella-occipital length*) are related to overall body size e.g. the larger a person is, the larger also GOL and BNL will be. 
+
+You might wonder why I used the statements `cord_equal()` and `theme_pubr(border = TRUE, margin = TRUE)` in my `ggplot()` statement. Here's why:
+
+* `cord_equal()` produces isometrically scaled axes. This is very important when plotting data that have similar scale on both axes (e.g. mm here). A distance in X should always be equal to a distance in Y! (always do this for PCA!)
+* `theme_pubr(border = TRUE, margin = TRUE)` produces a nice "publication ready" theme from the [ggpubr](https://cran.r-project.org/web/packages/ggpubr/index.html) package. Maybe you like it, maybe not. It's totally up to you if you want to use this theme or not. 
+
+### Ok, but how to plot more than two variables in one plot?
+
+If the third variable you aim to visualize is a categorical variable (such as `SEX`), it is easy. You may simply add a grouping variable. But you probably alread know how this works...
 
 ```{r}
-table(df$level)
+ggplot(howells, aes(x = GOL, y = BNL, color = SEX)) +
+  geom_point() +
+  coord_equal() +
+  theme_pubr(border = TRUE, margin = TRUE)
 ```
 
-
-Let's filter out just [languages](https://en.wikipedia.org/wiki/Language) and drop [dialects](https://en.wikipedia.org/wiki/Dialect).
+Even if it is a numerical variable, it is possible to visualize the "third" variable. 
 
 ```{r}
-df <- df %>% filter(level == "language")
+ggplot(howells, aes(x = GOL, y = BNL, color = NOL)) +
+  geom_point() +
+  coord_equal() +
+  theme_pubr(border = TRUE, margin = TRUE)
 ```
 
-And here is some simple code to plot languages as dots on a world map in mercator projection.
+### The last resort: 3D plots
+
+Our last resort of visualizing more than two variables are 3D plots. The package [plot3D](http://www.sthda.com/english/wiki/impressive-package-for-3d-and-4d-graph-r-software-and-data-visualization) allows you to plot 3D data with the function `scatter3D()`
 
 ```{r}
-ggplot(data=df, aes(x=longitude,y=latitude)) + 
-  borders("world", colour="gray50", fill="gray50") + 
-  geom_point()
-```
-Want to add some color? You need a variable for that.
-
-```{r}
-ggplot(data=df, aes(x=longitude,y=latitude, color=macroarea)) + 
-  borders("world", colour="gray50", fill="gray50") + 
-  geom_point()
+scatter3D(howells$GOL, howells$BBH, howells$BNL, col = c("#1B9E77"), bty = "g", pch = 18)
 ```
 
+Static 3D plots are often not a good choice, due to the following reasons: 
 
+* Hard to define the exact X,Y & Z position of a specific data point
+* Data points often obscure each other
+* The plot cannot be rotated
 
-## Theme
+Interactive 3D plots may be created with the package [plotly](https://plotly.com/r/).
 
-[Themes](https://ggplot2-book.org/polishing.html) are a way to finely tune your plots. They give you control of things like the background, fonts, text orientation.
+**Note that this is an hmtl widget and it will not render in the markdown output.** If you want to take a look, run your code in the .Rmd file.
 
-Default theme in `ggplot2` looks like this. Learn how to read a [box plot](https://towardsdatascience.com/understanding-boxplots-5e2df7bcbd51)?
-
-```{r}
-atheletes <- read_csv('../4_data_wrangling/datasets/athletes.csv')
-ggplot(data=atheletes, aes(x = gender, y = weight)) +
-  geom_boxplot()
+```{r, eval=FALSE}
+plot_ly(y = howells$GOL, z = howells$BBH, x = howells$XCB, type = "scatter3d", mode = "markers", text = howells$POPULATION, color = howells$SEX)
 ```
 
-But you can change the theme with `theme_x`
+Note that this plot may be rotated and the variation is much better visible! 
 
-```{r}
-ggplot(data=atheletes, aes(x = gender, y = weight)) +
-  geom_boxplot() +
-  theme_minimal()
-```
-```{r}
-ggplot(data=atheletes, aes(x = gender, y = weight)) +
-  geom_boxplot() +
-  theme_dark()
-```
+In general, we would suggest to use 3D graphs only for **exploratory** reasons, and almost never to communicate your results. There are several reasons why to avoid plotting your data in 3D. Consult this web page if you want to know more about [why not to go 3D](https://clauswilke.com/dataviz/no-3d.html). 
 
-```{r}
-ggplot(data=atheletes, aes(x = gender, y = weight)) +
-  geom_boxplot() +
-  theme_classic()
-```
+## What is a PCA?
 
-```{r}
-library(ggthemes)
-ggplot(data=atheletes, aes(x = gender, y = weight)) +
-  geom_boxplot() +
-  theme_tufte(ticks = FALSE)
-```
+Enough with the 3D graphs (as said -- we do not really fancy 3D scatter plots). **We actually might not need them if we can apply a nice PCA!** 
+But how does a PCA work and what are the statistical procedures behind it? We won't go into all the technicalities and mathematics behind a PCA, but to get an overview of how it works, watch [this video](figures/PCA_main_ideas.mp4) (**attention**: if you click this link you will forwarded to a github page which will say: *(Sorry about that, but we can’t show files that are this big right now.)*, just click *View Raw* and you will be able to watch the video directly on github). If you want the Youtube link, [here](https://www.youtube.com/watch?v=HMOI_lkzW08) you go. 
 
-But as we've said now multiple times, there's always different ways of producing the same things when coding. And there's usually libraries to help with that! For example, check out the [ggthemes](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/) library.
+For a detailed tutorial of a PCA in R, see [here](https://www.datacamp.com/community/tutorials/pca-analysis-r). But we will go through the most important steps ourselves in this script. 
+
+*Note: for running a PCA we will utilize the package `ggbiplot`. To install it, make sure that you did run this command: `install_github("vqv/ggbiplot")`, to install it directly from github. For that, you will need to load the package `devtools` --> see first code chunk of this script.* 
+
+### What is a PCA worth?
+
+Here are some **important points**, why a PCA is very often a good choice to analyse your multivariate data set [@Zelditch2012]:
+
+* Principal components analysis is a commonly used **dimensionality reduction technique**. 
+* The purpose of PCA is to **simplify patterns** where we have multivariate data sets, and to make them easily visible by **replacing** the original variables with a few **new ones** (so called principal components, PCs). 
+* These resulting PCs are linear combinations of the original variables and are **statistically independent** of each other.
+* Only with a **few variables** (e.g. the PCs), **most of the variation** in a given sample can be explained. This means, that only by plotting PC1 & PC2 (a bivariate plot!) we may have over 50 % of variation in a sample visualized in a simple graph. 
+* PCA simplifies the description of **differences between individuals**. In PC plots, we will often see patterns of **clustering of different groups**. Finding these groups is very valuable, even if they do not represent statistically different entities. 
+
+### How does PCA work? 
+
+As mentioned before, we do not want to go into the technical details of how a PCA work. You may have already seen most of the important steps in the video above. However, let's quickly summarize how PCA works, at least from a geometric (visual) point of view. 
+
+For that take a look at the following **graphic**:
+
+![image](figures/PC.png)
+
+What you can see here is a simple **3D plot** of three observed traits (let's call them X1, X2 and X3). These traits may be simple distance measurements, as we find them in the howells data set. Each point in the **scatter plot** represents the three measurement values observed for each individual in the sample. The distribution of values in this graph may be summarized by an **ellipse** (black dashed ellipse) that is tilted along the X1 / X3 plane. **PCA** now solves for the axes of this ellipse and uses these new axes to describe the positions of individuals within that ellipse e.g. the newly acquired "space". The ultimate **goal of PCA** is to find the **directions** within that scatter that describes the **largest proportions of variance (PC1)**, the second largest proportion of variance (PC2) (these directions are indicated by the orange arrows in the graphic)... and so on. In this example we get three PCs in the end, since we only have 3 original variables. 
+
+**In summary, the resulting PCs describe the major directions of largest proportions of variance in each direction within this data scatter ellipse. Each new direction will be orthogonal to the latter directions. This explains why all PCs are totally independent of each other, e.g. they describe each a different pattern of variation in the sample.** 
+
+PCA in essence: 
 
 ***
 
-How about changing colors? Here is a [histogram](https://en.wikipedia.org/wiki/Histogram) with default colors in `ggplot2`.
+* PCA is a statistical procedure that converts a set of observations of possibly correlated variables into a set of values of linearly uncorrelated variables called principal components ([Wikipedia](https://en.wikipedia.org/wiki/Principal_component_analysis))
+* PCA will help us to find a reduced number of features that will represent our original data set in a compressed way, capturing up to a certain portion of its variance depending on the number of new features we end up selecting ([Towardsdatascience](https://towardsdatascience.com/the-most-gentle-introduction-to-principal-component-analysis-9ffae371e93b))
+
+***
+
+**BUT** (there is always a but): Keep in mind that PCA (and other dimensionality reduction techniques) are statistical procedures and that the resulting PCs do not necessarily correspond to biologically relevant patterns of variation. Therefore, **always be careful how you interpret your PCA** and be cautious of faulty conclusions. PCA merely extracts patterns of variation in a sample and helps you to visualize  these patterns! 
+
+## Computing a PCA in R
+
+**Now let's get our hands dirty and do that PCA in R.**
+
+For computing the PCA in R, we will use the function `prcomp`, which is in the basic package `stats`. Note that PCA will only work with **numerical input**. So make sure not to include categorical variables! The argument `scale = FALSE` means that the PCA is performed on the variance-covariance matrix. This is advisable when all variables have the same measurement dimensions (in the Howells data: millimeters). The argument `scale=TRUE` means that the PCA is performed on the correlation matrix, i.e. all variances are scaled to 1. This is advisable when variables have different dimensions (such as length, temperature, mass, etc.).
 
 ```{r}
-ggplot(atheletes, aes(x=weight, fill=gender)) + 
-  geom_histogram()
+data.pca <- prcomp(data.frame(howells[, 8:54]), scale = FALSE)
+```
+
+The output of `prcomp()` gives us a list of data, of which mostly `x` will be important, which are the resulting PC scores. You can access the PC scores, or any other of the data entries by using the `$` operator. E.g. if you want to access the PC scores, you may use `data.pca$x`, or if you want the standard deviations of the PCs you prompt `pca.data$sdev` and so on...
+
+### PCA statistics
+
+Let's print some basic statistics of this PCA: 
+
+```{r}
+summary(data.pca)
+```
+
+In this output you can see the **"Importance of components"**, e.g. how much of the **total variance** in the sample the PCs explain. You can see that PC1 and PC2 together already explain 54.15 % of the full variance in the sample! 
+
+You may visualize the explained variances by each PCs easily with a [screeplot](https://en.wikipedia.org/wiki/Scree_plot). 
+
+```{r}
+ggscreeplot(data.pca)
+```
+
+Further, we can visualize to what extent each characteristic (your original variables) **influence** a specific PC. For that we may use a `biplot`, which can be produced automatically with `ggbiplot()`. 
+
+```{r}
+ggbiplot(data.pca, choices = 1:2, alpha = 0.1)
+ggbiplot(data.pca, choices = 2:3, alpha = 0.1)
+```
+
+On a **biplot**, you can see the data scatter of the PCs, depending on which PCs you want to visualize (e.g. PC scores 1-2: `choices:1:2`). Additionally to the observations, the biplot shows the **original variables** (input variables) as vectors (red arrows). These vectors may be interpreted as follows [@Rossiter2014]: 
+
+* The **orientation** (direction) of the vector, with respect to the principal component space, in particular, its angle with the principal component axes: *the more parallel to a principal component axis a vector is, the more it contributes only to that PC.*
+* The **length** in the space: *the longer the vector, the more variability of this variable is represented by the two displayed principal components; short vectors are thus better represented in other dimensions.*
+* The **angles** between vectors of different variables show their correlation in this space: *small angles represent high positive correlation, right angles represent lack of correlation, opposite angles represent high negative correlation.*
+
+#### Which PCs are relevant for further investigation?
+
+A good rule of thumb is to use PCs that explain **more than 5 % of total variance** for visualization. The rest of the PCs may be ignored, since they explain only *"small amounts"* of variation. In our case, we would focus on PCs 1-4. Another option is to take a look at the **screeplot** and deem all the PCs as relevant which occur before the *"edge"* in the screeplot curve (around PC4 or PC5). Note that these are more **rules of thumb**, and not absolute truths! They simply have become *"statistical practice"*, just like setting the significance threshold of the p-value at 0.05.... but that is another story.
+
+### Plotting a PCA
+
+Now **let's plot** the actual PCs to look for actual patterns in the data. For that we must first store the relevant PC scores (PCs 1-4) in an accessible data format, such as a data frame. We can simply add PCs 1-4 to the original data using `cbind()`. 
+
+```{r}
+howells_PCA <- cbind(howells, data.pca$x[, 1:4])
+```
+
+Now we can plot the PCs using `ggplot`. 
+
+```{r}
+ggplot(howells_PCA, aes(x = PC1, y = PC2)) +
+  geom_point() +
+  coord_equal() +
+  theme_pubr(border = TRUE, margin = TRUE)
+```
+
+The actual **values** of the PC scores are **arbitrary** and cannot be interpreted in any sense. They are resulting from the statistical procedures we described above. 
+
+Let's use grouping variables. 
+
+```{r}
+ggplot(howells_PCA, aes(x = PC1, y = PC2, color = SEX)) +
+  geom_point() +
+  coord_equal() +
+  theme_pubr(border = TRUE, margin = TRUE)
 ```
 
 ```{r}
-ggplot(atheletes, aes(x=weight)) + 
-  geom_histogram(aes(fill=gender), position = "identity") +
-  scale_fill_manual(values = c("#00AFBB", "#E7B800"))
+ggplot(howells_PCA, aes(x = PC1, y = PC2, color = POPULATION)) +
+  geom_point(alpha = 0.5) +
+  coord_equal() +
+  theme_pubr(border = TRUE, margin = TRUE)
+
+ggplot(howells_PCA, aes(x = PC2, y = PC3, color = POPULATION)) +
+  geom_point(alpha = 0.5) +
+  coord_equal() +
+  theme_pubr(border = TRUE, margin = TRUE)
 ```
 
-And maybe instead of a histogram you want a [density plot](https://www.data-to-viz.com/graph/density.html) to check the distribution of some variable(s)?
+You can also use statistical ellipses to find patterns, e.g. to look for group differences. 
 
 ```{r}
-ggplot(diamonds, aes(x=price, fill=cut)) + geom_histogram()
-ggplot(diamonds, aes(x=price)) + geom_density()
-ggplot(diamonds, aes(x=price, color=cut)) + geom_density()
+ggplot(howells_PCA, aes(x = PC1, y = PC2, color = SEX)) +
+  geom_point(alpha = 0.5) +
+  coord_equal() +
+  stat_ellipse() +
+  theme_pubr(border = TRUE, margin = TRUE)
+
+ggplot(howells_PCA, aes(x = PC2, y = PC3, color = SEX)) +
+  geom_point(alpha = 0.5) +
+  coord_equal() +
+  stat_ellipse() +
+  theme_pubr(border = TRUE, margin = TRUE)
+
+ggplot(howells_PCA, aes(x = PC2, y = PC3, color = POPULATION)) +
+  geom_point(alpha = 0.5) +
+  coord_equal() +
+  stat_ellipse() +
+  theme_pubr(border = TRUE, margin = TRUE)
 ```
 
+## Correlation between PCs and other variables 
 
-# Visualizations
-
-## Which plot(s) to use?
-
-It depends on your data and the data types in your data. Here is a great visualization and great site that gives you a [decision tree](https://en.wikipedia.org/wiki/Decision_tree) so that you can decide what kind of visualization best fits your data and which caveats you should avoid when creating those visualizations:
-
-* https://www.data-to-viz.com
-
-First you need to know your data type, e.g., are you working with numeric or categorical data? Then ask how many variables you are working with, e.g., one or two or more categorical variables. If you have one categorical variable, for example, your data set is very simple and you can use a bar plot. If you have two or more categorical values, are they independent, nested, etc.? If you have a numerical and categorical variable, in what relation do they stand to each other? Is there order?
-
-Note also the caveats!
-
-* https://www.data-to-viz.com/caveats.html
-
-Remember, you want your visualizations to tell a story. And there are a lot of visualization graphics out there!
-
-* https://www.data-to-viz.com/#story
-
-
-## Putting it all together: an example
-
-This data visualization below incorporates various libraries to produce a professional looking image. The plot comes from code from this [Introduction to Data Science Repository](https://github.com/datasciencelabs) in this awesome [class](https://datasciencelabs.github.io/pages/syllabus.html) from this [lecture](https://github.com/datasciencelabs/2021/blob/master/04_data_visualization/02_gapminder.Rmd). Lots of good materials in that course -- check it out! 
-
-The R libraries that we will use [@R].
-
-```{r, message=FALSE, warning=FALSE}
-library(tidyverse)
-library(dslabs)
-library(ggthemes)
-library(ggrepel)
-```
-
-Load the `murders` data from from the `dslabs` library [@IrizarryGill2021]. The data set includes reports the number of US gun murders by state for 2010 as reported by the [FBI](https://en.wikipedia.org/wiki/Federal_Bureau_of_Investigation). It also contains population counts for each state (2010).
+For looking at **correlations**, it is easier to get fewer data points for each population. So first, we `summarize()` the data. You already know how to do that from chapter 4: [data wrangling](../4_data_wrangling/). Note that we also calculate the **cosine of latitude**, which is an approximation of mean annual temperature. So here we go: 
 
 ```{r}
-data(murders)
-head(murders)
-str(murders)
+cos.latitude <- cos(howells_PCA$latitude * pi / 180.0)
+howells_PCA[, "cosine.latitude"] <- cos.latitude
+howells_PCA_mean <- howells_PCA[, -1] %>%
+  group_by(POPULATION, SEX) %>%
+  summarise_if(is.numeric, mean, na.rm = TRUE)
 ```
 
-The data set contains variables for:
-
-* Character vector for US states
-* Character vector for abbreviations of each US state
-* The region in which the state (four categorical values including: Northeast, South, North Central, and West)
-* Numerical values for the US state's population
-* Numerical values for the total number of gun murders in each state
-
-The data manipulation. Here we calculate the [r correlation coefficient](https://en.wikipedia.org/wiki/Correlation_coefficient). 
+Sometimes it might be interesting to test if PCs (patterns of variation) are related to certain other variables, just like temperature, longitude, latitude etc. 
+We can look for these correlations with a [correlation matrix](http://www.sthda.com/english/wiki/correlation-matrix-a-quick-start-guide-to-analyze-format-and-visualize-a-correlation-matrix-using-r-software).
 
 ```{r}
-r <- murders %>% 
-  summarize(pop = sum(population), tot = sum(total)) %>% 
-  mutate(murder_rate = tot/pop*10^6) %>% .$murder_rate
+chart.Correlation(howells_PCA_mean[c("PC1", "PC2", "PC3", "PC4", "cosine.latitude", "longitude", "latitude")])
 ```
 
-And now the visualization.
+PC2 shows a significant correlation with latitude. 
 
 ```{r}
-murders %>% ggplot(aes(x = population/10^6, y = total, label = abb)) +  
-  geom_abline(intercept = log10(r), lty=2, col="darkgrey") +
-  geom_point(aes(color=region), size = 3) +
-  geom_text_repel() + 
-  scale_x_log10() +
-  scale_y_log10() +
-  xlab("Populations in millions (log scale)") + 
-  ylab("Total number of murders (log scale)") +
-  ggtitle("US Gun Murders in 2010") +
-  scale_color_discrete(name = "Region") +
-  theme_economist()
+ggplot(howells_PCA_mean, aes(x = latitude, y = PC2)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  theme_pubr(border = TRUE, margin = TRUE)
 ```
-
-We plot the relationship between total number of murders (in [logorathmic scale](https://en.wikipedia.org/wiki/Logarithmic_scale)) versus the population in [US states](https://en.wikipedia.org/wiki/U.S._state) (log scale) and color code each state for region. There is a trend that more populous states tend to have more murders.
-
 
 # Data practical
 
-* Load some data (sets) and describe your data and its variables
-* Formulate two questions about the data that you want to visualize
-* [Decide how to visualize your variables](https://www.data-to-viz.com)
-* Convert your data types if needed, e.g., [to factors](https://swcarpentry.github.io/r-novice-inflammation/12-supp-factors/index.html)
-* Create your plots and explain in prose what the data visualizes (see example above)
+* As always, write a nicely structured **scientific report** in R Markdown, which you will eventually upload on github (you hopefully know how to do this until now :grin:)
+* Look at the data sets that are available from the `datasets` package or from the `mlbench` package. For example the iris data from the `datasets` package or the BreastCancer data from the `mlbench` package. For an overview of the different data sets that are available, you can consult this [webpage](https://machinelearningmastery.com/machine-learning-datasets-in-r/). 
+* Here are two examples, that are nicely fit to compute a PCA:
 
+```{r}
+## iris data set
+data(iris)
+
+## BreastCancer data set
+data(BreastCancer)
+```
+
+* When you run the command `data("datasetname")`, the data will load in your global environment in R-Studio
+* Load some data (sets) from the packages above and run a PCA (you can of course also use your own data!)
+* Formulate two questions or hypotheses on the data, that you want to answer by using a PCA
+* Visualize the PCA and utilize grouping procedures (coloring, density ellipses etc.) to find **patterns** in your data 
+* Clearly communicate the explained variances with a screeplot 
+* Investigate potential correlations of your PCs (you can also use a biplot for that)
+* Produce some final plots and comment what you can see on them and how you interpret the results
 
 # References
-
