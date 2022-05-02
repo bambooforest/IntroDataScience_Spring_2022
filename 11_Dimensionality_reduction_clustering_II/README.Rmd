@@ -214,7 +214,7 @@ Here are some points and pitfalls to consider when doing clustering [source](htt
   - If you forget this step, it will mess with the outcome of the clustering
 - Be careful of **arbitrary clustering** 
   - Make sure to choose a reasonable number of clusters that make scientifically sense 
-  - Use methods to determine the optimal number of clusters (see [section](#how-many-clusters-to-choose?))
+  - Use methods to determine the optimal number of clusters (see [section](#how-many-clusters-to-choose))
   - It is a good rule of thumb, to have about similar number of data points in each cluster (depends on your original data)
 - Make sure to **describe the cluster patterns comprehensibly** 
   - Which characteristics represent each of the clusters?

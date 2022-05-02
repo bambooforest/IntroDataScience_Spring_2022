@@ -386,7 +386,7 @@ Here are some points and pitfalls to consider when doing clustering
     -   Make sure to choose a reasonable number of clusters that make
         scientifically sense
     -   Use methods to determine the optimal number of clusters (see
-        [section](#how-many-clusters-to-choose?))
+        [section](#how-many-clusters-to-choose))
     -   It is a good rule of thumb, to have about similar number of data
         points in each cluster (depends on your original data)
 -   Make sure to **describe the cluster patterns comprehensibly**
