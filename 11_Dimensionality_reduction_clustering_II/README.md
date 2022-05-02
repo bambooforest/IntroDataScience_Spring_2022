@@ -9,6 +9,7 @@ Tiena Danner
     -   [K-means clustering in R-code](#k-means-clustering-in-r-code)
     -   [How many clusters to choose?](#how-many-clusters-to-choose)
 -   [Hierarchical clustering in R](#hierarchical-clustering-in-r)
+-   [Clustering in essence](#clustering-in-essence)
 -   [Data practical](#data-practical)
 -   [References](#references)
 
@@ -19,7 +20,7 @@ language](https://cran.r-project.org/doc/FAQ/R-FAQ.html) (R Core Team
 2021) and the following [R libraries](https://r-pkgs.org/intro.html)
 (Wickham et al. 2019; Xie 2021; Kassambara and Kassambara 2020; Leisch
 and Dimitriadou 2010; Kassambara and Mundt 2020; Auguie and Antonov
-2017).
+2017; Maechler et al. 2022; Vries and Ripley 2022).
 
 ``` r
 library(tidyverse)
@@ -30,6 +31,7 @@ library(mlbench)
 library(datasets)
 library(gridExtra)
 library(cluster)
+library(ggdendro)
 ```
 
 ## PCA – so what?
@@ -37,59 +39,55 @@ library(cluster)
 Recall the materials on
 [PCA](https://github.com/bambooforest/IntroDataScience/tree/main/10_Dimensionality_reduction_clustering_I).
 As you remember, we may use **PCA** to boil down sets of multivariate
-data into a few uncorrelated variables that explain the main axes of
+data into a few uncorrelated variables that capture the main axes of
 variation in our data (the PCs). We can use the PCs to look at our data
-and how it is structured and even find some clusters within the data.
+and how it is structured and even to find potential patterns of
+variation within the data.
 
 **But: what can we do to find the actual patterns e.g. clusters in the
 data?**
 
-In this chapter we will focus on “**how to patterns in multivariate data
-–&gt; clustering**.” There is a wide range of clustering methods in the
-programming world and we will only cover a fraction of those. For an
+In this chapter we will focus on “**How to find patterns in multivariate
+data (e.g clustering)**.” There is a wide range of clustering methods in
+the programming world and we will only cover a fraction of them. For an
 overview, see the Wikipedia article on
 [**clustering**](https://en.wikipedia.org/wiki/Cluster_analysis). The
 most widely used technique for clustering is [**K-means
-clustering**](https://en.wikipedia.org/wiki/K-means_clustering), which
-we will apply today.
+clustering**](https://en.wikipedia.org/wiki/K-means_clustering), at
+which we will take a closer look today.
 
-Again, we will not go into the exact mathematical details of clustering
+We will not go into the exact mathematical details of clustering
 algorithms but focus on the practical application of clustering. The
-main goals of clustering can be summarized as
-[follows](https://en.wikipedia.org/wiki/Cluster_analysis):
+main purpose of clustering can be summarized as follows
+[source](https://en.wikipedia.org/wiki/Cluster_analysis):
 
-**Grouping objects (or subjects/specimens) such that objects in the same
-group (cluster) are more similar to each other than objects in other
-clusters**
+**Clustering may be used for grouping objects (or subjects/specimens),
+such that objects in the same group (or cluster) are more similar to
+each other than objects in other clusters**
 
-The basic idea of this chapter is that you can implement a clustering
-procedure on your own, that you understand which steps are included in a
-classical clustering analysis and finally to apply it on a different
-data set (potentially your own data).
+The basic idea of this chapter is 1) that you can implement a clustering
+procedure on your own in R, 2) that you understand which steps are
+included in a classical clustering analysis and 3) finally to apply the
+procedure on your own on a different data set(s) (and potentially your
+own data).
 
 Now let’s go through a **cluster analysis** in detail.
 
 ## Data
 
-Here we will use different kind of data to visualize the clustering
-optimally. First we will use the `iris` data from the `datasets`
-package. For more info on the iris data, consider this
-[webpage](http://archive.ics.uci.edu/ml/datasets/Iris). Later we’ll use
-again the [Howells Data](https://web.utk.edu/~auerbach/HOWL.htm)
-(Howells 1973, 1989, 1995). However, we will have two versions of data
-for the Howells Data, the full data set and an aggregated data set of
-only two entries per population (one female and male “mean”).
+Here we will use variable kinds of data. First we will use the `iris`
+data from the `datasets` package. For more info on the iris data,
+consider this [webpage](http://archive.ics.uci.edu/ml/datasets/Iris).
+Later we’ll use again the [Howells
+Data](https://web.utk.edu/~auerbach/HOWL.htm) (Howells 1973, 1989,
+1995). However, we will make use of an aggregated data set of the
+Howells data of only two entries per population (one female and male
+“mean” per population).
 
 Let’s load the data.
 
 ``` r
-howells <- read_csv("data/howells_data.csv")
-howells_mean <- read_csv("data/howells_mean.csv")
-```
-
-    ## Warning: Missing column names filled in: 'X1' [1]
-
-``` r
+howells_mean <- read.csv("data/howells_mean.csv", header = TRUE, fill = TRUE, dec = ".")
 data(iris)
 head(iris) %>% kable()
 ```
@@ -104,7 +102,8 @@ head(iris) %>% kable()
 |          5.4 |         3.9 |          1.7 |         0.4 | setosa  |
 
 **First step always**, take a close look at the data. We will skip this
-step for now since you already know the data.
+step for now since you already know the data and you know how this works
+until now.
 
 ## K-means clustering in R
 
@@ -117,7 +116,7 @@ that show the complete implementation in R:
 -   [geeks for
     geeks](https://www.geeksforgeeks.org/clustering-in-r-programming/)
 
-To get an overview of how it works, watch [this
+To get an overview of how the method theoretically works, watch [this
 video](figures/StatQuest_K-means_clustering.mp4) (**attention**: if you
 click this link you will forwarded to a github page which will say:
 *(Sorry about that, but we can’t show files that are this big right
@@ -125,7 +124,7 @@ now.)*, just click *View Raw* and you will be able to watch the video
 directly on github). If you want the Youtube link,
 [here](https://www.youtube.com/watch?v=4b5d3muPQmA) you go.
 
-In summary, the K-means algorithm works as follows
+In **summary**, the K-means algorithm works as follows
 ([source](https://www.geeksforgeeks.org/clustering-in-r-programming/)):
 
 -   First, the **number of clusters** (groups) must be specified. The
@@ -139,7 +138,7 @@ In summary, the K-means algorithm works as follows
     another centroid.
 -   Then the new centroids are re-calculated
 
-Steps 3-4 are **repeated until a global optimum has been reached**
+Steps 3-4 are **repeated until a global optimum has been reached**,
 e.g. no points can be re-allocated to other clusters.
 
 ### K-means clustering in R-code
@@ -147,22 +146,22 @@ e.g. no points can be re-allocated to other clusters.
 First, let’s work on the `iris` data.
 
 ``` r
-## we are only keeping numerical variables, we get rid of the species name 
-iris_mod <- iris[,1:4] 
+## we are only keeping numerical variables, we get rid of the species name
+iris_mod <- iris[, 1:4]
 
-## now we scale the data, this has to be done especially when you've got measurements of different scales in your data (e.g. temperatures, windspeed and UV-index for example)
+## now we scale the data, this has to be done especially when you've got measurements of different scales in your data (e.g. temperatures, wind speeds and UV-index for example)
 iris_mod <- scale(iris_mod)
 
-## compute the K-means clustering algorithm 
+## compute the K-means clustering algorithm
 km <- kmeans(iris_mod, centers = 3, nstart = 25)
- 
-## Visualize the clusters
+
+## visualize the clusters
 fviz_cluster(km, data = iris_mod, ggtheme = theme_pubr(border = TRUE, margin = TRUE))
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
-OK – what happened?
+OK – what happened exactly in the code above?
 
 -   First we used indexing, to remove the species name of the flower
     from the data with the command `iris_mod <- iris[,1:4]`
@@ -173,18 +172,18 @@ OK – what happened?
     clusters for a start and the number of random sets = 25.
 -   The plot we produce with
     `fviz_cluster(km, data = iris_mod, ggtheme = theme_pubr(border = TRUE, margin = TRUE))`
-    shows a PCA plot of the first two PCs and the clusters with
-    different colors.
+    shows a PCA plot of the first two PCs and indicates the clusters
+    that the algorithm found with different colors.
 
 What if we want to compare different numbers of clusters? No problem.
 Here we go.
 
 ``` r
-kmeans2 <- kmeans(iris_mod, centers = 2, nstart = 25)  
-kmeans3 <- kmeans(iris_mod, centers = 3, nstart = 25)  
-kmeans4 <- kmeans(iris_mod, centers = 4, nstart = 25)  
-kmeans5 <- kmeans(iris_mod, centers = 5, nstart = 25)  
-#Comparing the Plots
+kmeans2 <- kmeans(iris_mod, centers = 2, nstart = 25)
+kmeans3 <- kmeans(iris_mod, centers = 3, nstart = 25)
+kmeans4 <- kmeans(iris_mod, centers = 4, nstart = 25)
+kmeans5 <- kmeans(iris_mod, centers = 5, nstart = 25)
+# Comparing the Plots
 plot1 <- fviz_cluster(kmeans2, data = iris_mod, ggtheme = theme_pubr(border = TRUE, margin = TRUE)) + ggtitle("k = 2")
 plot2 <- fviz_cluster(kmeans3, data = iris_mod, ggtheme = theme_pubr(border = TRUE, margin = TRUE)) + ggtitle("k = 3")
 plot3 <- fviz_cluster(kmeans4, data = iris_mod, ggtheme = theme_pubr(border = TRUE, margin = TRUE)) + ggtitle("k = 4")
@@ -196,13 +195,15 @@ grid.arrange(plot1, plot2, plot3, plot4, nrow = 2)
 
 ### How many clusters to choose?
 
-This is a hard question and it is difficult to determine the number of
-clusters definitely. In the `iris` example it makes sense to look at the
-original data. If you take a look at the number of flower species in the
-data, we find that there are **three species**. Let’s plot a PCA.
+This is a good and hard question to answer. Generally it is difficult to
+determine the exact number of clusters definitely. In the `iris` example
+it makes sense to look at the original data. If you take a look at the
+number of flower species in the data, we find that there are **three
+species**. Let’s plot a PCA and look at the variation between species:
 
 ``` r
-iris_pca <- prcomp(iris[,1:4], scale. = TRUE)
+## compute the PCA -- you know how to do this
+iris_pca <- prcomp(iris[, 1:4], scale. = TRUE)
 iris_pca_dat <- cbind(iris, iris_pca$x[, 1:4])
 
 ## plot the first two PCs
@@ -215,19 +216,21 @@ ggplot(iris_pca_dat, aes(x = PC1, y = PC2, color = Species)) +
 
 ![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
-It becomes clear that here, we would probably use three clusters, since
-it would then cluster roughly each species in a cluster.
+It becomes clear that here we would probably use three clusters, since
+it would then cluster roughly each species in a cluster (which makes in
+terms of their biology)
 
 **But what if we do not have any prior knowledge about potential
 clusters?**
 
 This will be often the case when you have a number of study objects
-which you cannot group per se into different clusters. That is where
-clustering really becomes interesting! There are certain
+which you cannot group per se or a priori into known clusters or groups.
+**That is where clustering really becomes interesting and useful!**
+There are certain
 [methods](https://www.datanovia.com/en/lessons/determining-the-optimal-number-of-clusters-3-must-know-methods/)
 to find out, how many clusters one could utilize for an analysis. We
 will show you three methods here, without going into the mathematical
-details behind it. However, not that these methods rather give
+details behind it. However, note that these methods rather give
 **statistical cues** rather than absolute truths!
 
 There are three main methods to find out how many clusters make sense to
@@ -251,9 +254,10 @@ average silhouette width indicates a good clustering.
 The **Gap statistic method** compares the total intra-cluster variation
 for different values of K (number of clusters) with their expected
 values under a null reference distribution of the data. The estimate of
-the optimal clusters will be value that maximize the gap statistic (i.e,
-that yields the largest gap statistic). This means that the clustering
-structure is far away from the random uniform distribution of points.
+the optimal clusters will be a value that maximizes the gap statistic
+(i.e, that yields the largest gap statistic). This means that the
+clustering structure is far away from the random uniform distribution of
+points.
 
 Here are some R implementations of the three methods:
 
@@ -275,9 +279,11 @@ fviz_nbclust(iris_mod, kmeans, method = "silhouette") +
 
 ``` r
 # Gap statistic
-gap_stat <- clusGap(iris_mod, FUN = kmeans, nstart = 25,
- K.max = 10, B = 10)
- print(gap_stat, method = "firstmax")
+gap_stat <- clusGap(iris_mod,
+  FUN = kmeans, nstart = 25,
+  K.max = 10, B = 10
+)
+print(gap_stat, method = "firstmax")
 ```
 
     ## Clustering Gap statistic ["clusGap"] from call:
@@ -299,44 +305,106 @@ gap_stat <- clusGap(iris_mod, FUN = kmeans, nstart = 25,
 Given the results, we would probably choose **2-3 clusters**, which
 makes sense since there are three species in the data.
 
-Clustering in essence:
-
-------------------------------------------------------------------------
-
--   PCA is a statistical procedure that converts a set of observations
-    of possibly correlated variables into a set of values of linearly
-    uncorrelated variables called principal components
-    ([Wikipedia](https://en.wikipedia.org/wiki/Principal_component_analysis))
--   PCA will help us to find a reduced number of features that will
-    represent our original data set in a compressed way, capturing up to
-    a certain portion of its variance depending on the number of new
-    features we end up selecting
-    ([Towardsdatascience](https://towardsdatascience.com/the-most-gentle-introduction-to-principal-component-analysis-9ffae371e93b))
-
-------------------------------------------------------------------------
-
-**BUT** (there is always a but): Keep in mind that PCA (and other
-dimensionality reduction techniques) are statistical procedures and that
-the resulting PCs do not necessarily correspond to biologically relevant
-patterns of variation. Therefore, **always be careful how you interpret
-your PCA** and be cautious of faulty conclusions. PCA merely extracts
-patterns of variation in a sample and helps you to visualize these
-patterns!
-
 ## Hierarchical clustering in R
+
+At last, we will show you one additional method, namely **hierarchical
+clustering**. Hierarchical clustering is a bit different from K-means
+clustering. It does the following in essence
+[source](https://towardsdatascience.com/hierarchical-clustering-and-its-applications-41c1ad4441a6):
+
+**Hierarchical clustering is a very powerful technique which allows you
+to build tree structures (looking similar to phylogenetic trees) from
+data similarities. With hierarchical clustering you will be able to see
+how different subclusters relate to each other and how far data points
+are spaced form each other.**
+
+For showing how hierarchical clustering works, we will use the Howells
+data again. **Let’s find out if certain populations relate more to each
+other in terms of craniometric measurements!**
+
+``` r
+rownames(howells_mean) <- c(paste(howells_mean[, 3], howells_mean[, 2])) ## give meaningful rownames
+howells_cluster <- howells_mean[which(howells_mean$SEX == "F"), 7:53] ## select only numerical variables and only females
+
+## Clustering and Plotting
+d <- dist(howells_cluster, method = "euclidean") # distance matrix computation e.g. distance between individual points
+fit <- hclust(d, method = "ward.D")
+
+## Plot the dendrogram (tree)
+ggdendrogram(fit)
+```
+
+![](README_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+
+Note that we only look at **females**, since between-sex variation would
+probably obscure similarities / dissimilarities between populations.
+Here we used the method **ward.D** in the
+`fit <- hclust(d, method = "ward.D")` statement, which is a specific way
+to do the clustering. Feel free to try out different methods by changing
+the method. You can find more info on the different methods
+[here](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/hclust.html).
+
+## Clustering in essence
+
+------------------------------------------------------------------------
+
+-   Clustering is a statistical procedure that finds grouping patterns
+    within a set of data by finding similarities between data points in
+    your data
+-   Clustering will help you to find potential distinct groups or
+    clusters within a set of data. Clustering algorithms will create
+    groups, where data entries in a similar group will potentially have
+    similar characteristics to each other.
+
+------------------------------------------------------------------------
+
+**BUT** (there is always a but): Keep in mind that clustering algorithms
+are statistical procedures and that the resulting patterns do not
+necessarily correspond to biologically (or other scientifically)
+relevant clustering patterns. Therefore, **always be careful how you
+interpret your clustering analysis** and be cautious of faulty
+conclusions and arbitrary clusters. Clustering is merely an exploratory
+tool and should not be used to draw ultimate conclusions about your
+data.
+
+Here are some points and pitfalls to consider when doing clustering
+[source](https://towardsdatascience.com/common-mistakes-in-cluster-analysis-and-how-to-avoid-them-eb960116d773):
+
+-   Make sure not to skip the step of **exploratory data analysis**
+    (look at your data!) and do data cleaning
+    -   What effects do cleaning steps have on the outcome of the
+        clustering?
+    -   What impacts do the outliers have on the clustering?
+-   Use **scaled input variables**
+    -   Never forget to scale your data input variables for the
+        clustering procedure
+    -   Especially if your input variables have different measurement
+        units
+    -   If you forget this step, it will mess with the outcome of the
+        clustering
+-   Be careful of **arbitrary clustering**
+    -   Make sure to choose a reasonable number of clusters that make
+        scientifically sense
+    -   Use methods to determine the optimal number of clusters (see
+        [section](#how-many-clusters-to-choose?))
+    -   It is a good rule of thumb, to have about similar number of data
+        points in each cluster (depends on your original data)
+-   Make sure to **describe the cluster patterns comprehensibly**
+    -   Which characteristics represent each of the clusters?
+    -   Which characteristics distinguish my clusters?
 
 # Data practical
 
 -   As always, write a nicely structured **scientific report** in R
-    Markdown, which you will eventually upload on github (you hopefully
-    know how to do this until now :grin:)
+    Markdown, which you will eventually upload on github.
 -   Look at the data sets that are available from the `datasets` package
     or from the `mlbench` package. For example the iris data from the
     `datasets` package or the BreastCancer data from the `mlbench`
     package. For an overview of the different data sets that are
     available, you can consult this
     [webpage](https://machinelearningmastery.com/machine-learning-datasets-in-r/).
--   Here are two examples, that are nicely fit to compute a PCA:
+-   Here are a few examples, that are nicely fit to do a clustering
+    analysis:
 
 ``` r
 ## iris data set
@@ -344,21 +412,28 @@ data(iris)
 
 ## BreastCancer data set
 data(BreastCancer)
+
+## US arrest reason data of different regions
+data(USArrests)
+
+## car data of different car brands
+data(mtcars)
 ```
 
 -   When you run the command `data("datasetname")`, the data will load
     in your global environment in R-Studio
--   Load some data (sets) from the packages above and run a PCA (you can
-    of course also use your own data!)
--   Formulate two questions or hypotheses on the data, that you want to
-    answer by using a PCA
--   Visualize the PCA and utilize grouping procedures (coloring, density
-    ellipses etc.) to find **patterns** in your data
--   Clearly communicate the explained variances with a screeplot
--   Investigate potential correlations of your PCs (you can also use a
-    biplot for that)
--   Produce some final plots and comment what you can see on them and
-    how you interpret the results
+-   Load some data (sets) from the packages above and run a cluster
+    analysis (you can of course also use your own data!)
+-   Formulate 1-2 questions that you want to answer by doing a
+    clustering analysis
+-   Visualize your cluster analysis like shown in the lecture
+-   Make sure to pick a reasonable number of clusters by applying
+    appropriate methods (you got the tools in the lecture)
+-   Clearly communicate and explain the patterns you can see from your
+    cluster analysis
+-   Draw potential conclusions from your data analysis and interpret
+    your results
+-   Produce some visually appealing plots and statistics
 
 # References
 
@@ -419,11 +494,27 @@ Benchmark Problems.” *R Package, Mlbench*.
 
 </div>
 
+<div id="ref-cluster" class="csl-entry">
+
+Maechler, Martin, Peter Rousseeuw, Anja Struyf, Mia Hubert, and Kurt
+Hornik. 2022. *Cluster: Cluster Analysis Basics and Extensions*.
+<https://CRAN.R-project.org/package=cluster>.
+
+</div>
+
 <div id="ref-R" class="csl-entry">
 
 R Core Team. 2021. *R: A Language and Environment for Statistical
 Computing*. Vienna, Austria: R Foundation for Statistical Computing.
 <https://www.R-project.org/>.
+
+</div>
+
+<div id="ref-ggdendro" class="csl-entry">
+
+Vries, Andrie de, and Brian D. Ripley. 2022. *Ggdendro: Create
+Dendrograms and Tree Diagrams Using ’Ggplot2’*.
+<https://cran.r-project.org/web/packages/ggdendro/index.html>.
 
 </div>
 
