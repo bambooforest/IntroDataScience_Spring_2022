@@ -14,9 +14,9 @@ have to download a dataset that you are interested in (You can find some
 link here [README.md](../12_Time_series_analysis/Dataset)). You have
 to use the methods that we discussed in class and done in the two
 examples ([Covid-19 cases
-EU](../12_Time_series_analysis/Datasets/Covid_19_cases_EU.csv), [Species
+EU](../12_Time_series_analysis/Dataset/Covid_19_cases_EU.csv), [Species
 presence center
-Italy](../12_Time_series_analysis/Datasets/Species_Individuals_center_Italy.csv)).
+Italy](../12_Time_series_analysis/Dataset/Species_Individuals_center_Italy.csv)).
 
 Here a guideline for your report:
 
