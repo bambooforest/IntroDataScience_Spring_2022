@@ -1,5 +1,5 @@
 
-# Lecture 7 - Time-Series Practical
+# Lecture 12 - Time-Series Practical
 
 For this week’s data practical, please note that you should already have
 set up your GitHub account (from [week 1](../1_introduction/README.md)),
