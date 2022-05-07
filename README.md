@@ -1,7 +1,7 @@
 # Intro to data science
 
 * **Lectures**: Wednesdays 10:15-13:00 (23.02.2022-01.06.2022)
-* **Location**: R.103 - [Abram-Louis-Breguet 2](https://goo.gl/maps/ADbAkHFfrKu1VBFU9)
+* **Location**: R.103 - [Abram-Louis-Breguet 2](https://goo.gl/maps/3PbazGZAv3QTJ95r6)
 * **ECTS credits**: 3
 * **Instructor**: Dr. Steven Moran \<steven.moran@unine.ch\>
 * **Office**: Rue Emile-Argand 11, G B35
