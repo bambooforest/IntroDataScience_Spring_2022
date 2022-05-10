@@ -383,7 +383,7 @@ tool and should not be used to draw ultimate conclusions about your
 analyses.
 
 Here are some points and pitfalls to consider when doing clustering
-[source](https://towardsdatascience.com/common-mistakes-in-cluster-analysis-and-how-to-avoid-them-eb960116d773):
+([source](https://towardsdatascience.com/common-mistakes-in-cluster-analysis-and-how-to-avoid-them-eb960116d773)):
 
 -   Make sure not to skip the step of **exploratory data analysis**
     (look at your data!) and do data cleaning

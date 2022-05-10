@@ -209,7 +209,7 @@ Note that we only look at **females**, since between-sex variation would probabl
 
 **BUT** (there is always a but): Keep in mind that clustering algorithms are statistical procedures and that the resulting patterns do not necessarily correspond to biologically (or other scientifically) relevant clustering patterns. Therefore, **always be careful how you interpret your clustering analysis** and be cautious of faulty conclusions or arbitrary clusters. Clustering is merely an exploratory tool and should not be used to draw ultimate conclusions about your analyses. 
 
-Here are some points and pitfalls to consider when doing clustering [source](https://towardsdatascience.com/common-mistakes-in-cluster-analysis-and-how-to-avoid-them-eb960116d773): 
+Here are some points and pitfalls to consider when doing clustering ([source](https://towardsdatascience.com/common-mistakes-in-cluster-analysis-and-how-to-avoid-them-eb960116d773)): 
 
 - Make sure not to skip the step of **exploratory data analysis** (look at your data!) and do data cleaning 
   - What effects do cleaning steps have on the outcome of the clustering? 
