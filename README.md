@@ -28,7 +28,7 @@ Please practice [critical reading](https://faculty.washington.edu/ebender/critic
 
 Lectures will be given in class and they will be followed by practical in class work. The contents of each lecture, and more, is available in each folder in this repository, e.g., to get started go to lecture materials in [week one](1_introduction).
 
-Homework will include courses from [DataCamp](https://www.datacamp.com). They are due before the next lecture. For example, Lecture 2 (March 2) "Writing scientific reports"; homework is the interactive course "Reporting with R Markdown". It is due before Lecture 3 on March 9.
+Homework will include courses from [DataCamp](https://www.datacamp.com). The suggested due date is before the next lecture. For example, Lecture 2 (March 2) "Writing scientific reports"; homework is the interactive course "Reporting with R Markdown". Its suggested due date is before Lecture 3 on March 9. (The aim is to keep you on track, so that you don't fall behind.)
 
 Data practicals will include the creation of R markdown reports for each lecture and are discussed in the final section of each lecture. You will be asked to implement the methods learned in R code and R markdown on dataset(s) of your own interest to produce [scientific reports](2_scientific_reports). The reports will then be "committed" and "pushed" to your GitHub repository. We will discuss this procedure in class. The course is heavily weighted on these reports. The idea is that you not only learn how to implement the materials you learn from DataCamp and that are taught in this course, but that after the course is over, you will ideally have a portfolio that showcases your data science skills, e.g., something that you can share on a resume or CV or on job or school applications. This approach will be discussed more in class.
 
@@ -40,6 +40,8 @@ Data practicals will include the creation of R markdown reports for each lecture
 * 30% of your grade will come from (a) presentation(s) of the reading chapters (to be divided among the students). 
 
 * Homework in DataCamp is pass / fail. That is, you must complete all homework to pass the class. You will be added to our DataCamp group and you should receive an invite. DataCamp requires a login. Shout out to DataCamp for giving us access to their great materials.
+
+* Data practicals and homework are due by June 20.
 
 **Note**: This syllabus is subject to change but the most up-to-date version is always available online:
 
