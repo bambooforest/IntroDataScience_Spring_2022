@@ -1,18 +1,19 @@
 Dimensionality reduction and clustering I
 ================
-Tiena Danner
-18 April, 2022
+Tiena Danner & Steven Moran
+(17 May, 2022)
 
--   [Bivariate data – a story all too
-    simple?](#bivariate-data--a-story-all-too-simple)
+-   [Bivariate data – a story that’s all too
+    simple?](#bivariate-data--a-story-thats-all-too-simple)
     -   [Data](#data)
     -   [Plotting multivariate data](#plotting-multivariate-data)
-        -   [Ok, but how to plot more than two variables in one
-            plot?](#ok-but-how-to-plot-more-than-two-variables-in-one-plot)
-        -   [The last resort: 3D plots](#the-last-resort-3d-plots)
+        -   [Ok, but how do we plot more than two variables in a single
+            plot?](#ok-but-how-do-we-plot-more-than-two-variables-in-a-single-plot)
+        -   [The last resort: 3D plots…](#the-last-resort-3d-plots)
     -   [What is a PCA?](#what-is-a-pca)
-        -   [What is a PCA worth?](#what-is-a-pca-worth)
+        -   [Why PCA?](#why-pca)
         -   [How does PCA work?](#how-does-pca-work)
+        -   [PCA in essence](#pca-in-essence)
     -   [Computing a PCA in R](#computing-a-pca-in-r)
         -   [PCA statistics](#pca-statistics)
         -   [Plotting a PCA](#plotting-a-pca)
@@ -38,14 +39,14 @@ library(ggpubr)
 library(plot3D)
 library(plotly)
 library(devtools)
-install_github("vqv/ggbiplot")
+install_github("vqv/ggbiplot") # to install an R library from source
 library(ggbiplot)
 library(PerformanceAnalytics)
 library(mlbench)
 library(datasets)
 ```
 
-# Bivariate data – a story all too simple?
+# Bivariate data – a story that’s all too simple?
 
 Recall the materials on [Linear models
 I](https://github.com/bambooforest/IntroDataScience/tree/main/8_Linear_Models_I)
@@ -84,14 +85,15 @@ follows:
 -   Find trends (covariation) in large data sets and big data
 -   Reduce number of variables to a few significant ones (that is where
     PCA comes into play)
--   Discriminate between groups (like different populations, sexes etc.)
+-   Discriminate between groups (like different populations, sexes,
+    etc.)
 
 The basic idea of this chapter is that you can implement a PCA, a very
 fine instrument to do patterns extraction, and interpret the results.
 Finally you will apply this to other data sets and hopefully to your own
 data.
 
-Now let’s go through a **PCA** in detail – from bottom up.
+Now let’s go through a **PCA** in detail – from bottom up!
 
 ## Data
 
@@ -108,13 +110,13 @@ this data set:
 ![](figures/howells_populations_map.png)
 
 If you want to know more details on how the Howells Data was collected
-and how it is structured, e.g. especially the abbreviations of the
+and how it is structured, e.g., especially the abbreviations of the
 different measurements, please consult [this
 PDF](data/howells_info.pdf).
 
 Now let’s dive into this fantastic data set!
 
-What does a data scientist do? First have a look at the data!
+What does a data scientist do? First we have a look at the data!
 
 ``` r
 howells <- read_csv("data/howells_data.csv")
@@ -144,8 +146,8 @@ ncol(howells)
 
 OK, this is quite some data. 2524 rows (subjects) and 54 measurement
 variables (columns). How can we visualize the entirety of these
-variables in a simple x/y coordinate system? **Seems impossible, right?
-We’ll see…..**
+variables in a simple x/y coordinate system? **Seems impossible,
+right?** Let’see…
 
 ## Plotting multivariate data
 
@@ -160,32 +162,36 @@ ggplot(howells, aes(x = GOL, y = BNL)) +
 
 ![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
-What did I do here? I simply plotted two variables (BNL \~ GOL), which
-gives us a bivariate plot. You can already see, that these two
-measurements appear to be **correlated**. This is probably due to the
-fact, that both these measurements (*basion-nasion length* and
-*glabella-occipital length*) are related to overall body size e.g. the
-larger a person is, the larger also GOL and BNL will be.
+What did we do here? We simply plotted two variables (BNL \~ GOL), which
+gives us a bivariate plot. You can already see that these two
+measurements appear to be
+**[correlated](https://en.wikipedia.org/wiki/Correlation)**. This is
+probably due to the fact that both these measurements (*basion-nasion
+length* and *glabella-occipital length*) are related to overall body
+size, i.e., the larger a person is, the larger their GOL and BNL will
+be. (Don’t know what BNL and GOL are – search the Web! :)
 
-You might wonder why I used the statements `cord_equal()` and
-`theme_pubr(border = TRUE, margin = TRUE)` in my `ggplot()` statement.
+You might wonder why we used the commands `cord_equal()` and
+`theme_pubr(border = TRUE, margin = TRUE)` in our `ggplot()` statement.
 Here’s why:
 
 -   `cord_equal()` produces isometrically scaled axes. This is very
     important when plotting data that have similar scale on both axes
-    (e.g. mm here). A distance in X should always be equal to a distance
-    in Y! (always do this for PCA!)
+    (e.g,. mm here). A distance in X should always be equal to a
+    distance in Y! (Always do this for a PCA!)
 -   `theme_pubr(border = TRUE, margin = TRUE)` produces a nice
     “publication ready” theme from the
     [ggpubr](https://cran.r-project.org/web/packages/ggpubr/index.html)
     package. Maybe you like it, maybe not. It’s totally up to you if you
-    want to use this theme or not.
+    want to use this theme or not! Recall themes from our lecture on
+    [data
+    visualizations](https://github.com/bambooforest/IntroDataScience/tree/main/6_data_visualization#theme).
 
-### Ok, but how to plot more than two variables in one plot?
+### Ok, but how do we plot more than two variables in a single plot?
 
-If the third variable you aim to visualize is a categorical variable
-(such as `SEX`), it is easy. You may simply add a grouping variable. But
-you probably alread know how this works…
+If the third variable you want to visualize is a categorical variable
+(such as `SEX`), it’s easy! You simply add a grouping variable. But you
+probably already know how this works from previous lectures!
 
 ``` r
 ggplot(howells, aes(x = GOL, y = BNL, color = SEX)) +
@@ -196,7 +202,7 @@ ggplot(howells, aes(x = GOL, y = BNL, color = SEX)) +
 
 ![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
-Even if it is a numerical variable, it is possible to visualize the
+And even if it is a numerical variable, it’s possible to visualize the
 “third” variable.
 
 ``` r
@@ -208,10 +214,10 @@ ggplot(howells, aes(x = GOL, y = BNL, color = NOL)) +
 
 ![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
-### The last resort: 3D plots
+### The last resort: 3D plots…
 
-Our last resort of visualizing more than two variables are 3D plots. The
-package
+Your last resort of visualizing more than two variables should be 3D
+plots. The package
 [plot3D](http://www.sthda.com/english/wiki/impressive-package-for-3d-and-4d-graph-r-software-and-data-visualization)
 allows you to plot 3D data with the function `scatter3D()`
 
@@ -221,31 +227,30 @@ scatter3D(howells$GOL, howells$BBH, howells$BNL, col = c("#1B9E77"), bty = "g", 
 
 ![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
-Static 3D plots are often not a good choice, due to the following
-reasons:
+Static 3D plots are often not a good choice, due to these reasons:
 
--   Hard to define the exact X,Y & Z position of a specific data point
--   Data points often obscure each other
--   The plot cannot be rotated
+-   Hard to define the exact X,Y & Z position of a specific data point.
+-   Data points often obscure each other.
+-   The plot cannot be rotated.
 
-Interactive 3D plots may be created with the package
-[plotly](https://plotly.com/r/).
+Interactive 3D plots can be created with the package
+[plotly](https://plotly.com/r/) and may address some of these issues.
 
-**Note that this is an hmtl widget and it will not render in the
-markdown output.** If you want to take a look, run your code in the .Rmd
-file.
+**Note that this is an HTML widget and it will not render in the
+markdown output!** If you want to take a look, run your code in the
+`.Rmd` file.
 
 ``` r
 plot_ly(y = howells$GOL, z = howells$BBH, x = howells$XCB, type = "scatter3d", mode = "markers", text = howells$POPULATION, color = howells$SEX)
 ```
 
-Note that this plot may be rotated and the variation is much better
-visible!
+Also note that this plot may be rotated and the variation is much more
+visible! Cool, huh?
 
-In general, we would suggest to use 3D graphs only for **exploratory**
-reasons, and almost never to communicate your results. There are several
-reasons why to avoid plotting your data in 3D. Consult this web page if
-you want to know more about [why not to go
+In general, we suggest to use 3D graphs only for **exploratory**
+purposes and not to communicate your results. There are several reasons
+why to avoid plotting your data in 3D. Consult this web page if you want
+to know more about [why not to go
 3D](https://clauswilke.com/dataviz/no-3d.html).
 
 ## What is a PCA?
@@ -253,85 +258,83 @@ you want to know more about [why not to go
 Enough with the 3D graphs (as said – we do not really fancy 3D scatter
 plots). **We actually might not need them if we can apply a nice PCA!**
 But how does a PCA work and what are the statistical procedures behind
-it? We won’t go into all the technicalities and mathematics behind a
+it? We won’t go into all the technical details and mathematics behind a
 PCA, but to get an overview of how it works, watch [this
 video](figures/PCA_main_ideas.mp4) (**attention**: if you click this
-link you will forwarded to a github page which will say: *(Sorry about
-that, but we can’t show files that are this big right now.)*, just click
-*View Raw* and you will be able to watch the video directly on github).
-If you want the Youtube link,
-[here](https://www.youtube.com/watch?v=HMOI_lkzW08) you go.
+link you will be forwarded to a GitHub webpage that will say: *(Sorry
+about that, but we can’t show files that are this big right now.)*;
+instead just click *View Raw* and you will be able to watch the video
+directly on GitHub – cool trick, eh?). If you want the YouTube URL,
+[here](https://www.youtube.com/watch?v=HMOI_lkzW08) you go!
 
 For a detailed tutorial of a PCA in R, see
 [here](https://www.datacamp.com/community/tutorials/pca-analysis-r). But
 we will go through the most important steps ourselves in this script.
 
-*Note: for running a PCA we will utilize the package `ggbiplot`. To
-install it, make sure that you did run this command:
-`install_github("vqv/ggbiplot")`, to install it directly from github.
-For that, you will need to load the package `devtools` –&gt; see first
-code chunk of this script.*
+**Note**: for running a PCA we will use the package `ggbiplot`. To
+install it, make sure that you run this command:
+`install_github("vqv/ggbiplot")` to install it directly from GitHub. For
+that, you will need to load the package `devtools` –> see first code
+chunk of this script for an example.
 
-### What is a PCA worth?
+### Why PCA?
 
-Here are some **important points**, why a PCA is very often a good
-choice to analyse your multivariate data set (Zelditch, Swiderski, and
-Sheets 2012):
+Here are some **important** reasons why PCA is often a good choice to
+analyze multivariate data sets (Zelditch, Swiderski, and Sheets 2012):
 
 -   Principal components analysis is a commonly used **dimensionality
     reduction technique**.
 -   The purpose of PCA is to **simplify patterns** where we have
     multivariate data sets, and to make them easily visible by
     **replacing** the original variables with a few **new ones** (so
-    called principal components, PCs).
+    called principal components, or simply ‘PCs’).
 -   These resulting PCs are linear combinations of the original
     variables and are **statistically independent** of each other.
--   Only with a **few variables** (e.g. the PCs), **most of the
+-   Only with a **few variables** (e.g., the PCs), **most of the
     variation** in a given sample can be explained. This means, that
     only by plotting PC1 & PC2 (a bivariate plot!) we may have over 50 %
     of variation in a sample visualized in a simple graph.
 -   PCA simplifies the description of **differences between
     individuals**. In PC plots, we will often see patterns of
-    **clustering of different groups**. Finding these groups is very
+    **clustering of different groups**. Finding these groups can be very
     valuable, even if they do not represent statistically different
     entities.
 
 ### How does PCA work?
 
-As mentioned before, we do not want to go into the technical details of
-how a PCA work. You may have already seen most of the important steps in
-the video above. However, let’s quickly summarize how PCA works, at
-least from a geometric (visual) point of view.
+As mentioned before, we will not go into the technical details of how a
+PCA works. You have already seen most of the important steps in the
+video above. Nevertheless, let’s quickly summarize how PCA works from a
+geometric (visual) point of view.
 
-For that take a look at the following **graphic**:
+That take a look at the following **graphic**:
 
 ![image](figures/PC.png)
 
-What you can see here is a simple **3D plot** of three observed traits
+What you see here is a simple **3D plot** of three observed traits
 (let’s call them X1, X2 and X3). These traits may be simple distance
-measurements, as we find them in the howells data set. Each point in the
+measurements, as we find them in the Howells data set. Each point in the
 **scatter plot** represents the three measurement values observed for
 each individual in the sample. The distribution of values in this graph
 may be summarized by an **ellipse** (black dashed ellipse) that is
-tilted along the X1 / X3 plane. **PCA** now solves for the axes of this
-ellipse and uses these new axes to describe the positions of individuals
-within that ellipse e.g. the newly acquired “space.” The ultimate **goal
-of PCA** is to find the **directions** within that scatter that
-describes the **largest proportions of variance (PC1)**, the second
-largest proportion of variance (PC2) (these directions are indicated by
-the orange arrows in the graphic)… and so on. In this example we get
-three PCs in the end, since we only have 3 original variables.
+tilted along the X1 / X3 plane.
 
-**In summary, the resulting PCs describe the major directions of largest
+**PCA** solves for the axes of this ellipse and uses these new axes to
+describe the positions of individuals within that ellipse, i.e., the
+newly acquired “space.” The ultimate **goal of PCA** is to find the
+**directions** within that scatter that describe the **largest
+proportions of variance** (aka PC1), the second largest proportion of
+variance (PC2), PC3, and so on. These directions are indicated by the
+orange arrows in the graphic. In this example we get three PCs in the
+end, since we only have 3 original variables.
+
+In sum, the resulting PCs describe the major directions of largest
 proportions of variance in each direction within this data scatter
 ellipse. Each new direction will be orthogonal to the latter directions.
-This explains why all PCs are totally independent of each other,
-e.g. they describe each a different pattern of variation in the
-sample.**
+This explains why all PCs are totally independent of each other, i.e.,
+they describe each a different pattern of variation in the sample.
 
-PCA in essence:
-
-------------------------------------------------------------------------
+### PCA in essence
 
 -   PCA is a statistical procedure that converts a set of observations
     of possibly correlated variables into a set of values of linearly
@@ -346,25 +349,27 @@ PCA in essence:
 ------------------------------------------------------------------------
 
 **BUT** (there is always a but): Keep in mind that PCA (and other
-dimensionality reduction techniques) are statistical procedures and that
-the resulting PCs do not necessarily correspond to biologically relevant
+dimensionality reduction techniques) are statistical procedures and the
+resulting PCs do not necessarily correspond to (biologically) relevant
 patterns of variation. Therefore, **always be careful how you interpret
 your PCA** and be cautious of faulty conclusions. PCA merely extracts
 patterns of variation in a sample and helps you to visualize these
-patterns!
+patterns! This is also why it is a often used technique for data
+exploration.
 
 ## Computing a PCA in R
 
-**Now let’s get our hands dirty and do that PCA in R.**
+**Now let’s get our hands dirty and do that PCA in R!**
 
 For computing the PCA in R, we will use the function `prcomp`, which is
-in the basic package `stats`. Note that PCA will only work with
-**numerical input**. So make sure not to include categorical variables!
+in the core package `stats`. Note that PCA will only work with
+**numerical input**. So make sure not to include [categorical
+variables](https://github.com/bambooforest/IntroDataScience/tree/main/3_data#data-types-in-statistics)!
 The argument `scale = FALSE` means that the PCA is performed on the
 variance-covariance matrix. This is advisable when all variables have
 the same measurement dimensions (in the Howells data: millimeters). The
 argument `scale=TRUE` means that the PCA is performed on the correlation
-matrix, i.e. all variances are scaled to 1. This is advisable when
+matrix, i.e., all variances are scaled to 1. This is advisable when
 variables have different dimensions (such as length, temperature, mass,
 etc.).
 
@@ -372,11 +377,11 @@ etc.).
 data.pca <- prcomp(data.frame(howells[, 8:54]), scale = FALSE)
 ```
 
-The output of `prcomp()` gives us a list of data, of which mostly `x`
-will be important, which are the resulting PC scores. You can access the
-PC scores, or any other of the data entries by using the `$` operator.
-E.g. if you want to access the PC scores, you may use `data.pca$x`, or
-if you want the standard deviations of the PCs you prompt
+The output of `prcomp()` gives us a list of data – mostly `x` will be
+important – which are the resulting PC scores. You can access the PC
+scores, or any other of the data entries by using the `$` operator. For
+example, if you want to access the PC scores, you can use `data.pca$x`,
+or if you want the standard deviations of the PCs you prompt
 `pca.data$sdev` and so on…
 
 ### PCA statistics
@@ -417,10 +422,10 @@ summary(data.pca)
     ## Proportion of Variance 0.00075 0.00063 0.00046 0.00031 0.00028
     ## Cumulative Proportion  0.99833 0.99896 0.99941 0.99972 1.00000
 
-In this output you can see the **“Importance of components”**, e.g. how
-much of the **total variance** in the sample the PCs explain. You can
-see that PC1 and PC2 together already explain 54.15 % of the full
-variance in the sample!
+In this output you can see the **“Importance of components”**, e.g., how
+much of the **total variance** in the sample that the PCs explain. You
+can see that PC1 and PC2 together already explain 54.15% of the full
+variance in this sample!
 
 You may visualize the explained variances by each PCs easily with a
 [screeplot](https://en.wikipedia.org/wiki/Scree_plot).
@@ -431,9 +436,9 @@ ggscreeplot(data.pca)
 
 ![](README_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
-Further, we can visualize to what extent each characteristic (your
-original variables) **influence** a specific PC. For that we may use a
-`biplot`, which can be produced automatically with `ggbiplot()`.
+Furthermore, we can visualize to what extent each characteristic (i.e.,
+your original variables) **influence** a specific PC. For that we may
+use a `biplot`, which can be produced with `ggbiplot()`.
 
 ``` r
 ggbiplot(data.pca, choices = 1:2, alpha = 0.1)
@@ -448,8 +453,8 @@ ggbiplot(data.pca, choices = 2:3, alpha = 0.1)
 ![](README_files/figure-gfm/unnamed-chunk-11-2.png)<!-- -->
 
 On a **biplot**, you can see the data scatter of the PCs, depending on
-which PCs you want to visualize (e.g. PC scores 1-2: `choices:1:2`).
-Additionally to the observations, the biplot shows the **original
+which PCs you want to visualize (e.g., PC scores 1-2: `choices:1:2`). In
+addition to the observations, the biplot shows the **original
 variables** (input variables) as vectors (red arrows). These vectors may
 be interpreted as follows (Rossiter 2014):
 
@@ -469,22 +474,29 @@ be interpreted as follows (Rossiter 2014):
 
 #### Which PCs are relevant for further investigation?
 
-A good rule of thumb is to use PCs that explain **more than 5 % of total
+A good rule of thumb is to use PCs that explain **more than 5% of total
 variance** for visualization. The rest of the PCs may be ignored, since
-they explain only *“small amounts”* of variation. In our case, we would
-focus on PCs 1-4. Another option is to take a look at the **screeplot**
-and deem all the PCs as relevant which occur before the *“edge”* in the
-screeplot curve (around PC4 or PC5). Note that these are more **rules of
-thumb**, and not absolute truths! They simply have become *“statistical
-practice”*, just like setting the significance threshold of the p-value
-at 0.05…. but that is another story.
+they explain only “small amounts” of variation. In our case, we would
+focus on PCs 1-4.
+
+Another option is to take a look at the **screeplot** and deem all the
+PCs as relevant that occur before the so-called “edge” in the screeplot
+curve (in this example around PC4 or PC5). Note that these suggestions
+are merely **rules of thumb** and not absolute truths! They simply have
+become “statistical practice,” just like setting the significance
+threshold of the p-value to 0.05… but that is another story, see e.g.,
+if you’re interested:
+
+-   <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5017929/>
+-   <https://sites.uw.edu/stlab/2016/03/09/the-arbitrary-magic-of-p-0-05/>
+-   <https://towardsdatascience.com/p-values-explained-by-data-scientist-f40a746cfc8>
 
 ### Plotting a PCA
 
-Now **let’s plot** the actual PCs to look for actual patterns in the
-data. For that we must first store the relevant PC scores (PCs 1-4) in
-an accessible data format, such as a data frame. We can simply add PCs
-1-4 to the original data using `cbind()`.
+Now **let’s plot** the actual PCs to look for patterns in the data. For
+that we must first store the relevant PC scores (PCs 1-4) in an
+accessible data format, such as a data frame. We can simply add PCs 1-4
+to the original data using `cbind()`.
 
 ``` r
 howells_PCA <- cbind(howells, data.pca$x[, 1:4])
@@ -534,8 +546,8 @@ ggplot(howells_PCA, aes(x = PC2, y = PC3, color = POPULATION)) +
 
 ![](README_files/figure-gfm/unnamed-chunk-15-2.png)<!-- -->
 
-You can also use statistical ellipses to find patterns, e.g. to look for
-group differences.
+You can also use statistical ellipses to find patterns, e.g., to look
+for group differences.
 
 ``` r
 ggplot(howells_PCA, aes(x = PC1, y = PC2, color = SEX)) +
@@ -585,9 +597,10 @@ howells_PCA_mean <- howells_PCA[, -1] %>%
 ```
 
 Sometimes it might be interesting to test if PCs (patterns of variation)
-are related to certain other variables, just like temperature,
-longitude, latitude etc. We can look for these correlations with a
-[correlation
+are related to certain other variables, such as temperature, longitude,
+latitude, etc., in our example.
+
+We can look for these correlations with a [correlation
 matrix](http://www.sthda.com/english/wiki/correlation-matrix-a-quick-start-guide-to-analyze-format-and-visualize-a-correlation-matrix-using-r-software).
 
 ``` r
@@ -612,7 +625,7 @@ ggplot(howells_PCA_mean, aes(x = latitude, y = PC2)) +
 # Data practical
 
 -   As always, write a nicely structured **scientific report** in R
-    Markdown, which you will eventually upload on github (you hopefully
+    Markdown, which you will eventually upload on GitHub (you hopefully
     know how to do this until now :grin:)
 -   Look at the data sets that are available from the `datasets` package
     or from the `mlbench` package. For example the iris data from the
