@@ -6,7 +6,7 @@
 * **Instructor**: Dr. Steven Moran \<steven.moran@unine.ch\>
 * **Office**: Rue Emile-Argand 11, G B35
 * **Office hours**: by appointment via email
-* **Teaching assistants**: Tiena Danner \<tiena.danner@unine.ch\> & Marco Maiolini \<marco.maiolini@unine.ch\>
+* **Teaching assistants**: Tiena Danner, Marco Maiolini, & Zifan Jiang
 
 **Course summary**: The basic principles and methods of [data science](https://en.wikipedia.org/wiki/Data_science) will be presented. A central theme is the assessment of scientific claims, and subsequent data collection, transformation, quantitative analysis, and reporting of scientific results. Official course description:
 
