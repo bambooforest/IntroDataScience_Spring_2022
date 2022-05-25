@@ -8,7 +8,7 @@ library(tseries)
 
 #Set the working directory and load the dataset
 
-setwd("/home/marco/Desktop/Neuchatel_PhD/Lecture_Material/Time_Series/Datasets")
+setwd("/home/marco/Desktop/Neuchatel_PhD/Lectures_Material/Time_Series/Datasets")
 
 data <- read.csv("Species_Individuals_center_Italy.csv")
 
@@ -191,3 +191,4 @@ points(AR_fitted0, type = "l", col = 2, lty = 2)
 ts.plot(data1.ts, xlab = "Date", ylab = "Individuals", main = "AR Individuals roe deer", type = "b")
 AR_fitted1 <- data1.ts - residuals(data1_AR)
 points(AR_fitted1, type = "l", col = 2, lty = 2)
+

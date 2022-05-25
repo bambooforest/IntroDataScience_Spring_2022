@@ -8,7 +8,7 @@ library(tseries)
 
 #Set the working directory and load the dataset
 
-setwd("/home/marco/Desktop/Neuchatel_PhD/Lecture_Material/Time_Series/Datasets")
+setwd("/home/marco/Desktop/Neuchatel_PhD/Lectures_Material/Time_Series/Datasets")
 
 data <- read.csv("Covid_19_cases_EU.csv")
 
@@ -68,19 +68,19 @@ points(AR_fitted, type = "l", col = 2, lty = 2)
 
 data_MA <- arima(data.ts, order = c(0,0,1))
 print(data_AR)
-ts.plot(data.ts, xlab = "Date", ylab = "Cases", main = "MA Covid cases Ireland", type = "l")
+ts.plot(data.ts, xlab = "Date", ylab = "Cases", main = "MA Covid cases ---", type = "l")
 MA_fitted <- data.ts - residuals((data_MA))
 points(MA_fitted, type = "l", col = 2, lty = 2)
 
 #Forecast the time-series trend
-ts.plot(data.ts, xlab = "Date", ylab = "Cases", main = "Prediction Covid cases Ireland", type = "l")
+ts.plot(data.ts, xlab = "Date", ylab = "Cases", main = "Prediction Covid cases ---", type = "l")
 AR_forecast <- predict(data_AR, n.ahead = 10)$pred
 AR_forecast_se <- predict(data_AR, n.ahead = 10)$se
 points(AR_forecast, type = "l", col = 2)
 points(AR_forecast - 2*AR_forecast_se, type = "l", col = 2, lty = 2)
 points(AR_forecast + 2*AR_forecast_se,type = "l", col = 2, lty = 2)
 
-ts.plot(data.ts, xlab = "Date", ylab = "Cases", main = "Prediction Covid cases Ireland", type = "l")
+ts.plot(data.ts, xlab = "Date", ylab = "Cases", main = "Prediction Covid cases ---", type = "l")
 MA_forecast <- predict(data_MA, n.ahead = 10)$pred
 MA_forecast_se <- predict(data_MA, n.ahead = 10)$se
 points(MA_forecast, type = "l", col = 2)
